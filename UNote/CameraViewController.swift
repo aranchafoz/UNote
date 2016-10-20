@@ -8,8 +8,35 @@
 
 import UIKit
 
-class CameraViewController: UIViewController {
+class CameraViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    @IBOutlet weak var imageView: UIImageView!
 
+    
+    @IBAction func openCamera(_ sender: AnyObject) {
+        
+        
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) {
+            
+            var imagePicker = UIImagePickerController()
+            
+            imagePicker.delegate = self
+            
+            
+            imagePicker.sourceType = UIImagePickerControllerSourceType.camera
+            
+            imagePicker.allowsEditing = false
+            
+            self.present(imagePicker, animated: true, completion: nil)
+            
+            
+            
+        }
+        
+        
+        
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

@@ -14,6 +14,7 @@
 		64EDA8551DB47F8C00447189 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EDA8541DB47F8C00447189 /* CameraViewController.swift */; };
 		64EDA8571DB480DD00447189 /* SocialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EDA8561DB480DD00447189 /* SocialViewController.swift */; };
 		64EDA8591DB480F200447189 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EDA8581DB480F200447189 /* HomeViewController.swift */; };
+		B69B55B51DB881A6002F8651 /* AddCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69B55B41DB881A6002F8651 /* AddCourseViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		64EDA8541DB47F8C00447189 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		64EDA8561DB480DD00447189 /* SocialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialViewController.swift; path = ../SocialViewController.swift; sourceTree = "<group>"; };
 		64EDA8581DB480F200447189 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		B69B55B41DB881A6002F8651 /* AddCourseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCourseViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 				64EDA8491DB47BA600447189 /* Assets.xcassets */,
 				64EDA84B1DB47BA600447189 /* LaunchScreen.storyboard */,
 				64EDA84E1DB47BA600447189 /* Info.plist */,
+				B69B55B41DB881A6002F8651 /* AddCourseViewController.swift */,
 			);
 			path = UNote;
 			sourceTree = "<group>";
@@ -144,6 +147,7 @@
 			files = (
 				64EDA8571DB480DD00447189 /* SocialViewController.swift in Sources */,
 				64EDA8551DB47F8C00447189 /* CameraViewController.swift in Sources */,
+				B69B55B51DB881A6002F8651 /* AddCourseViewController.swift in Sources */,
 				64EDA8411DB47BA600447189 /* AppDelegate.swift in Sources */,
 				64EDA8591DB480F200447189 /* HomeViewController.swift in Sources */,
 			);
@@ -307,6 +311,7 @@
 				64EDA8531DB47BA600447189 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
