@@ -15,6 +15,7 @@
 		64EDA8551DB47F8C00447189 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EDA8541DB47F8C00447189 /* CameraViewController.swift */; };
 		64EDA8571DB480DD00447189 /* SocialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EDA8561DB480DD00447189 /* SocialViewController.swift */; };
 		64EDA8591DB480F200447189 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EDA8581DB480F200447189 /* HomeViewController.swift */; };
+		CABB4AC6253ABE4308A96836 /* Pods_UNote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD70A473061689DD8DED4B77 /* Pods_UNote.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,9 @@
 		64EDA8541DB47F8C00447189 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		64EDA8561DB480DD00447189 /* SocialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialViewController.swift; path = ../SocialViewController.swift; sourceTree = "<group>"; };
 		64EDA8581DB480F200447189 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		74C26FF8882D9BAD02E6543F /* Pods-UNote.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UNote.release.xcconfig"; path = "Pods/Target Support Files/Pods-UNote/Pods-UNote.release.xcconfig"; sourceTree = "<group>"; };
+		EC3CECE8279BD19BD7B369F8 /* Pods-UNote.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UNote.debug.xcconfig"; path = "Pods/Target Support Files/Pods-UNote/Pods-UNote.debug.xcconfig"; sourceTree = "<group>"; };
+		FD70A473061689DD8DED4B77 /* Pods_UNote.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UNote.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,17 +39,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CABB4AC6253ABE4308A96836 /* Pods_UNote.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3100F91D422984F0F23393BC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FD70A473061689DD8DED4B77 /* Pods_UNote.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		64EDA8341DB47BA500447189 = {
 			isa = PBXGroup;
 			children = (
 				64EDA83F1DB47BA600447189 /* UNote */,
 				64EDA83E1DB47BA600447189 /* Products */,
+				DFC963B4E4DA4CC3FFDD5712 /* Pods */,
+				3100F91D422984F0F23393BC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -73,6 +88,15 @@
 			path = UNote;
 			sourceTree = "<group>";
 		};
+		DFC963B4E4DA4CC3FFDD5712 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				EC3CECE8279BD19BD7B369F8 /* Pods-UNote.debug.xcconfig */,
+				74C26FF8882D9BAD02E6543F /* Pods-UNote.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -80,9 +104,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 64EDA8511DB47BA600447189 /* Build configuration list for PBXNativeTarget "UNote" */;
 			buildPhases = (
+				378B3EA3D9B67EC10F41ABD7 /* [CP] Check Pods Manifest.lock */,
 				64EDA8391DB47BA500447189 /* Sources */,
 				64EDA83A1DB47BA500447189 /* Frameworks */,
 				64EDA83B1DB47BA500447189 /* Resources */,
+				366250AC79CC393932C45D32 /* [CP] Embed Pods Frameworks */,
+				236F66F339E2BCC9011E732C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -139,6 +166,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		236F66F339E2BCC9011E732C /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-UNote/Pods-UNote-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		366250AC79CC393932C45D32 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-UNote/Pods-UNote-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		378B3EA3D9B67EC10F41ABD7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		64EDA8391DB47BA500447189 /* Sources */ = {
@@ -270,6 +345,7 @@
 		};
 		64EDA8521DB47BA600447189 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EC3CECE8279BD19BD7B369F8 /* Pods-UNote.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = UNote/Info.plist;
@@ -282,6 +358,7 @@
 		};
 		64EDA8531DB47BA600447189 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 74C26FF8882D9BAD02E6543F /* Pods-UNote.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = UNote/Info.plist;
