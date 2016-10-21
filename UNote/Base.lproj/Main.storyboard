@@ -71,7 +71,12 @@
                     </view>
                     <navigationItem key="navigationItem" title="Friends" id="3Q0-xq-cUT">
                         <barButtonItem key="backBarButtonItem" title="Back" id="NyD-07-bC8"/>
-                        <barButtonItem key="rightBarButtonItem" image="More" id="Viq-8E-Tde"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="search" id="yI1-Lv-B9d"/>
+                        <barButtonItem key="rightBarButtonItem" image="More" id="Viq-8E-Tde">
+                            <connections>
+                                <action selector="addFriendActionSheet:" destination="PM6-fx-rFX" id="Ggc-gR-Pkj"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eEZ-nw-MRE" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -230,7 +235,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Friend Name" id="dxu-mX-71O">
-                        <barButtonItem key="rightBarButtonItem" image="More" id="mka-hi-2bf"/>
+                        <barButtonItem key="rightBarButtonItem" image="More" id="mka-hi-2bf">
+                            <connections>
+                                <action selector="optionsActionSheet:" destination="7fw-Lg-MSF" id="rcc-A8-gzc"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="clH-5l-FOa" id="QN1-Qw-cwF"/>

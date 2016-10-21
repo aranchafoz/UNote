@@ -13,6 +13,28 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
     @IBOutlet weak var profileBackground: UIImageView!
     @IBOutlet weak var profilePicture: UIImageView!
     
+    // Options Action Sheet
+    @IBAction func optionsActionSheet(_ sender: AnyObject) {
+        let optionMenu = UIAlertController()
+        
+        let Action1 = UIAlertAction(title: "Unfollow", style: .default, handler: {(alert: UIAlertAction!) -> Void in
+        // Unfollow this friend
+        })
+        
+        let Action2 = UIAlertAction(title: "Send an email", style: .default, handler: {(alert: UIAlertAction!) -> Void in
+        // Send an email to this friend
+        })
+        
+        let Cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: {(alert: UIAlertAction!) -> Void in
+        })
+        
+        optionMenu.addAction(Action1)
+        optionMenu.addAction(Action2)
+        optionMenu.addAction(Cancel)
+        
+        self.present(optionMenu, animated: true, completion: nil)
+    }
+    
     // data source
     private var numberOfFolders = 9
     

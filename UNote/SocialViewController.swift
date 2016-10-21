@@ -10,6 +10,35 @@ import UIKit
 
 class SocialViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    @IBAction func addFriendActionSheet(_ sender: AnyObject) {
+        
+        let optionMenu = UIAlertController(title: "Add more friends", message: "How do you like to add them?", preferredStyle: .actionSheet)
+        
+        let Action1 = UIAlertAction(title: "From social", style: .default, handler: {(alert: UIAlertAction!) -> Void in
+            // Export from social
+        })
+        
+        let Action2 = UIAlertAction(title: "From contacts", style: .default, handler: {(alert: UIAlertAction!) -> Void in
+            // Export from contacs (via number phone)
+        })
+        
+        let Action3 = UIAlertAction(title: "Via nickname", style: .default, handler: {(alert: UIAlertAction!) -> Void in
+            // Search in our database
+        })
+        
+        let Cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: {(alert: UIAlertAction!) -> Void in
+        })
+        
+        optionMenu.addAction(Action1)
+        optionMenu.addAction(Action2)
+        optionMenu.addAction(Action3)
+        optionMenu.addAction(Cancel)
+        
+        self.present(optionMenu, animated: true, completion: nil)
+        
+    }
+    
+    // data source
     let friends: [String] = ["Peter","Alice","John","Kenneth","Anna","Julie","Matthew","Jake","Wilson","Sam","Paul"]
     
     func numberOfSections(in tableView: UITableView) -> Int {
