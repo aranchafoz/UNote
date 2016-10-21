@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B0095AC1DBA4D350077A93F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0095AB1DBA4D350077A93F /* LoginViewController.swift */; };
+		0B0095AE1DBA4D470077A93F /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0095AD1DBA4D470077A93F /* RegisterViewController.swift */; };
 		0B0BEBEE1DB9D83F00DAB319 /* SocialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0BEBED1DB9D83F00DAB319 /* SocialViewController.swift */; };
 		0B5444001DB90DB60093801B /* FriendProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5443FF1DB90DB60093801B /* FriendProfileViewController.swift */; };
 		64EDA8411DB47BA600447189 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EDA8401DB47BA600447189 /* AppDelegate.swift */; };
@@ -19,6 +21,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0B0095AB1DBA4D350077A93F /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		0B0095AD1DBA4D470077A93F /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		0B0BEBED1DB9D83F00DAB319 /* SocialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialViewController.swift; sourceTree = "<group>"; };
 		0B5443FF1DB90DB60093801B /* FriendProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendProfileViewController.swift; sourceTree = "<group>"; };
 		64EDA83D1DB47BA600447189 /* UNote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UNote.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -78,6 +82,8 @@
 				0B0BEBED1DB9D83F00DAB319 /* SocialViewController.swift */,
 				64EDA8401DB47BA600447189 /* AppDelegate.swift */,
 				64EDA8461DB47BA600447189 /* Main.storyboard */,
+				0B0095AB1DBA4D350077A93F /* LoginViewController.swift */,
+				0B0095AD1DBA4D470077A93F /* RegisterViewController.swift */,
 				64EDA8581DB480F200447189 /* HomeViewController.swift */,
 				64EDA8541DB47F8C00447189 /* CameraViewController.swift */,
 				64EDA8491DB47BA600447189 /* Assets.xcassets */,
@@ -220,7 +226,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B0095AC1DBA4D350077A93F /* LoginViewController.swift in Sources */,
 				0B0BEBEE1DB9D83F00DAB319 /* SocialViewController.swift in Sources */,
+				0B0095AE1DBA4D470077A93F /* RegisterViewController.swift in Sources */,
 				0B5444001DB90DB60093801B /* FriendProfileViewController.swift in Sources */,
 				64EDA8551DB47F8C00447189 /* CameraViewController.swift in Sources */,
 				64EDA8411DB47BA600447189 /* AppDelegate.swift in Sources */,
