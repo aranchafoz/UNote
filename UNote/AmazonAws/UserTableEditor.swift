@@ -126,7 +126,8 @@ class UserTableEditor {
     
     func loginAccount(_ email:String, pw:String){
         let objectMapper = AWSDynamoDBObjectMapper.default()
-        objectMapper.load(CustomIdTable.classForCoder(), hashKey: email, rangeKey: pw, completionHandler:{(result, error) -> Void in
+        
+        objectMapper.load(AccountTable.classForCoder(), hashKey: email, rangeKey: pw, completionHandler:{(result, error) -> Void in
             if let error = error {
                 print("Amazon DynamoDB Save Error: \(error)")
 

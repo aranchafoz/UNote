@@ -36,15 +36,6 @@ class SignupViewController: UIViewController, UserTableEditorCallBackProtocol {
         
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-    }
-    
-    
-    
-    
-    
-    
     func setLoading(state:Bool){ // the gray loading view
         if state {
             v_loading.isHidden = false
@@ -52,6 +43,10 @@ class SignupViewController: UIViewController, UserTableEditorCallBackProtocol {
         } else {
             v_loading.isHidden = true
         }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
     }
     
     @IBAction func pressed(_ sender: AnyObject) {

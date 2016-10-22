@@ -8,23 +8,35 @@
 
 import UIKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UserLoginProtocol{
 
     
-    @IBOutlet weak var emailUserTextField: UITextField!
-    @IBOutlet weak var passwordUserTextField: UITextField!
+    @IBOutlet weak var txt_email: UITextField!
+    @IBOutlet weak var txt_pw: UITextField!
+    @IBOutlet weak var v_loading: UIView!
     
     @IBAction func loginButton(_ sender: AnyObject) {
-        
-        
+        if txt_email.text != nil && txt_pw.text != nil {
+            Appdata.sharedInstance.awsEditor?.loginAccount(txt_email.text!, pw: txt_pw.text!)
+        }
     }
     
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        v_loading.frame = self.view.frame
+        v_loading.subviews[0].center = v_loading.center
+        
+    }
+    
+    func setLoading(state:Bool){ // the gray loading view
+        if state {
+            v_loading.isHidden = false
+            self.view.bringSubview(toFront: v_loading)
+        } else {
+            v_loading.isHidden = true
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -32,6 +44,30 @@ class LoginViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func didLoginFailed() {
+        DispatchQueue.main.async { // do in main UI Thread
+            let alert=UIAlertController(title: "ERROR", message: "ID or Password Incorrect", preferredStyle: UIAlertControllerStyle.alert);
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil));
+            self.show(alert, sender: self);
+        }
+    }
+    
+    func didLoginSucceed(_ email: String) {
+        Appdata.sharedInstance.myUserID = email
+        UserDefaults.standard.set(email, forKey: c.SAVED_USER_ID)
+        DispatchQueue.main.async {
+            self.setLoading(state: false)
+            self.performSegue(withIdentifier: "segue_login_home", sender: self)
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        Appdata.sharedInstance.awsEditor?.loginer = self
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        Appdata.sharedInstance.awsEditor?.loginer = nil
+    }
 
     /*
     // MARK: - Navigation
