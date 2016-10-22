@@ -18,6 +18,7 @@
 		64EDA8551DB47F8C00447189 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EDA8541DB47F8C00447189 /* CameraViewController.swift */; };
 		64EDA8591DB480F200447189 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EDA8581DB480F200447189 /* HomeViewController.swift */; };
 		CABB4AC6253ABE4308A96836 /* Pods_UNote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD70A473061689DD8DED4B77 /* Pods_UNote.framework */; };
+		DA16F3BB1DBBB898008D0EC7 /* c.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA16F3BA1DBBB898008D0EC7 /* c.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		64EDA8541DB47F8C00447189 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		64EDA8581DB480F200447189 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		74C26FF8882D9BAD02E6543F /* Pods-UNote.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UNote.release.xcconfig"; path = "Pods/Target Support Files/Pods-UNote/Pods-UNote.release.xcconfig"; sourceTree = "<group>"; };
+		DA16F3BA1DBBB898008D0EC7 /* c.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = c.swift; sourceTree = "<group>"; };
 		EC3CECE8279BD19BD7B369F8 /* Pods-UNote.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UNote.debug.xcconfig"; path = "Pods/Target Support Files/Pods-UNote/Pods-UNote.debug.xcconfig"; sourceTree = "<group>"; };
 		FD70A473061689DD8DED4B77 /* Pods_UNote.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UNote.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -90,6 +92,7 @@
 				0B5443FF1DB90DB60093801B /* FriendProfileViewController.swift */,
 				64EDA84B1DB47BA600447189 /* LaunchScreen.storyboard */,
 				64EDA84E1DB47BA600447189 /* Info.plist */,
+				DA16F3BA1DBBB898008D0EC7 /* c.swift */,
 			);
 			path = UNote;
 			sourceTree = "<group>";
@@ -231,6 +234,7 @@
 				0B0095AE1DBA4D470077A93F /* RegisterViewController.swift in Sources */,
 				0B5444001DB90DB60093801B /* FriendProfileViewController.swift in Sources */,
 				64EDA8551DB47F8C00447189 /* CameraViewController.swift in Sources */,
+				DA16F3BB1DBBB898008D0EC7 /* c.swift in Sources */,
 				64EDA8411DB47BA600447189 /* AppDelegate.swift in Sources */,
 				64EDA8591DB480F200447189 /* HomeViewController.swift in Sources */,
 			);
