@@ -1,0 +1,551 @@
+//
+//  UserTableEditor.swift
+//  UNote_Social
+//
+//  Created by Paul Yeung on 2/10/2016.
+//  Copyright © 2016 Paul. All rights reserved.
+//
+
+import Foundation
+import AWSMobileHubHelper
+import AWSDynamoDB
+
+protocol UserTableEditorCallBackProtocol {
+    
+    func didSetItemWith(_ state:Bool, itemType:String)
+    func didGetItemSucceedWithItem(_ itemType:String, item:NSDictionary?)
+    func didGetItemFailedWithError(_ itemType:String, error:String)
+    
+}
+
+class UserTableEditor {
+    
+    /* DELEGATE RETURN ITEMS TYPES */
+    let TYPE_CUSTOM_ID = "TYPE_CUSTOM_ID"
+    let TYPE_USER_INFO = "TYPE_USER_INFO"
+    let TYPE_USER_FILE = "TYPE_USER_FILE"
+    let TYPE_USER_SUBS = "TYPE_USER_SUBS"
+    let TYPE_FILE = "TYPE_FILE"
+    
+    /* DELEGATE RETURN DICTIONARYS TAGS */
+    let TAG_USER_ID = "TAG_USER_ID"
+    let TAG_CUSTOM_ID = "TAG_CUSTOM_ID"
+    let TAG_USER_NAME = "TAG_USER_NAME"
+    let TAG_USER_COURSE_LIST = "TAG_USER_COURSE_LIST"
+    let TAG_JOIN_TIMESTAMP = "TAG_JOIN_TIMESTAMP"
+    let TAG_JOIN_YR = "TAG_JOIN_YR"
+    let TAG_SELF_INTRO = "TAG_SELF_INTRO"
+    let TAG_FILE_LIST = "TAG_FILE_LIST"
+    let TAG_SUBS_LIST = "TAG_SUBS_LIST"
+    let TAG_FILE_ID = "TAG_FILE_ID"
+    let TAG_FILE_NAME = "TAG_FILE_NAME"
+    let TAG_FILE_COURSE = "TAG_FILE_COURSE"
+    let TAG_FILE_LINK = "TAG_FILE_LINK"
+    let TAG_FILE_TIMESTAMP = "TAG_FILE_TIMESTAMP"
+    
+    /* RETURN DICTIONARYS STRUCTRUES */
+    //
+    // Custom ID
+    //      TAG_CUSTOM_ID:          String
+    //      TAG_USER_ID:            String
+    //
+    // User Info
+    //      TAG_USER_ID:            String
+    //      TAG_USER_NAME:          String
+    //      TAG_USER_COURSE_LIST:   Set<String>
+    //      TAG_JOIN_TIMESTAMP:     NSNumber
+    //      TAG_JOIN_YR:            NSNumber
+    //      TAG_SELF_INTRO:         String
+    //
+    // User File List
+    //      TAG_USER_ID:            String
+    //      TAG_FILE_LIST:          Set<String>
+    //
+    // User Subscribled List
+    //      TAG_USER_ID:            String
+    //      TAG_SUBS_LIST:          Set<String>
+    //
+    // Files
+    //      TAG_FILE_ID:            String
+    //      TAG_USER_ID:            String
+    //      TAG_FILE_NAME:          String
+    //      TAG_FILE_COURSE:        String
+    //      TAG_FILE_LINK:          String
+    //      TAG_FILE_TIMESTAMP:     NSNumber
+    //
+
+    
+    var delegate:UserTableEditorCallBackProtocol?
+    
+    func getListOfUsers(){
+        
+    }
+    
+    /*********************************/
+    /*****        User ID        *****/
+    /*********************************/
+    func getUserIdentity() -> String {
+        return AWSIdentityManager.defaultIdentityManager().identityId!
+    }
+    
+    /*********************************/
+    /*****       Custom ID       *****/
+    /*********************************/
+    func setMyCustomId(_ id:String){
+        let objectMapper = AWSDynamoDBObjectMapper.default()
+        let config:AWSDynamoDBObjectMapperConfiguration = AWSDynamoDBObjectMapperConfiguration()
+        
+        let itemToCreate = CustomIdTable()
+        itemToCreate?._customId = id
+        itemToCreate?._userId = getUserIdentity()
+        
+        config.saveBehavior = AWSDynamoDBObjectMapperSaveBehavior.update
+        config.consistentRead = true
+        objectMapper.save(itemToCreate!, completionHandler:{(error) -> Void in
+            if let error = error {
+                print("Amazon DynamoDB Save Error: \(error)")
+
+                
+                // Fail Block
+                self.delegate?.didSetItemWith(false, itemType: self.TYPE_CUSTOM_ID)
+                return
+            }
+            
+            // Succeed Block
+            log.d("sat")
+            self.delegate?.didSetItemWith(true, itemType: self.TYPE_CUSTOM_ID)
+            
+        
+        })
+    }
+    
+    func getUserIdByCustomId(_ customId:String){
+        let objectMapper = AWSDynamoDBObjectMapper.default()
+        objectMapper.load(CustomIdTable.classForCoder(), hashKey: customId, rangeKey: nil, completionHandler:{(result, error) -> Void in
+            if let error = error {
+                print("Amazon DynamoDB Save Error: \(error)")
+
+                // Fail Block
+                self.delegate?.didGetItemFailedWithError(self.TYPE_CUSTOM_ID, error: error.localizedDescription)
+                return
+            }
+            if let result:CustomIdTable = result as? CustomIdTable{
+                
+                // Succeed with Result
+                NSLog("%@",result)
+                log.d("YOOOOOOOO, UserId = \(result._userId)")
+                
+                let dict:NSDictionary =     [self.TAG_CUSTOM_ID:result._customId!,
+                                            self.TAG_USER_ID:result._userId!]
+                self.delegate?.didGetItemSucceedWithItem(self.TYPE_CUSTOM_ID, item: dict)
+                
+            } else {
+                
+                // Succeed with object not exist
+                log.d("NO RESULT")
+                self.delegate?.didGetItemSucceedWithItem(self.TYPE_CUSTOM_ID, item: nil)
+
+            }
+        })
+    }
+    
+    /*********************************/
+    /*****      Users Info       *****/
+    /*********************************/
+    
+    func scanAllUser(){
+        let objectMapper = AWSDynamoDBObjectMapper.default()
+        let exp:AWSDynamoDBScanExpression = AWSDynamoDBScanExpression()
+//        exp.projectionExpression = "userId"
+        objectMapper.scan(UsersTable.classForCoder(), expression: exp, completionHandler: {(result, error) -> Void in
+            if let error = error {
+                print("Amazon DynamoDB Save Error: \(error)")
+
+                // Fail Block
+                log.d("FAIL")
+                self.delegate?.didGetItemFailedWithError(self.TYPE_USER_INFO, error: error.localizedDescription)
+            
+                return
+            }
+            
+            log.d("HI")
+            
+            if let result:AWSDynamoDBPaginatedOutput = result
+            {
+                log.d("HIHI")
+                // Succeed with Result
+                
+                if result.items.count==0 {
+                    self.delegate?.didGetItemSucceedWithItem(self.TYPE_USER_INFO, item: nil)
+                }
+                else
+                {
+                    for var i in 0..<result.items.count
+                    {
+                        let item:UsersTable = result.items[i] as! UsersTable
+                    
+                        log.d("Item read.")
+                        log.d("name: \(item._userId)")
+                        log.d("name: \(item._name)")
+                        log.d("name: \(item._courseList)")
+                        log.d("name: \(item._joinTimestamp)")
+                        log.d("name: \(item._joinYr)")
+                        log.d("name: \(item._selfIntro)")
+                        log.d("----------")
+                        let dict = NSMutableDictionary()
+                        dict.setObject(item._userId!, forKey: self.TAG_USER_ID as NSCopying)
+                        dict.setObject(item._name!, forKey: self.TAG_USER_NAME as NSCopying)
+                        dict.setObject(item._courseList!, forKey: self.TAG_USER_COURSE_LIST as NSCopying)
+                        dict.setObject(item._joinTimestamp!, forKey: self.TAG_JOIN_TIMESTAMP as NSCopying)
+                        dict.setObject(item._joinYr!, forKey: self.TAG_JOIN_YR as NSCopying)
+                        dict.setObject(item._selfIntro!, forKey: self.TAG_SELF_INTRO as NSCopying)
+                        self.delegate?.didGetItemSucceedWithItem(self.TYPE_USER_INFO, item: dict)
+                    }
+                }
+            }
+            else {
+                // Succeed with object not exist
+                log.d("Not found")
+                self.delegate?.didGetItemSucceedWithItem(self.TYPE_USER_INFO, item: nil)
+            }
+        })
+    }
+    
+    func getUserInfoById(_ userId:String){
+        let objectMapper = AWSDynamoDBObjectMapper.default()
+        objectMapper.load(UsersTable.classForCoder(), hashKey: userId, rangeKey: nil, completionHandler:{(result, error) -> Void in
+            if let error = error {
+                print("Amazon DynamoDB Save Error: \(error)")
+                
+                // Fail Block
+                self.delegate?.didGetItemFailedWithError(self.TYPE_USER_INFO, error: error.localizedDescription)
+                
+                return
+            }
+            if let result:UsersTable = result as? UsersTable{
+                
+                // Succeed with Result
+
+                log.d("Item read.")
+                log.d("name: \(result._name)")
+                let dict = NSMutableDictionary()
+                dict.setObject(result._userId!, forKey: self.TAG_USER_ID as NSCopying)
+                dict.setObject(result._name!, forKey: self.TAG_USER_NAME as NSCopying)
+                dict.setObject(result._courseList!, forKey: self.TAG_USER_COURSE_LIST as NSCopying)
+                dict.setObject(result._joinTimestamp!, forKey: self.TAG_JOIN_TIMESTAMP as NSCopying)
+                dict.setObject(result._joinYr!, forKey: self.TAG_JOIN_YR as NSCopying)
+                dict.setObject(result._selfIntro!, forKey: self.TAG_SELF_INTRO as NSCopying)
+                self.delegate?.didGetItemSucceedWithItem(self.TYPE_USER_INFO, item: dict)
+                
+                
+                
+            } else {
+                
+                // Succeed with object not exist
+                log.d("Not found")
+                self.delegate?.didGetItemSucceedWithItem(self.TYPE_USER_INFO, item: nil)
+                
+                
+            }
+        })
+    }
+    
+    func setUserInfo(_ _courseList:Set<String>?,
+                        joinTimestamp:Int?,
+                        joinYr:Int?,
+                        name:String?,
+                        selfIntro:String?) {   // fields can be null
+    
+        let objectMapper = AWSDynamoDBObjectMapper.default()
+        let itemToCreate = UsersTable()
+        // Blank check
+        itemToCreate?._userId = AWSIdentityManager.defaultIdentityManager().identityId!
+        if let _courseList = _courseList          { if _courseList.count>0 { itemToCreate?._courseList = _courseList}}
+        if let joinTimestamp = joinTimestamp    { itemToCreate?._joinTimestamp = joinTimestamp as NSNumber? }
+        if let joinYr = joinYr                  { itemToCreate?._joinYr = joinYr as NSNumber? }
+        if let name = name                      { itemToCreate?._name = name }
+        if let selfIntro = selfIntro            { itemToCreate?._selfIntro = selfIntro }
+        //強迫症._.
+    
+        let config:AWSDynamoDBObjectMapperConfiguration = AWSDynamoDBObjectMapperConfiguration()
+        config.saveBehavior = AWSDynamoDBObjectMapperSaveBehavior.update
+        config.consistentRead = true
+        objectMapper.save(itemToCreate!, configuration: config, completionHandler:{(error) -> Void in
+            if let error = error {
+                print("Amazon DynamoDB Save Error: \(error)")
+                self.delegate?.didSetItemWith(false, itemType: self.TYPE_USER_INFO)
+                return
+            }
+            log.d("Item saved.")
+            self.delegate?.didSetItemWith(true, itemType: self.TYPE_USER_INFO)
+            //self.delegate?.didModifyDataSucceed(itemToCreate._userId!)
+        })
+    }
+    
+    /*********************************/
+    /***** User Subscrible List  *****/
+    /*********************************/
+    
+    func setSubscribleList(_ list:NSArray){
+        
+        if list.count<0{
+            return
+        }
+        
+        let objectMapper = AWSDynamoDBObjectMapper.default()
+        let config:AWSDynamoDBObjectMapperConfiguration = AWSDynamoDBObjectMapperConfiguration()
+        
+        let itemToCreate = UserSubscribledList()
+        
+        itemToCreate?._userId = getUserIdentity()
+        let arr = list as! Array<String>
+        itemToCreate?._subsList = Set(arr)
+        
+        config.saveBehavior = AWSDynamoDBObjectMapperSaveBehavior.update
+        config.consistentRead = true
+        objectMapper.save(itemToCreate!, completionHandler:{(error) -> Void in
+            if let error = error {
+                print("Amazon DynamoDB Save Error: \(error)")
+                
+                // Fail Block
+                self.delegate?.didSetItemWith(false, itemType: self.TYPE_USER_SUBS)
+                
+                return
+            }
+            
+            // Succeed Block
+            self.delegate?.didSetItemWith(true, itemType: self.TYPE_USER_SUBS)
+            
+            
+        })
+
+    }
+    
+    func getSubscribleList(_ userId:String){
+        let objectMapper = AWSDynamoDBObjectMapper.default()
+        objectMapper.load(UserSubscribledList.classForCoder(), hashKey: userId, rangeKey: nil, completionHandler:{(result, error) -> Void in
+            if let error = error {
+                print("Amazon DynamoDB Save Error: \(error)")
+                
+                // Fail Block
+                self.delegate?.didGetItemFailedWithError(self.TYPE_USER_SUBS, error: error.localizedDescription)
+                
+                return
+            }
+            if let result:UserSubscribledList = result as? UserSubscribledList{
+                
+                // Succeed with Result
+                NSLog("%@",result)
+                log.d("YOOOOOOOO, UserId = \(result._userId)")
+                log.d("Subscribled: \(result._subsList)")
+                
+                let dict = NSMutableDictionary()
+                dict.setObject(result._userId!, forKey: self.TAG_USER_ID as NSCopying)
+                dict.setObject(result._subsList!, forKey: self.TAG_SUBS_LIST as NSCopying)
+                self.delegate?.didGetItemSucceedWithItem(self.TYPE_USER_SUBS, item: dict)
+
+                
+            } else {
+                
+                // Succeed with object not exist
+                log.d("NO RESULT")
+                self.delegate?.didGetItemSucceedWithItem(self.TYPE_USER_SUBS, item: nil)
+            }
+        })
+    }
+    
+    /*********************************/
+    /*****      User File List   *****/
+    /*********************************/
+    
+    func setUserFilesListTable(_ list:NSArray){
+        
+        if list.count<0{
+            return
+        }
+        
+        let objectMapper = AWSDynamoDBObjectMapper.default()
+        let config:AWSDynamoDBObjectMapperConfiguration = AWSDynamoDBObjectMapperConfiguration()
+        
+        let itemToCreate = UserFilesListTable()
+        
+        itemToCreate?._userId = getUserIdentity()
+        let arr = list as! Array<String>
+        itemToCreate?._filesList = Set(arr)
+        
+        config.saveBehavior = AWSDynamoDBObjectMapperSaveBehavior.update
+        config.consistentRead = true
+        objectMapper.save(itemToCreate!, completionHandler:{(error) -> Void in
+            if let error = error {
+                print("Amazon DynamoDB Save Error: \(error)")
+                
+                // Fail Block
+                self.delegate?.didSetItemWith(false, itemType: self.TYPE_USER_FILE)
+                
+                return
+            }
+            
+            // Succeed Block
+            self.delegate?.didSetItemWith(true, itemType: self.TYPE_USER_FILE)
+        })
+    }
+    
+    func getUserFilesListTable(_ userId:String){
+        let objectMapper = AWSDynamoDBObjectMapper.default()
+        objectMapper.load(UserFilesListTable.classForCoder(), hashKey: userId, rangeKey: nil, completionHandler:{(result, error) -> Void in
+            if let error = error {
+                print("Amazon DynamoDB Save Error: \(error)")
+                
+                // Fail Block
+                self.delegate?.didGetItemFailedWithError(self.TYPE_USER_FILE, error: error.localizedDescription)
+                return
+            }
+            if let result:UserFilesListTable = result as? UserFilesListTable{
+                
+                // Succeed with Result
+                NSLog("%@",result)
+                log.d("YOOOOOOOO, UserId = \(result._userId)")
+                log.d("Subscribled: \(result._filesList)")
+                
+                let dict = NSMutableDictionary()
+                dict.setObject(result._userId!, forKey: self.TAG_USER_ID as NSCopying)
+                dict.setObject(result._filesList!, forKey: self.TAG_FILE_LIST as NSCopying)
+                self.delegate?.didGetItemSucceedWithItem(self.TYPE_USER_FILE, item: dict)
+                
+            } else {
+                
+                // Succeed with object not exist
+                log.d("NO RESULT")
+                self.delegate?.didGetItemSucceedWithItem(self.TYPE_USER_FILE, item: nil)
+                
+            }
+        })
+    }
+    
+    /*********************************/
+    /*****          File         *****/
+    /*********************************/
+    
+    func getFileInfoByfileId(_ fileId:String){
+        let objectMapper = AWSDynamoDBObjectMapper.default()
+        objectMapper.load(FilesTable.classForCoder(), hashKey: fileId, rangeKey: nil, completionHandler:{(result, error) -> Void in
+            if let error = error {
+                print("Amazon DynamoDB Save Error: \(error)")
+                
+                // Fail Block
+                self.delegate?.didGetItemFailedWithError(self.TYPE_FILE, error: error.localizedDescription)
+                
+                return
+            }
+            if let result:FilesTable = result as? FilesTable{
+                
+                // Succeed with Result
+                
+                log.d("Item read.")
+                log.d("name: \(result._name)")
+                let dict = NSMutableDictionary()
+                dict.setObject(result._fileId!, forKey: "fileId" as NSCopying)
+                dict.setObject(result._userId!, forKey: "userId" as NSCopying)
+                dict.setObject(result._name!, forKey: "name" as NSCopying)
+                dict.setObject(result._course!, forKey: "course" as NSCopying)
+                dict.setObject(result._fileLink!, forKey: "fileLink" as NSCopying)
+                dict.setObject(result._timestamp!, forKey: "timestamp" as NSCopying)
+                self.delegate?.didGetItemSucceedWithItem(self.TYPE_FILE, item: dict)
+                
+            } else {
+                
+                // Succeed with object not exist
+                self.delegate?.didGetItemSucceedWithItem(self.TYPE_FILE, item: nil)
+                
+            }
+        })
+    }
+    
+    func setFileInfo(_ fileId:String?,
+                     name:String?,
+                     course:String?,
+                     fileLink:String?) {   // fields can be null
+        
+        let objectMapper = AWSDynamoDBObjectMapper.default()
+        let itemToCreate = FilesTable()
+        // Blank check
+        itemToCreate?._userId = AWSIdentityManager.defaultIdentityManager().identityId!
+        if let fileId = fileId      { itemToCreate?._fileId = fileId}
+        if let name = name          { itemToCreate?._name = name }
+        if let fileLink = fileLink  { itemToCreate?._fileLink = fileLink }
+        if let course = course  { itemToCreate?._course = course }
+        
+        let f :DateFormatter = DateFormatter()
+        f.dateFormat = "YYYYMMddhhmmss"
+        let s = f.string(from: Date())
+        let numDate = Int(s)
+        itemToCreate?._timestamp = NSNumber(value: numDate! as Int)
+        
+        let config:AWSDynamoDBObjectMapperConfiguration = AWSDynamoDBObjectMapperConfiguration()
+        config.saveBehavior = AWSDynamoDBObjectMapperSaveBehavior.update
+        config.consistentRead = true
+        objectMapper.save(itemToCreate!, configuration: config, completionHandler:{(error) -> Void in
+            if let error = error {
+                print("Amazon DynamoDB Save Error: \(error)")
+                self.delegate?.didSetItemWith(false, itemType: self.TYPE_FILE)
+                return
+            }
+            log.d("Item saved.")
+            //self.delegate?.didModifyDataSucceed(itemToCreate._userId!)
+            self.delegate?.didSetItemWith(true, itemType: self.TYPE_FILE)
+
+        })
+    }
+    
+    func queryFileInfoByUserId(_ userid:String){
+        
+        let queryExpression = AWSDynamoDBQueryExpression()
+        queryExpression.indexName = "byUser"
+        queryExpression.hashKeyAttribute = "userId"
+        queryExpression.hashKeyValues = (userid)
+        
+        let objectMapper = AWSDynamoDBObjectMapper.default()
+        
+        objectMapper.query(FilesTable.classForCoder(), expression: queryExpression, completionHandler:{(result, error) -> Void in
+            if let error = error {
+                print("Amazon DynamoDB Save Error: \(error)")
+                
+                // Fail Block
+                
+                return
+            }
+            
+            if let result:AWSDynamoDBPaginatedOutput = result{
+                
+                // Succeed with Result
+                
+                for var i in 0..<result.items.count {
+                    
+                    let item:FilesTable = result.items[i] as! FilesTable
+                
+                    log.d("Item read.")
+                    log.d("name: \(item._name)")
+                    let dict = NSMutableDictionary()
+                    dict.setObject(item._fileId!, forKey: "fileId" as NSCopying)
+                    dict.setObject(item._userId!, forKey: "userId" as NSCopying)
+                    dict.setObject(item._name!, forKey: "name" as NSCopying)
+                    dict.setObject(item._course!, forKey: "course" as NSCopying)
+                    dict.setObject(item._fileLink!, forKey: "fileLink" as NSCopying)
+                    dict.setObject(item._timestamp!, forKey: "timestamp" as NSCopying)
+                    self.delegate?.didGetItemSucceedWithItem(self.TYPE_FILE, item: dict)
+                }
+                
+                if result.items.count==0 {
+                    self.delegate?.didGetItemSucceedWithItem(self.TYPE_FILE, item: nil)
+                }
+                
+            } else {
+                
+                // Succeed with object not exist
+                self.delegate?.didGetItemSucceedWithItem(self.TYPE_FILE, item: nil)
+                
+            }
+        })
+    }
+    
+}

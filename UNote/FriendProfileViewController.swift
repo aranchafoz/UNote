@@ -34,11 +34,15 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
         
         self.present(optionMenu, animated: true, completion: nil)
     }
+
+    @IBOutlet weak var lbl_major: UILabel!
+    @IBOutlet weak var lbl_year: UILabel!
     
     // data source
     private var numberOfFolders = 9
+    var dict_info:NSDictionary?
     
-
+    
     @IBOutlet weak var collectionView: UICollectionView!
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -63,11 +67,18 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
         
         return folderCell
     }
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        if dict_info == nil {
+            log.d("ERROR")
+        } else {
+            log.d(dict_info?.object(forKey: c.TAG_USER_NAME) as! String)
+            navigationItem.title = dict_info?.object(forKey: c.TAG_USER_NAME) as! String
+        }
+        
         // Do any additional setup after loading the view.
         profilePicture.layer.borderWidth = 2.0
         profilePicture.layer.masksToBounds = false
@@ -77,21 +88,21 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
         profilePicture.clipsToBounds = true
         
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
