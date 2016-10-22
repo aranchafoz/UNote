@@ -54,6 +54,7 @@
 		DA16F3FB1DBBB950008D0EC7 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DA16F3FA1DBBB950008D0EC7 /* libsqlite3.tbd */; };
 		DA16F3FD1DBBBBB8008D0EC7 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA16F3FC1DBBBBB8008D0EC7 /* SplashViewController.swift */; };
 		DA16F3FF1DBBBBF1008D0EC7 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA16F3FE1DBBBBF1008D0EC7 /* SignupViewController.swift */; };
+		DA16F4051DBBC7FE008D0EC7 /* AccountTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA16F4041DBBC7FE008D0EC7 /* AccountTable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -91,7 +92,7 @@
 		74C26FF8882D9BAD02E6543F /* Pods-UNote.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UNote.release.xcconfig"; path = "Pods/Target Support Files/Pods-UNote/Pods-UNote.release.xcconfig"; sourceTree = "<group>"; };
 		DA16F3BA1DBBB898008D0EC7 /* c.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = c.swift; sourceTree = "<group>"; };
 		DA16F3BC1DBBB90E008D0EC7 /* AWSMobileHubHelper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSMobileHubHelper.framework; path = ../AWSMobileHubHelper.framework; sourceTree = "<group>"; };
-		DA16F3BF1DBBB91F008D0EC7 /* Appdata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Appdata.swift; sourceTree = "<group>"; };
+		DA16F3BF1DBBB91F008D0EC7 /* Appdata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Appdata.swift; path = AmazonAws/Appdata.swift; sourceTree = "<group>"; };
 		DA16F3C01DBBB91F008D0EC7 /* AWSMobileClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AWSMobileClient.swift; sourceTree = "<group>"; };
 		DA16F3C11DBBB91F008D0EC7 /* log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = log.swift; sourceTree = "<group>"; };
 		DA16F3C41DBBB91F008D0EC7 /* CustomIdTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomIdTable.swift; sourceTree = "<group>"; };
@@ -99,7 +100,7 @@
 		DA16F3C61DBBB91F008D0EC7 /* UserFilesListTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserFilesListTable.swift; sourceTree = "<group>"; };
 		DA16F3C71DBBB91F008D0EC7 /* UsersTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersTable.swift; sourceTree = "<group>"; };
 		DA16F3C81DBBB91F008D0EC7 /* UserSubscribledList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSubscribledList.swift; sourceTree = "<group>"; };
-		DA16F3C91DBBB91F008D0EC7 /* UserTableEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTableEditor.swift; sourceTree = "<group>"; };
+		DA16F3C91DBBB91F008D0EC7 /* UserTableEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserTableEditor.swift; path = AmazonAws/UserTableEditor.swift; sourceTree = "<group>"; };
 		DA16F3CC1DBBB91F008D0EC7 /* AWSCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AWSCore.framework; sourceTree = "<group>"; };
 		DA16F3CD1DBBB91F008D0EC7 /* AWSDynamoDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AWSDynamoDB.framework; sourceTree = "<group>"; };
 		DA16F3CE1DBBB91F008D0EC7 /* AWSS3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AWSS3.framework; sourceTree = "<group>"; };
@@ -113,6 +114,7 @@
 		DA16F3FA1DBBB950008D0EC7 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		DA16F3FC1DBBBBB8008D0EC7 /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		DA16F3FE1DBBBBF1008D0EC7 /* SignupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
+		DA16F4041DBBC7FE008D0EC7 /* AccountTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountTable.swift; sourceTree = "<group>"; };
 		EC3CECE8279BD19BD7B369F8 /* Pods-UNote.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UNote.debug.xcconfig"; path = "Pods/Target Support Files/Pods-UNote/Pods-UNote.debug.xcconfig"; sourceTree = "<group>"; };
 		FD70A473061689DD8DED4B77 /* Pods_UNote.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UNote.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -186,9 +188,11 @@
 				64EDA8461DB47BA600447189 /* Main.storyboard */,
 				64EDA8491DB47BA600447189 /* Assets.xcassets */,
 				64EDA8401DB47BA600447189 /* AppDelegate.swift */,
-				DA16F3BA1DBBB898008D0EC7 /* c.swift */,
 				64EDA84E1DB47BA600447189 /* Info.plist */,
 				64EDA84B1DB47BA600447189 /* LaunchScreen.storyboard */,
+				DA16F3C91DBBB91F008D0EC7 /* UserTableEditor.swift */,
+				DA16F3BF1DBBB91F008D0EC7 /* Appdata.swift */,
+				DA16F3BA1DBBB898008D0EC7 /* c.swift */,
 				DA16F3BE1DBBB91F008D0EC7 /* AmazonAws */,
 				DA16F3CA1DBBB91F008D0EC7 /* Sdk */,
 			);
@@ -198,11 +202,9 @@
 		DA16F3BE1DBBB91F008D0EC7 /* AmazonAws */ = {
 			isa = PBXGroup;
 			children = (
-				DA16F3BF1DBBB91F008D0EC7 /* Appdata.swift */,
 				DA16F3C01DBBB91F008D0EC7 /* AWSMobileClient.swift */,
 				DA16F3C11DBBB91F008D0EC7 /* log.swift */,
 				DA16F3C21DBBB91F008D0EC7 /* Models */,
-				DA16F3C91DBBB91F008D0EC7 /* UserTableEditor.swift */,
 			);
 			path = AmazonAws;
 			sourceTree = "<group>";
@@ -218,6 +220,7 @@
 		DA16F3C31DBBB91F008D0EC7 /* NoSQL */ = {
 			isa = PBXGroup;
 			children = (
+				DA16F4041DBBC7FE008D0EC7 /* AccountTable.swift */,
 				DA16F3C41DBBB91F008D0EC7 /* CustomIdTable.swift */,
 				DA16F3C51DBBB91F008D0EC7 /* FilesTable.swift */,
 				DA16F3C61DBBB91F008D0EC7 /* UserFilesListTable.swift */,
@@ -410,6 +413,7 @@
 				DA16F3FD1DBBBBB8008D0EC7 /* SplashViewController.swift in Sources */,
 				DA16F3DD1DBBB91F008D0EC7 /* UsersTable.swift in Sources */,
 				DA16F3DF1DBBB91F008D0EC7 /* UserTableEditor.swift in Sources */,
+				DA16F4051DBBC7FE008D0EC7 /* AccountTable.swift in Sources */,
 				DA16F3DB1DBBB91F008D0EC7 /* FilesTable.swift in Sources */,
 				DA16F3D81DBBB91F008D0EC7 /* AWSMobileClient.swift in Sources */,
 				DA16F3FF1DBBBBF1008D0EC7 /* SignupViewController.swift in Sources */,

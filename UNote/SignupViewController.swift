@@ -20,6 +20,8 @@ class SignupViewController: UIViewController, UserTableEditorCallBackProtocol {
     
     @IBOutlet weak var v_loading: UIView!
     @IBOutlet weak var txt_IDField: UITextField!
+    @IBOutlet weak var txt_PWField: UITextField!
+    @IBOutlet weak var txt_PW2Field: UITextField!
     @IBOutlet weak var txt_name: UITextField!
     @IBOutlet weak var txt_join_course: UITextField!
     @IBOutlet weak var txt_join_yr: UITextField!
@@ -29,6 +31,8 @@ class SignupViewController: UIViewController, UserTableEditorCallBackProtocol {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        v_loading.frame = self.view.frame
+        v_loading.subviews[0].center = v_loading.center
         
     }
     
@@ -55,9 +59,9 @@ class SignupViewController: UIViewController, UserTableEditorCallBackProtocol {
         idFinished = false
         profileFinished = false
         
-        if txt_IDField.text != "" && txt_name.text != "" && txt_join_course.text != "" , let _ = Int(txt_join_yr.text!) {
+        if txt_IDField.text != "" && txt_name.text != "" && txt_join_course.text != "" && txt_PWField.text != "" && txt_PWField.text == txt_PW2Field.text , let _ = Int(txt_join_yr.text!) {
             setLoading(state: true)
-            Appdata.sharedInstance.awsEditor?.getUserIdByCustomId(txt_IDField.text!)
+            Appdata.sharedInstance.awsEditor?.getUserInfoById(txt_IDField.text!)
             //        Appdata.sharedInstance.awsEditor?.scanAllUser()
         } else {
             let alert=UIAlertController(title: "ERROR", message: "Wrong data input. Please enter again", preferredStyle: UIAlertControllerStyle.alert);
@@ -71,7 +75,7 @@ class SignupViewController: UIViewController, UserTableEditorCallBackProtocol {
     func didGetItemSucceedWithItem(_ itemType:String, item:NSDictionary?){
         log.d("Get Succeed")
         
-        if itemType == c.TYPE_CUSTOM_ID {
+        if itemType == c.TYPE_USER_INFO {
             
             if item != nil // Item found, ie. id is used go pick another
             {
@@ -86,23 +90,24 @@ class SignupViewController: UIViewController, UserTableEditorCallBackProtocol {
             else // Item not found, OK =3=+
             {
                 log.d("hey")
-                UserDefaults.standard.set(txt_IDField.text!, forKey: c.SAVED_CUSTOM_ID)
-                Appdata.sharedInstance.awsEditor?.setMyCustomId(self.txt_IDField.text!)
+                Appdata.sharedInstance.awsEditor?.setMyAccount(self.txt_IDField.text!, pw: self.txt_PWField.text!)
             }
         }
     }
     
     func didSetItemWith(_ state:Bool, itemType:String){
-        log.d("Set")
+        log.d("Set, \(itemType), \(state)")
+        
         if state {
-            
-            if itemType == c.TYPE_CUSTOM_ID {
+            if itemType == c.TYPE_ACCOUNT {
+                Appdata.sharedInstance.myUserID = txt_IDField.text!
                 idFinished = true
                 let courses : Set<String> = [txt_join_course.text!]
                 let formatter = DateFormatter()
                 formatter.dateFormat = "yyyyMMddhhmmss"
                 let timestamp = Int(formatter.string(from: Date()))
                 Appdata.sharedInstance.awsEditor?.setUserInfo(courses, joinTimestamp: timestamp, joinYr: Int(txt_join_yr.text!), name: txt_name.text!, selfIntro: "YOOOOOO")
+                log.d("HEYYY")
             } else if itemType == c.TYPE_USER_INFO {
                 profileFinished = true
             }
@@ -112,6 +117,7 @@ class SignupViewController: UIViewController, UserTableEditorCallBackProtocol {
                     self.setLoading(state: false)
                         self.performSegue(withIdentifier: "segue_reg_done", sender: self)
                 }
+                UserDefaults.standard.set(txt_IDField.text!, forKey: c.SAVED_USER_ID)
             }
         }
     }

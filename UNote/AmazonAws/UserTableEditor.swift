@@ -10,6 +10,11 @@ import Foundation
 import AWSMobileHubHelper
 import AWSDynamoDB
 
+protocol UserLoginProtocol {
+    func didLoginSucceed(_ email:String)
+    func didLoginFailed()
+}
+
 protocol UserTableEditorCallBackProtocol {
     
     func didSetItemWith(_ state:Bool, itemType:String)
@@ -21,7 +26,7 @@ protocol UserTableEditorCallBackProtocol {
 class UserTableEditor {
     
     /* DELEGATE RETURN ITEMS TYPES */
-    let TYPE_CUSTOM_ID = "TYPE_CUSTOM_ID"
+    let TYPE_ACCOUNT = "TYPE_ACCOUNT"
     let TYPE_USER_INFO = "TYPE_USER_INFO"
     let TYPE_USER_FILE = "TYPE_USER_FILE"
     let TYPE_USER_SUBS = "TYPE_USER_SUBS"
@@ -74,7 +79,7 @@ class UserTableEditor {
     //      TAG_FILE_TIMESTAMP:     NSNumber
     //
 
-    
+    var loginer:UserLoginProtocol?
     var delegate:UserTableEditorCallBackProtocol?
     
     func getListOfUsers(){
@@ -85,19 +90,19 @@ class UserTableEditor {
     /*****        User ID        *****/
     /*********************************/
     func getUserIdentity() -> String {
-        return AWSIdentityManager.defaultIdentityManager().identityId!
+        return Appdata.sharedInstance.myUserID
     }
     
     /*********************************/
-    /*****       Custom ID       *****/
+    /*****        Account        *****/
     /*********************************/
-    func setMyCustomId(_ id:String){
+    func setMyAccount(_ email:String, pw:String){
         let objectMapper = AWSDynamoDBObjectMapper.default()
         let config:AWSDynamoDBObjectMapperConfiguration = AWSDynamoDBObjectMapperConfiguration()
         
-        let itemToCreate = CustomIdTable()
-        itemToCreate?._customId = id
-        itemToCreate?._userId = getUserIdentity()
+        let itemToCreate = AccountTable()
+        itemToCreate?._email = email
+        itemToCreate?._password = pw
         
         config.saveBehavior = AWSDynamoDBObjectMapperSaveBehavior.update
         config.consistentRead = true
@@ -107,43 +112,40 @@ class UserTableEditor {
 
                 
                 // Fail Block
-                self.delegate?.didSetItemWith(false, itemType: self.TYPE_CUSTOM_ID)
+                self.delegate?.didSetItemWith(false, itemType: self.TYPE_ACCOUNT)
                 return
             }
             
             // Succeed Block
             log.d("sat")
-            self.delegate?.didSetItemWith(true, itemType: self.TYPE_CUSTOM_ID)
+            self.delegate?.didSetItemWith(true, itemType: self.TYPE_ACCOUNT)
             
         
         })
     }
     
-    func getUserIdByCustomId(_ customId:String){
+    func loginAccount(_ email:String, pw:String){
         let objectMapper = AWSDynamoDBObjectMapper.default()
-        objectMapper.load(CustomIdTable.classForCoder(), hashKey: customId, rangeKey: nil, completionHandler:{(result, error) -> Void in
+        objectMapper.load(CustomIdTable.classForCoder(), hashKey: email, rangeKey: pw, completionHandler:{(result, error) -> Void in
             if let error = error {
                 print("Amazon DynamoDB Save Error: \(error)")
 
                 // Fail Block
-                self.delegate?.didGetItemFailedWithError(self.TYPE_CUSTOM_ID, error: error.localizedDescription)
+                self.delegate?.didGetItemFailedWithError(self.TYPE_ACCOUNT, error: error.localizedDescription)
                 return
             }
-            if let result:CustomIdTable = result as? CustomIdTable{
+            if let result:AccountTable = result as? AccountTable{
                 
                 // Succeed with Result
                 NSLog("%@",result)
-                log.d("YOOOOOOOO, UserId = \(result._userId)")
-                
-                let dict:NSDictionary =     [self.TAG_CUSTOM_ID:result._customId!,
-                                            self.TAG_USER_ID:result._userId!]
-                self.delegate?.didGetItemSucceedWithItem(self.TYPE_CUSTOM_ID, item: dict)
+                log.d("YOOOOOOOO, UserId = \(result._email)")
+                self.loginer?.didLoginSucceed(result._email!)
                 
             } else {
                 
                 // Succeed with object not exist
                 log.d("NO RESULT")
-                self.delegate?.didGetItemSucceedWithItem(self.TYPE_CUSTOM_ID, item: nil)
+                self.loginer?.didLoginFailed()
 
             }
         })
@@ -259,7 +261,7 @@ class UserTableEditor {
         let objectMapper = AWSDynamoDBObjectMapper.default()
         let itemToCreate = UsersTable()
         // Blank check
-        itemToCreate?._userId = AWSIdentityManager.defaultIdentityManager().identityId!
+        itemToCreate?._userId = Appdata.sharedInstance.myUserID
         if let _courseList = _courseList          { if _courseList.count>0 { itemToCreate?._courseList = _courseList}}
         if let joinTimestamp = joinTimestamp    { itemToCreate?._joinTimestamp = joinTimestamp as NSNumber? }
         if let joinYr = joinYr                  { itemToCreate?._joinYr = joinYr as NSNumber? }
@@ -297,7 +299,7 @@ class UserTableEditor {
         
         let itemToCreate = UserSubscribledList()
         
-        itemToCreate?._userId = getUserIdentity()
+        itemToCreate?._userId = Appdata.sharedInstance.myUserID
         let arr = list as! Array<String>
         itemToCreate?._subsList = Set(arr)
         
@@ -369,7 +371,7 @@ class UserTableEditor {
         
         let itemToCreate = UserFilesListTable()
         
-        itemToCreate?._userId = getUserIdentity()
+        itemToCreate?._userId = Appdata.sharedInstance.myUserID
         let arr = list as! Array<String>
         itemToCreate?._filesList = Set(arr)
         
@@ -469,7 +471,7 @@ class UserTableEditor {
         let objectMapper = AWSDynamoDBObjectMapper.default()
         let itemToCreate = FilesTable()
         // Blank check
-        itemToCreate?._userId = AWSIdentityManager.defaultIdentityManager().identityId!
+        itemToCreate?._userId = Appdata.sharedInstance.myUserID
         if let fileId = fileId      { itemToCreate?._fileId = fileId}
         if let name = name          { itemToCreate?._name = name }
         if let fileLink = fileLink  { itemToCreate?._fileLink = fileLink }

@@ -14,7 +14,6 @@ class Appdata {
     
     var awsEditor:UserTableEditor? = nil
     
-    var myCustomID = ""
     var myUserID = ""
     
     class var sharedInstance : Appdata {

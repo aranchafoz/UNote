@@ -22,7 +22,7 @@ class SplashViewController: UIViewController {
     
     func go()
     {
-        if UserDefaults.standard.string(forKey: c.SAVED_CUSTOM_ID) != nil
+        if UserDefaults.standard.string(forKey: c.SAVED_USER_ID) != nil
                     {
                         log.d("HEY")
                         self.performSegue(withIdentifier: "segue_go_home", sender: nil)

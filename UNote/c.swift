@@ -9,10 +9,10 @@
 import UIKit
 
 class c {
-    static public let SAVED_CUSTOM_ID = "SAVED_CUSTOM_ID"
+    static public let SAVED_USER_ID = "SAVED_USER_ID"
     
     /* DELEGATE RETURN ITEMS TYPES */
-    static public let TYPE_CUSTOM_ID = "TYPE_CUSTOM_ID"
+    static public let TYPE_ACCOUNT = "TYPE_ACCOUNT"
     static public let TYPE_USER_INFO = "TYPE_USER_INFO"
     static public let TYPE_USER_FILE = "TYPE_USER_FILE"
     static public let TYPE_USER_SUBS = "TYPE_USER_SUBS"
