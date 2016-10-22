@@ -15,6 +15,7 @@ class Appdata {
     var awsEditor:UserTableEditor? = nil
     
     var myUserID = ""
+    var mySubsList:NSMutableArray = []
     
     class var sharedInstance : Appdata {
         struct Static {

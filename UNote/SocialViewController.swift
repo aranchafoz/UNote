@@ -26,12 +26,18 @@ class SocialViewController: UIViewController, UITableViewDelegate, UITableViewDa
             // Search in our database
         })
         
+        let cheat = UIAlertAction(title: "-Demo- Show all users", style: .default, handler: {(alert: UIAlertAction!) -> Void in
+            self.friends.removeAllObjects()
+            Appdata.sharedInstance.awsEditor?.scanAllUser()
+        })
+        
         let Cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: {(alert: UIAlertAction!) -> Void in
         })
         
         optionMenu.addAction(Action1)
         optionMenu.addAction(Action2)
         optionMenu.addAction(Action3)
+        optionMenu.addAction(cheat)
         optionMenu.addAction(Cancel)
         
         self.present(optionMenu, animated: true, completion: nil)
@@ -40,27 +46,30 @@ class SocialViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     @IBOutlet weak var tbe_friend_table: UITableView!
     let friendsDemo : [String] = ["Peter","Alice","John","Kenneth","Anna","Julie","Matthew","Jake","Wilson","Sam","Paul"]
+    var friendsID : NSMutableArray = []
     var friends : NSMutableArray = []
     var selected_index = -1
+    var your_have_no_friend_identifier = false
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //        if friends.count == 0 {
-        //            return friendsDemo.count
-        //        }
-        //        else {
-        return friends.count
-        //        }
+
+        if your_have_no_friend_identifier {
+            return 1
+        } else {
+            return friends.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath as IndexPath)
         
-        if friends.count == 0 {
-            cell.textLabel?.text = friendsDemo[indexPath.row]
+        if your_have_no_friend_identifier {
+            cell.textLabel?.text = "You have no friend :("
+            cell.detailTextLabel?.text? = "I'm sorry :'("
         }
         else {
             let friend:NSDictionary = friends[indexPath.row] as! NSDictionary
@@ -74,8 +83,11 @@ class SocialViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selected_index = indexPath.row
-        performSegue(withIdentifier: "segue_friend_profile", sender: nil)
+        if !your_have_no_friend_identifier {
+            selected_index = indexPath.row
+            performSegue(withIdentifier: "segue_friend_profile", sender: nil)
+        }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -90,12 +102,31 @@ class SocialViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func didGetItemSucceedWithItem(_ itemType:String, item:NSDictionary?){
-        log.d("Get Succeed")
-        //        log.d("\(item)")
-        if itemType == c.TYPE_USER_INFO {
+        log.d("Get Succeed, \(itemType)")
+        
+        if itemType == c.TYPE_USER_SUBS {
+            
+            if item != nil {
+                your_have_no_friend_identifier = false
+                friendsID = NSMutableArray(array: Array(item?.object(forKey: c.TAG_SUBS_LIST) as! Set<String>))
+                Appdata.sharedInstance.mySubsList = friendsID
+                for var i in 0..<friendsID.count {
+                    Appdata.sharedInstance.awsEditor?.getUserInfoById(friendsID[i] as! String)
+                }
+            } else {
+                log.d("YOU HAVE NO FRIEND :(")
+                your_have_no_friend_identifier = true
+                DispatchQueue.main.async {
+                    self.tbe_friend_table.reloadData()
+                }
+            }
+        }
+        
+        else if itemType == c.TYPE_USER_INFO {
             
             if item != nil // Item found
             {
+                your_have_no_friend_identifier = false
                 log.d("hi")
                 DispatchQueue.main.async {
                     self.friends.add(item)
@@ -117,8 +148,6 @@ class SocialViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        Appdata.sharedInstance.awsEditor?.scanAllUser()
     }
     
     override func didReceiveMemoryWarning() {
@@ -129,6 +158,9 @@ class SocialViewController: UIViewController, UITableViewDelegate, UITableViewDa
     override func viewWillAppear(_ animated: Bool) {
         // setup delegate
         Appdata.sharedInstance.awsEditor?.delegate = self
+        friends = []
+        tbe_friend_table.reloadData()
+        Appdata.sharedInstance.awsEditor?.getSubscribleList(Appdata.sharedInstance.myUserID)
     }
     
     override func viewWillDisappear(_ animated: Bool) {

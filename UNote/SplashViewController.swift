@@ -25,6 +25,7 @@ class SplashViewController: UIViewController {
         if UserDefaults.standard.string(forKey: c.SAVED_USER_ID) != nil
                     {
                         log.d("HEY")
+                        Appdata.sharedInstance.myUserID = UserDefaults.standard.string(forKey: c.SAVED_USER_ID)!
                         self.performSegue(withIdentifier: "segue_go_home", sender: nil)
                     }
                     else

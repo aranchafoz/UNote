@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FriendProfileViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class FriendProfileViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UserTableEditorCallBackProtocol{
 
     @IBOutlet weak var profileBackground: UIImageView!
     @IBOutlet weak var profilePicture: UIImageView!
@@ -17,9 +17,20 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
     @IBAction func optionsActionSheet(_ sender: AnyObject) {
         let optionMenu = UIAlertController()
         
-        let Action1 = UIAlertAction(title: "Unfollow", style: .default, handler: {(alert: UIAlertAction!) -> Void in
-        // Unfollow this friend
-        })
+        var Action1:UIAlertAction
+        if Appdata.sharedInstance.mySubsList.contains(dict_info?.object(forKey: c.TAG_USER_ID) as! String) {
+            Action1 = UIAlertAction(title: "Unfollow", style: .default, handler: {(alert: UIAlertAction!) -> Void in
+                // Unfollow this friend
+            })
+        } else {
+            Action1 = UIAlertAction(title: "follow", style: .default, handler: {(alert: UIAlertAction!) -> Void in
+                let tempFriends:NSMutableArray = Appdata.sharedInstance.mySubsList
+                tempFriends.add(self.dict_info?.object(forKey: c.TAG_USER_ID) as! String)
+                Appdata.sharedInstance.awsEditor?.setSubscribleList(tempFriends)
+            })
+        }
+        
+        
         
         let Action2 = UIAlertAction(title: "Send an email", style: .default, handler: {(alert: UIAlertAction!) -> Void in
         // Send an email to this friend
@@ -87,6 +98,28 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
         profilePicture.layer.cornerRadius = profilePicture.frame.size.height/2
         profilePicture.clipsToBounds = true
         
+    }
+    
+    func didGetItemSucceedWithItem(_ itemType: String, item: NSDictionary?) {
+        
+    }
+    func didGetItemFailedWithError(_ itemType: String, error: String) {
+        
+    }
+    func didSetItemWith(_ state: Bool, itemType: String) {  // add/remove friend succeed
+        if state && itemType == c.TYPE_USER_SUBS {
+            if Appdata.sharedInstance.mySubsList.contains(dict_info?.object(forKey: c.TAG_USER_ID) as! String) {    // target exist, remove it
+                let target = dict_info?.object(forKey: c.TAG_USER_ID) as! String
+                for var i in 0..<Appdata.sharedInstance.mySubsList.count {
+                    if Appdata.sharedInstance.mySubsList[i] as! String == target {
+                        Appdata.sharedInstance.mySubsList.removeObject(at: i)
+                    }
+                }
+            } else {    // inexist, add friend
+                Appdata.sharedInstance.mySubsList.add(dict_info?.object(forKey: c.TAG_USER_ID) as! String)
+            }
+            
+        }
     }
     
     override func didReceiveMemoryWarning() {
