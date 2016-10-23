@@ -51,6 +51,7 @@ class SocialViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     @IBOutlet weak var tbe_friend_table: UITableView!
+    @IBOutlet weak var lbl_my_info: UILabel!
     let friendsDemo : [String] = ["Peter","Alice","John","Kenneth","Anna","Julie","Matthew","Jake","Wilson","Sam","Paul"]
     var friendsID : NSMutableArray = []
     var friends : NSMutableArray = []
@@ -117,7 +118,11 @@ class SocialViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 friendsID = NSMutableArray(array: Array(item?.object(forKey: c.TAG_SUBS_LIST) as! Set<String>))
                 Appdata.sharedInstance.mySubsList = friendsID
                 for var i in 0..<friendsID.count {
-                    Appdata.sharedInstance.awsEditor?.getUserInfoById(friendsID[i] as! String)
+                    if (friendsID[i] as! String) != Appdata.sharedInstance.myUserID {
+                        Appdata.sharedInstance.awsEditor?.getUserInfoById(friendsID[i] as! String)
+                    } else {
+                        friendsID.removeObject(at: i)
+                    }
                 }
             } else {
                 log.d("YOU HAVE NO FRIEND :(")
@@ -132,14 +137,29 @@ class SocialViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
             if item != nil // Item found
             {
-                your_have_no_friend_identifier = false
-                log.d("hi")
-                DispatchQueue.main.async {
-                    self.friends.add(item)
-                    self.tbe_friend_table.reloadData()
+                if (item?.object(forKey: c.TAG_USER_ID) as! String) == Appdata.sharedInstance.myUserID { // its yourself
+                    Appdata.sharedInstance.myInfo = NSMutableDictionary(dictionary: item!)
+                    log.d("\(item)")
+                    log.d("\(Appdata.sharedInstance.myInfo)")
+                    updateMyInfo()
+                }
+                else {
+                    your_have_no_friend_identifier = false
+                    log.d("hi")
+                    DispatchQueue.main.async {
+                        self.friends.add(item)
+                        self.tbe_friend_table.reloadData()
+                    }
                 }
             }
             
+        }
+    }
+    
+    func updateMyInfo (){
+        DispatchQueue.main.async {
+            let a:String = Appdata.sharedInstance.myInfo.object(forKey: c.TAG_USER_NAME) as! String
+            self.lbl_my_info.text = "Hello, \(a)!"
         }
     }
     
@@ -154,6 +174,7 @@ class SocialViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        Appdata.sharedInstance.awsEditor?.getUserInfoById(Appdata.sharedInstance.myUserID)
     }
     
     override func didReceiveMemoryWarning() {

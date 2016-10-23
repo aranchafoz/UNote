@@ -15,6 +15,7 @@ class Appdata {
     var awsEditor:UserTableEditor? = nil
     
     var myUserID = ""
+    var myInfo:NSMutableDictionary = [:]
     var mySubsList:NSMutableArray = []
     var myFileList:NSMutableArray = []
     
