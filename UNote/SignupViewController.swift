@@ -98,10 +98,8 @@ class SignupViewController: UIViewController, UserTableEditorCallBackProtocol {
                 Appdata.sharedInstance.myUserID = txt_IDField.text!
                 idFinished = true
                 let courses : Set<String> = [txt_join_course.text!]
-                let formatter = DateFormatter()
-                formatter.dateFormat = "yyyyMMddhhmmss"
-                let timestamp = Int(formatter.string(from: Date()))
-                Appdata.sharedInstance.awsEditor?.setUserInfo(courses, joinTimestamp: timestamp, joinYr: Int(txt_join_yr.text!), name: txt_name.text!, selfIntro: "YOOOOOO")
+                
+                Appdata.sharedInstance.awsEditor?.setUserInfo(courses, joinTimestamp: c.getTimestamp(), joinYr: Int(txt_join_yr.text!), name: txt_name.text!, selfIntro: "YOOOOOO")
                 log.d("HEYYY")
             } else if itemType == c.TYPE_USER_INFO {
                 profileFinished = true
@@ -110,7 +108,7 @@ class SignupViewController: UIViewController, UserTableEditorCallBackProtocol {
             if idFinished && profileFinished {
                 DispatchQueue.main.async {
                     self.setLoading(state: false)
-                        self.performSegue(withIdentifier: "segue_reg_done", sender: self)
+                    self.performSegue(withIdentifier: "segue_reg_done", sender: self)
                 }
                 UserDefaults.standard.set(txt_IDField.text!, forKey: c.SAVED_USER_ID)
             }
@@ -148,13 +146,13 @@ class SignupViewController: UIViewController, UserTableEditorCallBackProtocol {
     }
     
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }

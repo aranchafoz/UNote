@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Y6m-ZA-axW">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Y6m-ZA-axW">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
@@ -329,7 +329,11 @@
                     <navigationItem key="navigationItem" title="Notes" id="mBI-Ln-f9X">
                         <barButtonItem key="leftBarButtonItem" systemItem="search" id="D3k-sH-1sM"/>
                         <rightBarButtonItems>
-                            <barButtonItem systemItem="edit" id="cNF-Gp-qsQ"/>
+                            <barButtonItem systemItem="edit" id="cNF-Gp-qsQ">
+                                <connections>
+                                    <action selector="editButtonPressed:" destination="bUd-io-hzI" id="m0A-D5-aot"/>
+                                </connections>
+                            </barButtonItem>
                             <barButtonItem title="Add" id="lq3-VQ-Dia" userLabel="Add">
                                 <connections>
                                     <segue destination="yem-kZ-qK4" kind="show" id="mKq-z5-cwD"/>
@@ -358,7 +362,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Splash" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="r6g-rz-BuC">
-                                <frame key="frameInset" minX="0.0%" minY="35.23%" width="100.00%" height="29.23%"/>
+                                <frame key="frameInset" minX="0.0%" minY="35.16%" width="100.00%" height="29.23%"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="113"/>
                                 <nil key="textColor"/>
@@ -872,7 +876,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PSD-Gc-anb">
-                                <frame key="frameInset" minX="13.07%" minY="16.49%" width="78.13%" height="52.62%"/>
+                                <frame key="frameInset" minX="13.07%" minY="16.42%" width="78.13%" height="52.62%"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bnv-6Q-xk2">
@@ -955,21 +959,21 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Course start date with start time:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8e2-0p-Z4I">
-                                <frame key="frameInset" minX="43.90%" minY="19.04%" width="252" height="3.15%"/>
+                                <frame key="frameInset" minX="43.50%" minY="18.97%" width="252" height="3.22%"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Course end date:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pQf-qB-5PL">
-                                <frame key="frameInset" minX="21.81%" minY="53.37%" width="132" height="3.15%"/>
+                                <frame key="frameInset" minX="21.81%" minY="53.30%" width="132" height="3.15%"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="tv3-TA-g1z">
-                                <frame key="frameInset" minX="13.87%" minY="56.07%" width="81.33%" height="30.73%"/>
+                                <frame key="frameInset" minX="13.87%" minY="56.00%" width="81.33%" height="30.73%"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <date key="date" timeIntervalSinceReferenceDate="498574345.19610602">
                                     <!--2016-10-19 12:52:25 +0000-->

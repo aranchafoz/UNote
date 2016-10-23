@@ -78,7 +78,7 @@ class UserTableEditor {
     //      TAG_FILE_LINK:          String
     //      TAG_FILE_TIMESTAMP:     NSNumber
     //
-
+    
     var loginer:UserLoginProtocol?
     var delegate:UserTableEditorCallBackProtocol?
     
@@ -109,18 +109,18 @@ class UserTableEditor {
         objectMapper.save(itemToCreate!, completionHandler:{(error) -> Void in
             if let error = error {
                 print("Amazon DynamoDB Save Error: \(error)")
-
+                
                 
                 // Fail Block
-                self.delegate?.didSetItemWith(false, itemType: self.TYPE_ACCOUNT)
+                self.delegate?.didSetItemWith(false, itemType: c.TYPE_ACCOUNT)
                 return
             }
             
             // Succeed Block
             log.d("sat")
-            self.delegate?.didSetItemWith(true, itemType: self.TYPE_ACCOUNT)
+            self.delegate?.didSetItemWith(true, itemType: c.TYPE_ACCOUNT)
             
-        
+            
         })
     }
     
@@ -130,9 +130,9 @@ class UserTableEditor {
         objectMapper.load(AccountTable.classForCoder(), hashKey: email, rangeKey: pw, completionHandler:{(result, error) -> Void in
             if let error = error {
                 print("Amazon DynamoDB Save Error: \(error)")
-
+                
                 // Fail Block
-                self.delegate?.didGetItemFailedWithError(self.TYPE_ACCOUNT, error: error.localizedDescription)
+                self.delegate?.didGetItemFailedWithError(c.TYPE_ACCOUNT, error: error.localizedDescription)
                 return
             }
             if let result:AccountTable = result as? AccountTable{
@@ -147,7 +147,7 @@ class UserTableEditor {
                 // Succeed with object not exist
                 log.d("NO RESULT")
                 self.loginer?.didLoginFailed()
-
+                
             }
         })
     }
@@ -159,15 +159,15 @@ class UserTableEditor {
     func scanAllUser(){
         let objectMapper = AWSDynamoDBObjectMapper.default()
         let exp:AWSDynamoDBScanExpression = AWSDynamoDBScanExpression()
-//        exp.projectionExpression = "userId"
+        //        exp.projectionExpression = "userId"
         objectMapper.scan(UsersTable.classForCoder(), expression: exp, completionHandler: {(result, error) -> Void in
             if let error = error {
                 print("Amazon DynamoDB Save Error: \(error)")
-
+                
                 // Fail Block
                 log.d("FAIL")
-                self.delegate?.didGetItemFailedWithError(self.TYPE_USER_INFO, error: error.localizedDescription)
-            
+                self.delegate?.didGetItemFailedWithError(c.TYPE_USER_INFO, error: error.localizedDescription)
+                
                 return
             }
             
@@ -179,37 +179,37 @@ class UserTableEditor {
                 // Succeed with Result
                 
                 if result.items.count==0 {
-                    self.delegate?.didGetItemSucceedWithItem(self.TYPE_USER_INFO, item: nil)
+                    self.delegate?.didGetItemSucceedWithItem(c.TYPE_USER_INFO, item: nil)
                 }
                 else
                 {
                     for var i in 0..<result.items.count
                     {
                         let item:UsersTable = result.items[i] as! UsersTable
-                    
+                        
                         log.d("Item read.")
-                        log.d("name: \(item._userId)")
+                        log.d("userId: \(item._userId)")
                         log.d("name: \(item._name)")
-                        log.d("name: \(item._courseList)")
-                        log.d("name: \(item._joinTimestamp)")
-                        log.d("name: \(item._joinYr)")
-                        log.d("name: \(item._selfIntro)")
+                        log.d("courseList: \(item._courseList)")
+                        log.d("joinTimestamp: \(item._joinTimestamp)")
+                        log.d("joinYr: \(item._joinYr)")
+                        log.d("selfIntro: \(item._selfIntro)")
                         log.d("----------")
                         let dict = NSMutableDictionary()
-                        dict.setObject(item._userId!, forKey: self.TAG_USER_ID as NSCopying)
-                        dict.setObject(item._name!, forKey: self.TAG_USER_NAME as NSCopying)
-                        dict.setObject(item._courseList!, forKey: self.TAG_USER_COURSE_LIST as NSCopying)
-                        dict.setObject(item._joinTimestamp!, forKey: self.TAG_JOIN_TIMESTAMP as NSCopying)
-                        dict.setObject(item._joinYr!, forKey: self.TAG_JOIN_YR as NSCopying)
-                        dict.setObject(item._selfIntro!, forKey: self.TAG_SELF_INTRO as NSCopying)
-                        self.delegate?.didGetItemSucceedWithItem(self.TYPE_USER_INFO, item: dict)
+                        dict.setObject(item._userId!, forKey: c.TAG_USER_ID as NSCopying)
+                        dict.setObject(item._name!, forKey: c.TAG_USER_NAME as NSCopying)
+                        dict.setObject(item._courseList!, forKey: c.TAG_USER_COURSE_LIST as NSCopying)
+                        dict.setObject(item._joinTimestamp!, forKey: c.TAG_JOIN_TIMESTAMP as NSCopying)
+                        dict.setObject(item._joinYr!, forKey: c.TAG_JOIN_YR as NSCopying)
+                        dict.setObject(item._selfIntro!, forKey: c.TAG_SELF_INTRO as NSCopying)
+                        self.delegate?.didGetItemSucceedWithItem(c.TYPE_USER_INFO, item: dict)
                     }
                 }
             }
             else {
                 // Succeed with object not exist
                 log.d("Not found")
-                self.delegate?.didGetItemSucceedWithItem(self.TYPE_USER_INFO, item: nil)
+                self.delegate?.didGetItemSucceedWithItem(c.TYPE_USER_INFO, item: nil)
             }
         })
     }
@@ -221,24 +221,24 @@ class UserTableEditor {
                 print("Amazon DynamoDB Save Error: \(error)")
                 
                 // Fail Block
-                self.delegate?.didGetItemFailedWithError(self.TYPE_USER_INFO, error: error.localizedDescription)
+                self.delegate?.didGetItemFailedWithError(c.TYPE_USER_INFO, error: error.localizedDescription)
                 
                 return
             }
             if let result:UsersTable = result as? UsersTable{
                 
                 // Succeed with Result
-
+                
                 log.d("Item read.")
                 log.d("name: \(result._name)")
                 let dict = NSMutableDictionary()
-                dict.setObject(result._userId!, forKey: self.TAG_USER_ID as NSCopying)
-                dict.setObject(result._name!, forKey: self.TAG_USER_NAME as NSCopying)
-                dict.setObject(result._courseList!, forKey: self.TAG_USER_COURSE_LIST as NSCopying)
-                dict.setObject(result._joinTimestamp!, forKey: self.TAG_JOIN_TIMESTAMP as NSCopying)
-                dict.setObject(result._joinYr!, forKey: self.TAG_JOIN_YR as NSCopying)
-                dict.setObject(result._selfIntro!, forKey: self.TAG_SELF_INTRO as NSCopying)
-                self.delegate?.didGetItemSucceedWithItem(self.TYPE_USER_INFO, item: dict)
+                dict.setObject(result._userId!, forKey: c.TAG_USER_ID as NSCopying)
+                dict.setObject(result._name!, forKey: c.TAG_USER_NAME as NSCopying)
+                dict.setObject(result._courseList!, forKey: c.TAG_USER_COURSE_LIST as NSCopying)
+                dict.setObject(result._joinTimestamp!, forKey: c.TAG_JOIN_TIMESTAMP as NSCopying)
+                dict.setObject(result._joinYr!, forKey: c.TAG_JOIN_YR as NSCopying)
+                dict.setObject(result._selfIntro!, forKey: c.TAG_SELF_INTRO as NSCopying)
+                self.delegate?.didGetItemSucceedWithItem(c.TYPE_USER_INFO, item: dict)
                 
                 
                 
@@ -246,7 +246,7 @@ class UserTableEditor {
                 
                 // Succeed with object not exist
                 log.d("Not found")
-                self.delegate?.didGetItemSucceedWithItem(self.TYPE_USER_INFO, item: nil)
+                self.delegate?.didGetItemSucceedWithItem(c.TYPE_USER_INFO, item: nil)
                 
                 
             }
@@ -254,11 +254,11 @@ class UserTableEditor {
     }
     
     func setUserInfo(_ _courseList:Set<String>?,
-                        joinTimestamp:Int?,
-                        joinYr:Int?,
-                        name:String?,
-                        selfIntro:String?) {   // fields can be null
-    
+                     joinTimestamp:Int?,
+                     joinYr:Int?,
+                     name:String?,
+                     selfIntro:String?) {   // fields can be null
+        
         let objectMapper = AWSDynamoDBObjectMapper.default()
         let itemToCreate = UsersTable()
         // Blank check
@@ -269,18 +269,18 @@ class UserTableEditor {
         if let name = name                      { itemToCreate?._name = name }
         if let selfIntro = selfIntro            { itemToCreate?._selfIntro = selfIntro }
         //強迫症._.
-    
+        
         let config:AWSDynamoDBObjectMapperConfiguration = AWSDynamoDBObjectMapperConfiguration()
         config.saveBehavior = AWSDynamoDBObjectMapperSaveBehavior.update
         config.consistentRead = true
         objectMapper.save(itemToCreate!, configuration: config, completionHandler:{(error) -> Void in
             if let error = error {
                 print("Amazon DynamoDB Save Error: \(error)")
-                self.delegate?.didSetItemWith(false, itemType: self.TYPE_USER_INFO)
+                self.delegate?.didSetItemWith(false, itemType: c.TYPE_USER_INFO)
                 return
             }
             log.d("Item saved.")
-            self.delegate?.didSetItemWith(true, itemType: self.TYPE_USER_INFO)
+            self.delegate?.didSetItemWith(true, itemType: c.TYPE_USER_INFO)
             //self.delegate?.didModifyDataSucceed(itemToCreate._userId!)
         })
     }
@@ -311,17 +311,17 @@ class UserTableEditor {
                 print("Amazon DynamoDB Save Error: \(error)")
                 
                 // Fail Block
-                self.delegate?.didSetItemWith(false, itemType: self.TYPE_USER_SUBS)
+                self.delegate?.didSetItemWith(false, itemType: c.TYPE_USER_SUBS)
                 
                 return
             }
             
             // Succeed Block
-            self.delegate?.didSetItemWith(true, itemType: self.TYPE_USER_SUBS)
+            self.delegate?.didSetItemWith(true, itemType: c.TYPE_USER_SUBS)
             
             
         })
-
+        
     }
     
     func getSubscribleList(_ userId:String){
@@ -331,7 +331,7 @@ class UserTableEditor {
                 print("Amazon DynamoDB Save Error: \(error)")
                 
                 // Fail Block
-                self.delegate?.didGetItemFailedWithError(self.TYPE_USER_SUBS, error: error.localizedDescription)
+                self.delegate?.didGetItemFailedWithError(c.TYPE_USER_SUBS, error: error.localizedDescription)
                 
                 return
             }
@@ -343,16 +343,16 @@ class UserTableEditor {
                 log.d("Subscribled: \(result._subsList)")
                 
                 let dict = NSMutableDictionary()
-                dict.setObject(result._userId!, forKey: self.TAG_USER_ID as NSCopying)
-                dict.setObject(result._subsList!, forKey: self.TAG_SUBS_LIST as NSCopying)
-                self.delegate?.didGetItemSucceedWithItem(self.TYPE_USER_SUBS, item: dict)
-
+                dict.setObject(result._userId!, forKey: c.TAG_USER_ID as NSCopying)
+                dict.setObject(result._subsList!, forKey: c.TAG_SUBS_LIST as NSCopying)
+                self.delegate?.didGetItemSucceedWithItem(c.TYPE_USER_SUBS, item: dict)
+                
                 
             } else {
                 
                 // Succeed with object not exist
                 log.d("NO RESULT")
-                self.delegate?.didGetItemSucceedWithItem(self.TYPE_USER_SUBS, item: nil)
+                self.delegate?.didGetItemSucceedWithItem(c.TYPE_USER_SUBS, item: nil)
             }
         })
     }
@@ -383,13 +383,13 @@ class UserTableEditor {
                 print("Amazon DynamoDB Save Error: \(error)")
                 
                 // Fail Block
-                self.delegate?.didSetItemWith(false, itemType: self.TYPE_USER_FILE)
+                self.delegate?.didSetItemWith(false, itemType: c.TYPE_USER_FILE)
                 
                 return
             }
             
             // Succeed Block
-            self.delegate?.didSetItemWith(true, itemType: self.TYPE_USER_FILE)
+            self.delegate?.didSetItemWith(true, itemType: c.TYPE_USER_FILE)
         })
     }
     
@@ -400,7 +400,7 @@ class UserTableEditor {
                 print("Amazon DynamoDB Save Error: \(error)")
                 
                 // Fail Block
-                self.delegate?.didGetItemFailedWithError(self.TYPE_USER_FILE, error: error.localizedDescription)
+                self.delegate?.didGetItemFailedWithError(c.TYPE_USER_FILE, error: error.localizedDescription)
                 return
             }
             if let result:UserFilesListTable = result as? UserFilesListTable{
@@ -408,18 +408,19 @@ class UserTableEditor {
                 // Succeed with Result
                 NSLog("%@",result)
                 log.d("YOOOOOOOO, UserId = \(result._userId)")
-                log.d("Subscribled: \(result._filesList)")
+                log.d("files: \(result._filesList)")
                 
                 let dict = NSMutableDictionary()
-                dict.setObject(result._userId!, forKey: self.TAG_USER_ID as NSCopying)
-                dict.setObject(result._filesList!, forKey: self.TAG_FILE_LIST as NSCopying)
-                self.delegate?.didGetItemSucceedWithItem(self.TYPE_USER_FILE, item: dict)
+                dict.setObject(result._userId!, forKey: c.TAG_USER_ID as NSCopying)
+                dict.setObject(result._filesList!, forKey: c.TAG_FILE_LIST as NSCopying)
+                self.delegate?.didGetItemSucceedWithItem(c.TYPE_USER_FILE, item: dict)
+                //log.d("delegate: \(self.delegate)")
                 
             } else {
                 
                 // Succeed with object not exist
                 log.d("NO RESULT")
-                self.delegate?.didGetItemSucceedWithItem(self.TYPE_USER_FILE, item: nil)
+                self.delegate?.didGetItemSucceedWithItem(c.TYPE_USER_FILE, item: nil)
                 
             }
         })
@@ -436,7 +437,7 @@ class UserTableEditor {
                 print("Amazon DynamoDB Save Error: \(error)")
                 
                 // Fail Block
-                self.delegate?.didGetItemFailedWithError(self.TYPE_FILE, error: error.localizedDescription)
+                self.delegate?.didGetItemFailedWithError(c.TYPE_FILE, error: error.localizedDescription)
                 
                 return
             }
@@ -447,18 +448,18 @@ class UserTableEditor {
                 log.d("Item read.")
                 log.d("name: \(result._name)")
                 let dict = NSMutableDictionary()
-                dict.setObject(result._fileId!, forKey: "fileId" as NSCopying)
-                dict.setObject(result._userId!, forKey: "userId" as NSCopying)
-                dict.setObject(result._name!, forKey: "name" as NSCopying)
-                dict.setObject(result._course!, forKey: "course" as NSCopying)
-                dict.setObject(result._fileLink!, forKey: "fileLink" as NSCopying)
-                dict.setObject(result._timestamp!, forKey: "timestamp" as NSCopying)
-                self.delegate?.didGetItemSucceedWithItem(self.TYPE_FILE, item: dict)
+                dict.setObject(result._fileId!, forKey: c.TAG_FILE_ID as NSCopying)
+                dict.setObject(result._userId!, forKey: c.TAG_USER_ID as NSCopying)
+                dict.setObject(result._name!, forKey: c.TAG_FILE_NAME as NSCopying)
+                dict.setObject(result._course!, forKey: c.TAG_FILE_COURSE as NSCopying)
+                dict.setObject(result._fileLink!, forKey: c.TAG_FILE_LINK as NSCopying)
+                dict.setObject(result._timestamp!, forKey: c.TAG_FILE_TIMESTAMP as NSCopying)
+                self.delegate?.didGetItemSucceedWithItem(c.TYPE_FILE, item: dict)
                 
             } else {
                 
                 // Succeed with object not exist
-                self.delegate?.didGetItemSucceedWithItem(self.TYPE_FILE, item: nil)
+                self.delegate?.didGetItemSucceedWithItem(c.TYPE_FILE, item: nil)
                 
             }
         })
@@ -490,13 +491,13 @@ class UserTableEditor {
         objectMapper.save(itemToCreate!, configuration: config, completionHandler:{(error) -> Void in
             if let error = error {
                 print("Amazon DynamoDB Save Error: \(error)")
-                self.delegate?.didSetItemWith(false, itemType: self.TYPE_FILE)
+                self.delegate?.didSetItemWith(false, itemType: c.TYPE_FILE)
                 return
             }
             log.d("Item saved.")
             //self.delegate?.didModifyDataSucceed(itemToCreate._userId!)
-            self.delegate?.didSetItemWith(true, itemType: self.TYPE_FILE)
-
+            self.delegate?.didSetItemWith(true, itemType: c.TYPE_FILE)
+            
         })
     }
     
@@ -525,7 +526,7 @@ class UserTableEditor {
                 for var i in 0..<result.items.count {
                     
                     let item:FilesTable = result.items[i] as! FilesTable
-                
+                    
                     log.d("Item read.")
                     log.d("name: \(item._name)")
                     let dict = NSMutableDictionary()
@@ -535,17 +536,17 @@ class UserTableEditor {
                     dict.setObject(item._course!, forKey: "course" as NSCopying)
                     dict.setObject(item._fileLink!, forKey: "fileLink" as NSCopying)
                     dict.setObject(item._timestamp!, forKey: "timestamp" as NSCopying)
-                    self.delegate?.didGetItemSucceedWithItem(self.TYPE_FILE, item: dict)
+                    self.delegate?.didGetItemSucceedWithItem(c.TYPE_FILE, item: dict)
                 }
                 
                 if result.items.count==0 {
-                    self.delegate?.didGetItemSucceedWithItem(self.TYPE_FILE, item: nil)
+                    self.delegate?.didGetItemSucceedWithItem(c.TYPE_FILE, item: nil)
                 }
                 
             } else {
                 
                 // Succeed with object not exist
-                self.delegate?.didGetItemSucceedWithItem(self.TYPE_FILE, item: nil)
+                self.delegate?.didGetItemSucceedWithItem(c.TYPE_FILE, item: nil)
                 
             }
         })

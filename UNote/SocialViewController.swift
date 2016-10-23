@@ -31,7 +31,11 @@ class SocialViewController: UIViewController, UITableViewDelegate, UITableViewDa
             Appdata.sharedInstance.awsEditor?.scanAllUser()
         })
         
-        let Cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: {(alert: UIAlertAction!) -> Void in
+        let Cancel = UIAlertAction(title: "Logout", style: .cancel, handler: {(alert: UIAlertAction!) -> Void in
+            Appdata.sharedInstance.mySubsList = []
+            Appdata.sharedInstance.myUserID = ""
+            UserDefaults.standard.set(nil, forKey: c.SAVED_USER_ID)
+            self.present(LoginViewController(), animated: true, completion: nil)
         })
         
         optionMenu.addAction(Action1)
@@ -56,7 +60,7 @@ class SocialViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
+        
         if your_have_no_friend_identifier {
             return 1
         } else {
@@ -121,7 +125,7 @@ class SocialViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 }
             }
         }
-        
+            
         else if itemType == c.TYPE_USER_INFO {
             
             if item != nil // Item found
@@ -157,15 +161,17 @@ class SocialViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func viewWillAppear(_ animated: Bool) {
         // setup delegate
+        log.d("add delegate")
         Appdata.sharedInstance.awsEditor?.delegate = self
         friends = []
         tbe_friend_table.reloadData()
+        var your_have_no_friend_identifier = false
         Appdata.sharedInstance.awsEditor?.getSubscribleList(Appdata.sharedInstance.myUserID)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        // dismiss delegate
-        Appdata.sharedInstance.awsEditor?.delegate = nil
+        log.d("dismiss delegate")
+        //        Appdata.sharedInstance.awsEditor?.delegate = nil
     }
     
     /*

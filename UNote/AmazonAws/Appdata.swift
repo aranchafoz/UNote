@@ -16,6 +16,7 @@ class Appdata {
     
     var myUserID = ""
     var mySubsList:NSMutableArray = []
+    var myFileList:NSMutableArray = []
     
     class var sharedInstance : Appdata {
         struct Static {

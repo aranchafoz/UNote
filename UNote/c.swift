@@ -63,4 +63,10 @@ class c {
     //      TAG_FILE_COURSE:        String
     //      TAG_FILE_LINK:          String
     //      TAG_FILE_TIMESTAMP:     NSNumber
+    
+    static public func getTimestamp ()->Int {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMddhhmmss"
+        return Int(formatter.string(from: Date()))!
+    }
 }
