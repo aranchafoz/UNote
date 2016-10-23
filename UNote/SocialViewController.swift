@@ -35,7 +35,9 @@ class SocialViewController: UIViewController, UITableViewDelegate, UITableViewDa
             Appdata.sharedInstance.mySubsList = []
             Appdata.sharedInstance.myUserID = ""
             UserDefaults.standard.set(nil, forKey: c.SAVED_USER_ID)
-            self.present(LoginViewController(), animated: true, completion: nil)
+//            self.present(LoginViewController(), animated: true, completion: nil)
+            exit(0)
+            // why dont just close the app?? B)
         })
         
         optionMenu.addAction(Action1)

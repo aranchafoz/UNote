@@ -12,12 +12,13 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     // data source
     let files:NSMutableArray = []
+    var list_ready = false
     
     private let leftAndRightPaddings: CGFloat = 0.0
     private let numberOfItemsPerRow: CGFloat = 3.0
     //private let heightAdjustment: CGFloat = 30.0
     private var itemWidth: CGFloat = 200.0
-    var list_ready = false
+
     
     @IBOutlet weak var collectionView: UICollectionView!
     

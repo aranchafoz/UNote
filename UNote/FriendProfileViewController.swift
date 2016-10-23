@@ -50,7 +50,9 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
     @IBOutlet weak var lbl_year: UILabel!
     
     // data source
-    private var numberOfFolders = 9
+    let files:NSMutableArray = []
+    var friend_file_list:NSMutableArray = []
+    var list_ready = false
     var dict_info:NSDictionary?
     
     
@@ -61,21 +63,34 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return numberOfFolders
+        return files.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let folderCell = collectionView.dequeueReusableCell(withReuseIdentifier: "FolderCell", for: indexPath) as UICollectionViewCell
         
-        // Set File image
-        let img = folderCell.contentView.viewWithTag(1) as! UIImageView
-        img.image = UIImage(named: "Folder")
-        
+        let dict_file:NSDictionary = files[indexPath.row] as! NSDictionary
+        log.d("index: \(indexPath.row)")
         // Set Subject name
         let value = folderCell.contentView.viewWithTag(2) as! UILabel
-        value.text = "EE4304"
+        value.adjustsFontSizeToFitWidth = true
+        value.minimumScaleFactor = 0.1
+        value.text = dict_file.object(forKey: c.TAG_FILE_NAME) as! String
         
-        
+        // Set File image
+        let img = folderCell.contentView.viewWithTag(1) as! UIImageView
+        if (value.text?.contains(".pdf"))! {
+            img.image = UIImage(named: "file_pdf")
+        }
+        else if (value.text?.contains(".doc"))! {
+            img.image = UIImage(named: "file_doc")
+        }
+        else if (value.text?.contains(".png"))! || (value.text?.contains(".jpg"))!{
+            img.image = UIImage(named: "file_img")
+        }
+        else {
+            img.image = UIImage(named: "file_unknown")
+        }
         return folderCell
     }
     
@@ -89,6 +104,11 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
             log.d(dict_info?.object(forKey: c.TAG_USER_NAME) as! String)
             navigationItem.title = dict_info?.object(forKey: c.TAG_USER_NAME) as! String
         }
+        list_ready = false
+        files.removeAllObjects()
+        collectionView.reloadData()
+        Appdata.sharedInstance.awsEditor?.getUserFilesListTable(dict_info?.object(forKey: c.TAG_USER_ID) as! String)
+        
         
         // Do any additional setup after loading the view.
         profilePicture.layer.borderWidth = 2.0
@@ -101,7 +121,28 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
     }
     
     func didGetItemSucceedWithItem(_ itemType: String, item: NSDictionary?) {
-        
+        if itemType == c.TYPE_USER_FILE {
+            if item != nil {
+                list_ready = true
+                friend_file_list = NSMutableArray(array:Array(item?.object(forKey: c.TAG_FILE_LIST) as! Set<String>))
+                files.removeAllObjects()
+                for var i in 0..<friend_file_list.count {
+                    Appdata.sharedInstance.awsEditor?.getFileInfoByfileId(friend_file_list[i] as! String)
+                }
+            }
+        }
+            
+        else if itemType == c.TYPE_FILE {
+            
+            if item != nil // Item found
+            {
+                files.add(item)
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            }
+            
+        }
     }
     func didGetItemFailedWithError(_ itemType: String, error: String) {
         
@@ -127,6 +168,16 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
         // Dispose of any resources that can be recreated.
     }
     
+    
+    override func viewWillAppear(_ animated: Bool) {
+        // setup delegate
+        Appdata.sharedInstance.awsEditor?.delegate = self
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        // dismiss delegate
+        //        Appdata.sharedInstance.awsEditor?.delegate = nil
+    }
     
     /*
      // MARK: - Navigation
