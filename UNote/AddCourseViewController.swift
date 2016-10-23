@@ -8,7 +8,7 @@
 
 import UIKit
 import EventKit
-
+import CoreData
 class AddCourseViewController: UIViewController {
 
     @IBOutlet weak var courseName: UITextField!
@@ -22,7 +22,11 @@ class AddCourseViewController: UIViewController {
     
     let reoccrEventStore = EKEventStore()
     
-  
+    var coreDataCourse : [CourseList] = []
+    
+    
+    var coreDataStack = CourseListCore()
+    
     
     @IBAction func addSubject(_ sender: AnyObject) {
         
@@ -30,15 +34,16 @@ class AddCourseViewController: UIViewController {
         
         if ((courseName.text?.isEmpty)! || (courseDuration.text?.isEmpty)!){
             
-            print("not valid course name")
+            print("not valid course title")
             return
         }else{
             
-            
             createCourse(store: reoccrEventStore)
             
-            
         }
+        
+        
+        
     }
     
     
@@ -198,7 +203,19 @@ class AddCourseViewController: UIViewController {
             
             print("event title" + event.title)
             print("Successfully created the recurring event.")
+        
+           
+            let context = coreDataStack.persistentContainer.viewContext
             
+            
+            
+            let addCourseToCore = CourseList(context: context)
+           
+            
+            addCourseToCore.courseTitle = event.title
+            
+            coreDataStack.saveContext()
+                
             try store.commit()
             
             return true
@@ -208,6 +225,17 @@ class AddCourseViewController: UIViewController {
             print("Failed to create the recurring " + "event with error = \(error)")
             
         }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         return false
         
@@ -323,6 +351,9 @@ class AddCourseViewController: UIViewController {
         }
         
     }
+    
+    
+    
 
 
 

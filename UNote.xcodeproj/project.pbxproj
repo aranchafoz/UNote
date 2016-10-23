@@ -14,6 +14,9 @@
 		64EDA8551DB47F8C00447189 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EDA8541DB47F8C00447189 /* CameraViewController.swift */; };
 		64EDA8571DB480DD00447189 /* SocialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EDA8561DB480DD00447189 /* SocialViewController.swift */; };
 		64EDA8591DB480F200447189 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EDA8581DB480F200447189 /* HomeViewController.swift */; };
+		B6011E7F1DB9D623007042DE /* Core.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B6011E7D1DB9D623007042DE /* Core.xcdatamodeld */; };
+		B6011E811DB9E2A0007042DE /* CourseListCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6011E801DB9E2A0007042DE /* CourseListCore.swift */; };
+		B6011E831DBA0050007042DE /* DetailCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6011E821DBA0050007042DE /* DetailCourseViewController.swift */; };
 		B69B55B51DB881A6002F8651 /* AddCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69B55B41DB881A6002F8651 /* AddCourseViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +30,9 @@
 		64EDA8541DB47F8C00447189 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		64EDA8561DB480DD00447189 /* SocialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialViewController.swift; path = ../SocialViewController.swift; sourceTree = "<group>"; };
 		64EDA8581DB480F200447189 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		B6011E7E1DB9D623007042DE /* Core.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Core.xcdatamodel; sourceTree = "<group>"; };
+		B6011E801DB9E2A0007042DE /* CourseListCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseListCore.swift; sourceTree = "<group>"; };
+		B6011E821DBA0050007042DE /* DetailCourseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailCourseViewController.swift; sourceTree = "<group>"; };
 		B69B55B41DB881A6002F8651 /* AddCourseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCourseViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -69,6 +75,9 @@
 				64EDA84B1DB47BA600447189 /* LaunchScreen.storyboard */,
 				64EDA84E1DB47BA600447189 /* Info.plist */,
 				B69B55B41DB881A6002F8651 /* AddCourseViewController.swift */,
+				B6011E7D1DB9D623007042DE /* Core.xcdatamodeld */,
+				B6011E801DB9E2A0007042DE /* CourseListCore.swift */,
+				B6011E821DBA0050007042DE /* DetailCourseViewController.swift */,
 			);
 			path = UNote;
 			sourceTree = "<group>";
@@ -105,6 +114,7 @@
 				TargetAttributes = {
 					64EDA83C1DB47BA500447189 = {
 						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = 5AXH4H6W5J;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -149,7 +159,10 @@
 				64EDA8551DB47F8C00447189 /* CameraViewController.swift in Sources */,
 				B69B55B51DB881A6002F8651 /* AddCourseViewController.swift in Sources */,
 				64EDA8411DB47BA600447189 /* AppDelegate.swift in Sources */,
+				B6011E831DBA0050007042DE /* DetailCourseViewController.swift in Sources */,
 				64EDA8591DB480F200447189 /* HomeViewController.swift in Sources */,
+				B6011E7F1DB9D623007042DE /* Core.xcdatamodeld in Sources */,
+				B6011E811DB9E2A0007042DE /* CourseListCore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,6 +285,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 5AXH4H6W5J;
 				INFOPLIST_FILE = UNote/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = hk.ee4304.UNote;
@@ -284,6 +300,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 5AXH4H6W5J;
 				INFOPLIST_FILE = UNote/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = hk.ee4304.UNote;
@@ -314,6 +333,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		B6011E7D1DB9D623007042DE /* Core.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				B6011E7E1DB9D623007042DE /* Core.xcdatamodel */,
+			);
+			currentVersion = B6011E7E1DB9D623007042DE /* Core.xcdatamodel */;
+			path = Core.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 64EDA8351DB47BA500447189 /* Project object */;
 }
