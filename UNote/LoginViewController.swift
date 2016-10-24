@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoginViewController: UIViewController, UserLoginProtocol{
+class LoginViewController: UIViewController, UserLoginProtocol, UITextFieldDelegate{
     
     
     @IBOutlet weak var txt_email: UITextField!
@@ -80,5 +80,14 @@ class LoginViewController: UIViewController, UserLoginProtocol{
      // Pass the selected object to the new view controller.
      }
      */
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        txt_email.resignFirstResponder()
+        txt_pw.resignFirstResponder()
+
+    }
 }
