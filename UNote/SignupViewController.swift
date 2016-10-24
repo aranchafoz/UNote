@@ -9,7 +9,7 @@
 import UIKit
 import Foundation
 
-class SignupViewController: UIViewController, UserTableEditorCallBackProtocol {
+class SignupViewController: UIViewController, UserTableEditorCallBackProtocol, UITextFieldDelegate {
     
     // flow
     // On pressed -> check if the ID used
@@ -143,6 +143,20 @@ class SignupViewController: UIViewController, UserTableEditorCallBackProtocol {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        txt_join_course.resignFirstResponder()
+        txt_PW2Field.resignFirstResponder()
+        txt_PWField.resignFirstResponder()
+        txt_join_yr.resignFirstResponder()
+        txt_IDField.resignFirstResponder()
+        txt_name.resignFirstResponder()
     }
     
     /*
