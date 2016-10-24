@@ -10,20 +10,28 @@ import UIKit
 
 class SocialViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UserTableEditorCallBackProtocol {
     
+    var txtDialog:UITextField!
+    let v_refresh:UIRefreshControl = UIRefreshControl()
+    
     @IBAction func addFriendActionSheet(_ sender: AnyObject) {
         
         let optionMenu = UIAlertController(title: "Add more friends", message: "How do you like to add them?", preferredStyle: .actionSheet)
         
-        let Action1 = UIAlertAction(title: "From social", style: .default, handler: {(alert: UIAlertAction!) -> Void in
-            // Export from social
+        let Action1 = UIAlertAction(title: "From Email", style: .default, handler: {(alert: UIAlertAction!) -> Void in
+
         })
         
         let Action2 = UIAlertAction(title: "From contacts", style: .default, handler: {(alert: UIAlertAction!) -> Void in
             // Export from contacs (via number phone)
         })
         
-        let Action3 = UIAlertAction(title: "Via nickname", style: .default, handler: {(alert: UIAlertAction!) -> Void in
-            // Search in our database
+        let Action3 = UIAlertAction(title: "Logout", style: .default, handler: {(alert: UIAlertAction!) -> Void in
+            Appdata.sharedInstance.mySubsList = []
+            Appdata.sharedInstance.myUserID = ""
+            UserDefaults.standard.set(nil, forKey: c.SAVED_USER_ID)
+            //            self.present(LoginViewController(), animated: true, completion: nil)
+            exit(0)
+            // why dont just close the app?? B)
         })
         
         let cheat = UIAlertAction(title: "-Demo- Show all users", style: .default, handler: {(alert: UIAlertAction!) -> Void in
@@ -31,13 +39,8 @@ class SocialViewController: UIViewController, UITableViewDelegate, UITableViewDa
             Appdata.sharedInstance.awsEditor?.scanAllUser()
         })
         
-        let Cancel = UIAlertAction(title: "Logout", style: .cancel, handler: {(alert: UIAlertAction!) -> Void in
-            Appdata.sharedInstance.mySubsList = []
-            Appdata.sharedInstance.myUserID = ""
-            UserDefaults.standard.set(nil, forKey: c.SAVED_USER_ID)
-//            self.present(LoginViewController(), animated: true, completion: nil)
-            exit(0)
-            // why dont just close the app?? B)
+        let Cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: {(alert: UIAlertAction!) -> Void in
+
         })
         
         optionMenu.addAction(Action1)
@@ -48,6 +51,25 @@ class SocialViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         self.present(optionMenu, animated: true, completion: nil)
         
+    }
+    
+    @IBAction func search(_ sender: AnyObject) {
+        log.d("HIIIIIII")
+        let alert = UIAlertController(title: "Browse", message: "Please Enter Email", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { alert in
+            if self.txtDialog.text! != "" {
+                self.your_have_no_friend_identifier = false
+                self.friends.removeAllObjects()
+                self.tbe_friend_table.reloadData()
+                Appdata.sharedInstance.awsEditor?.getUserInfoById(self.txtDialog.text!)
+                self.v_refresh.beginRefreshing()
+            }
+        }))
+        alert.addTextField(configurationHandler: {(textField: UITextField!) in
+            textField.placeholder = "Email"
+            self.txtDialog = textField
+        })
+        self.present(alert, animated: true, completion: nil)
     }
     
     @IBOutlet weak var tbe_friend_table: UITableView!
@@ -75,8 +97,8 @@ class SocialViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath as IndexPath)
         
         if your_have_no_friend_identifier {
-            cell.textLabel?.text = "You have no friend :("
-            cell.detailTextLabel?.text? = "I'm sorry :'("
+            cell.textLabel?.text = "No Result :("
+            cell.detailTextLabel?.text? = "I tried sorry :'("
         }
         else {
             let friend:NSDictionary = friends[indexPath.row] as! NSDictionary
@@ -87,6 +109,10 @@ class SocialViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70;
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -112,7 +138,6 @@ class SocialViewController: UIViewController, UITableViewDelegate, UITableViewDa
         log.d("Get Succeed, \(itemType)")
         
         if itemType == c.TYPE_USER_SUBS {
-            
             if item != nil {
                 your_have_no_friend_identifier = false
                 friendsID = NSMutableArray(array: Array(item?.object(forKey: c.TAG_SUBS_LIST) as! Set<String>))
@@ -137,6 +162,9 @@ class SocialViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
             if item != nil // Item found
             {
+                DispatchQueue.main.async {
+                    self.v_refresh.endRefreshing()
+                }
                 if (item?.object(forKey: c.TAG_USER_ID) as! String) == Appdata.sharedInstance.myUserID { // its yourself
                     Appdata.sharedInstance.myInfo = NSMutableDictionary(dictionary: item!)
                     log.d("\(item)")
@@ -175,6 +203,17 @@ class SocialViewController: UIViewController, UITableViewDelegate, UITableViewDa
     override func viewDidLoad() {
         super.viewDidLoad()
         Appdata.sharedInstance.awsEditor?.getUserInfoById(Appdata.sharedInstance.myUserID)
+        v_refresh.backgroundColor = UIColor.clear
+        v_refresh.addTarget(self, action: "pulled", for: UIControlEvents.valueChanged)
+        tbe_friend_table.addSubview(v_refresh)
+    }
+    
+    func pulled(){
+        friends = []
+        tbe_friend_table.reloadData()
+        var your_have_no_friend_identifier = false
+        Appdata.sharedInstance.awsEditor?.getSubscribleList(Appdata.sharedInstance.myUserID)
+
     }
     
     override func didReceiveMemoryWarning() {

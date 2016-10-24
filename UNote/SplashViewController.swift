@@ -9,7 +9,9 @@
 import UIKit
 
 class SplashViewController: UIViewController {
-
+    
+    @IBOutlet weak var txt_title:UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -18,11 +20,22 @@ class SplashViewController: UIViewController {
         appdata.awsEditor = UserTableEditor()
         // Splash timer, go home or reg page if not reg yet
         let timer:Timer! = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(go), userInfo: nil, repeats: false)
+        
+        self.txt_title.alpha = 0.0
+        UIView.animate(withDuration: 0.3) {
+            self.txt_title.alpha = 1.0
+        }
     }
     
     func go()
     {
-        if UserDefaults.standard.string(forKey: c.SAVED_USER_ID) != nil
+        
+        UIView.animate(withDuration: 0.3, animations: { 
+            self.txt_title.alpha = 0.0
+            }) { (com) in
+                
+                DispatchQueue.main.async {
+                    if UserDefaults.standard.string(forKey: c.SAVED_USER_ID) != nil
                     {
                         log.d("HEY")
                         Appdata.sharedInstance.myUserID = UserDefaults.standard.string(forKey: c.SAVED_USER_ID)!
@@ -33,6 +46,10 @@ class SplashViewController: UIViewController {
                         log.d("YOO")
                         self.performSegue(withIdentifier: "segue_go_reg", sender: nil)
                     }
+                }
+                
+        }
+        
     }
 
     override func didReceiveMemoryWarning() {

@@ -13,6 +13,10 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
     @IBOutlet weak var profileBackground: UIImageView!
     @IBOutlet weak var profilePicture: UIImageView!
     
+    @IBOutlet weak var txt_major: UILabel!
+    @IBOutlet weak var txt_yr: UILabel!
+    @IBOutlet weak var btn_follow: UIButton!
+    
     // Options Action Sheet
     @IBAction func optionsActionSheet(_ sender: AnyObject) {
         let optionMenu = UIAlertController()
@@ -21,10 +25,18 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
         if Appdata.sharedInstance.mySubsList.contains(dict_info?.object(forKey: c.TAG_USER_ID) as! String) {
             Action1 = UIAlertAction(title: "Unfollow", style: .default, handler: {(alert: UIAlertAction!) -> Void in
                 // Unfollow this friend
+                let tempFriends:NSMutableArray = NSMutableArray(array:Array(Appdata.sharedInstance.mySubsList))
+                for var i in 0..<Appdata.sharedInstance.mySubsList.count {
+                    if (tempFriends[i] as! String) == (self.dict_info?.object(forKey: c.TAG_USER_ID) as! String) {
+                        tempFriends.removeObject(at: i)
+                        Appdata.sharedInstance.awsEditor?.setSubscribleList(tempFriends)
+                        break;
+                    }
+                }
             })
         } else {
             Action1 = UIAlertAction(title: "follow", style: .default, handler: {(alert: UIAlertAction!) -> Void in
-                let tempFriends:NSMutableArray = Appdata.sharedInstance.mySubsList
+                let tempFriends:NSMutableArray = NSMutableArray(array:Array(Appdata.sharedInstance.mySubsList))
                 tempFriends.add(self.dict_info?.object(forKey: c.TAG_USER_ID) as! String)
                 Appdata.sharedInstance.awsEditor?.setSubscribleList(tempFriends)
             })
@@ -94,6 +106,26 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
         return folderCell
     }
     
+    @IBAction func pressed_follow(_ sender: AnyObject) {
+        
+        if Appdata.sharedInstance.mySubsList.contains(dict_info?.object(forKey: c.TAG_USER_ID) as! String) {
+            // Unfollow this friend
+            let tempFriends:NSMutableArray = NSMutableArray(array:Array(Appdata.sharedInstance.mySubsList))
+            for var i in 0..<Appdata.sharedInstance.mySubsList.count {
+                if (tempFriends[i] as! String) == (self.dict_info?.object(forKey: c.TAG_USER_ID) as! String) {
+                    tempFriends.removeObject(at: i)
+                    Appdata.sharedInstance.awsEditor?.setSubscribleList(tempFriends)
+                    break;
+                }
+            }
+        }
+        else {
+            let tempFriends:NSMutableArray = NSMutableArray(array:Array(Appdata.sharedInstance.mySubsList))
+            tempFriends.add(self.dict_info?.object(forKey: c.TAG_USER_ID) as! String)
+            Appdata.sharedInstance.awsEditor?.setSubscribleList(tempFriends)
+        }
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -103,6 +135,22 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
         } else {
             log.d(dict_info?.object(forKey: c.TAG_USER_NAME) as! String)
             navigationItem.title = dict_info?.object(forKey: c.TAG_USER_NAME) as! String
+            txt_major.text = Array(dict_info?.object(forKey: c.TAG_USER_COURSE_LIST) as! Set<String>).first
+            let yr = dict_info?.object(forKey: c.TAG_JOIN_YR) as! Int
+            if yr==1 {
+                txt_yr.text = "\(yr)st"
+            } else if yr==2 {
+                txt_yr.text = "\(yr)nd"
+            } else if yr==3 {
+                txt_yr.text = "\(yr)rd"
+            } else {
+                txt_yr.text = "\(yr)th"
+            }
+            if Appdata.sharedInstance.mySubsList.contains(dict_info?.object(forKey: c.TAG_USER_ID) as! String) {
+                btn_follow.setBackgroundImage(UIImage(named:"tick_blue"), for: .normal)
+            } else {
+                btn_follow.setBackgroundImage(UIImage(named:"add_green"), for: .normal)
+            }
         }
         list_ready = false
         files.removeAllObjects()
@@ -148,8 +196,10 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
         
     }
     func didSetItemWith(_ state: Bool, itemType: String) {  // add/remove friend succeed
+        log.d("01:\n\(Appdata.sharedInstance.mySubsList)")
         if state && itemType == c.TYPE_USER_SUBS {
             if Appdata.sharedInstance.mySubsList.contains(dict_info?.object(forKey: c.TAG_USER_ID) as! String) {    // target exist, remove it
+                log.d("YOOOOOO")
                 let target = dict_info?.object(forKey: c.TAG_USER_ID) as! String
                 for var i in 0..<Appdata.sharedInstance.mySubsList.count {
                     if Appdata.sharedInstance.mySubsList[i] as! String == target {
@@ -157,10 +207,20 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
                     }
                 }
             } else {    // inexist, add friend
+                log.d("HEYYYYY")
                 Appdata.sharedInstance.mySubsList.add(dict_info?.object(forKey: c.TAG_USER_ID) as! String)
             }
             
+            DispatchQueue.main.async {
+                if Appdata.sharedInstance.mySubsList.contains(self.dict_info?.object(forKey: c.TAG_USER_ID) as! String) {
+                    self.btn_follow.setBackgroundImage(UIImage(named:"tick_blue"), for: .normal)
+                } else {
+                    self.btn_follow.setBackgroundImage(UIImage(named:"add_green"), for: .normal)
+                }
+            }
+            
         }
+        log.d("02\n\(Appdata.sharedInstance.mySubsList)")
     }
     
     override func didReceiveMemoryWarning() {
