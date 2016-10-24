@@ -229,12 +229,15 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
                     
                     print("College Calendar is not well set, two course detect at the same time")
                     
+                    
+                    
                 }
                 
-                
-                
-                
             }
+            
+            
+            
+            
         }
         
         
