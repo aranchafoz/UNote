@@ -14,6 +14,9 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     let files:NSMutableArray = []
     var list_ready = false
     
+    var subjectList : [String] = []
+    
+    
     private let leftAndRightPaddings: CGFloat = 0.0
     private let numberOfItemsPerRow: CGFloat = 3.0
     //private let heightAdjustment: CGFloat = 30.0
@@ -38,11 +41,17 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return files.count
+        //return files.count
+        
+        print("shit")
+        print(subjectList.count)
+        return subjectList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let folderCell = collectionView.dequeueReusableCell(withReuseIdentifier: "FolderCell", for: indexPath) as UICollectionViewCell
+        
+        /* by wai, hide for a while
         
         let dict_file:NSDictionary = files[indexPath.row] as! NSDictionary
         log.d("index: \(indexPath.row)")
@@ -50,7 +59,27 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let value = folderCell.contentView.viewWithTag(2) as! UILabel
         value.adjustsFontSizeToFitWidth = true
         value.minimumScaleFactor = 0.1
-        value.text = dict_file.object(forKey: c.TAG_FILE_NAME) as! String
+       // value.text = dict_file.object(forKey: c.TAG_FILE_NAME) as! String
+        
+        */
+        
+        //test
+        
+        
+        let one_subject = subjectList[indexPath.row]
+        
+        let subjectlabel = folderCell.contentView.viewWithTag(2) as! UILabel
+        subjectlabel.adjustsFontSizeToFitWidth = true
+        subjectlabel.minimumScaleFactor = 0.1
+        
+        subjectlabel.text = one_subject
+        
+        let subjectFolder = folderCell.contentView.viewWithTag(1) as! UIImageView
+        
+        subjectFolder.image = UIImage(named: "Folder")
+        
+        
+        /* by wai, hide for a while
         
         // Set File image
         let img = folderCell.contentView.viewWithTag(1) as! UIImageView
@@ -66,10 +95,14 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         else {
             img.image = UIImage(named: "file_unknown")
         }
+ 
+ 
+        */
+        
         return folderCell
     }
     
-    
+   
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -94,12 +127,20 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         if itemType == c.TYPE_USER_FILE {
             if item != nil {
+                
+                
                 list_ready = true
                 Appdata.sharedInstance.myFileList = NSMutableArray(array:Array(item?.object(forKey: c.TAG_FILE_LIST) as! Set<String>))
+                
+                
                 files.removeAllObjects()
                 for var i in 0..<Appdata.sharedInstance.myFileList.count {
                     Appdata.sharedInstance.awsEditor?.getFileInfoByfileId(Appdata.sharedInstance.myFileList[i] as! String)
                 }
+                
+                
+                
+                
             }
         }
             
@@ -108,9 +149,25 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             if item != nil // Item found
             {
                 files.add(item)
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
+                
+                
+                if !subjectList.contains(item?.object(forKey: c.TAG_FILE_COURSE) as! String) {
+                    subjectList.append(item?.object(forKey: c.TAG_FILE_COURSE) as! String)
+                    
+                    
                 }
+                
+                
+             
+                
+                DispatchQueue.main.async {
+                    
+                    self.collectionView.reloadData()
+                    
+                }
+                
+                
+                
             }
             
         }
@@ -135,6 +192,8 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         files.removeAllObjects()
         collectionView.reloadData()
         Appdata.sharedInstance.awsEditor?.getUserFilesListTable(Appdata.sharedInstance.myUserID)
+        
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -157,6 +216,8 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             Appdata.sharedInstance.awsEditor?.setFileInfo(fileid, name: fileid+".pdf", course: "EE4304", fileLink: "/file/")
         })
         
+        
+        
         let Action3 = UIAlertAction(title: "-DEMO- Add DOC", style: .default, handler: {(alert: UIAlertAction!) -> Void in
             let fileid:String = String(c.getTimestamp())
             Appdata.sharedInstance.myFileList.add(fileid)
@@ -166,6 +227,10 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let Cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: {(alert: UIAlertAction!) -> Void in
         })
         
+        
+        optionMenu.popoverPresentationController?.sourceView = self.view
+        optionMenu.popoverPresentationController?.sourceRect = CGRect(x: 0, y: 0, width: 1.0, height: 1.0)
+        
         optionMenu.addAction(Action1)
         optionMenu.addAction(Action2)
         optionMenu.addAction(Action3)
@@ -174,6 +239,28 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         self.present(optionMenu, animated: true, completion: nil)
     }
     
+    
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+                if let cell : UICollectionViewCell = collectionView.cellForItem(at: indexPath){
+        
+        
+                    let passValStand = UserDefaults.standard
+        
+                    let valLabel = cell.contentView.viewWithTag(2) as! UILabel!
+        
+                    if let setVal = valLabel {
+        
+                        passValStand.set(setVal.text, forKey: "SaveCourseNameInDetailController")
+        
+                        passValStand.synchronize()
+                        
+                    }
+                }
+                
+            }
+
     
     
 }

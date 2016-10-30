@@ -43,6 +43,9 @@ class SocialViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
         })
         
+        
+        optionMenu.popoverPresentationController?.sourceView = self.view
+        optionMenu.popoverPresentationController?.sourceRect = CGRect(x: 0, y: 0, width: 1.0, height: 1.0)
         optionMenu.addAction(Action1)
         optionMenu.addAction(Action2)
         optionMenu.addAction(Action3)

@@ -9,7 +9,7 @@
 import UIKit
 import EventKit
 import CoreData
-class AddCourseViewController: UIViewController {
+class AddCourseViewController: UIViewController, UserTableEditorCallBackProtocol {
 
     @IBOutlet weak var courseName: UITextField!
     
@@ -50,7 +50,8 @@ class AddCourseViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        
         // Do any additional setup after loading the view.
         
         self.endDatePicker.datePickerMode = UIDatePickerMode.date
@@ -203,8 +204,7 @@ class AddCourseViewController: UIViewController {
             
             print("event title" + event.title)
             print("Successfully created the recurring event.")
-        
-           
+            
             let context = coreDataStack.persistentContainer.viewContext
             
             
@@ -213,6 +213,10 @@ class AddCourseViewController: UIViewController {
            
             
             addCourseToCore.courseTitle = event.title
+            
+            
+            
+            
             
             coreDataStack.saveContext()
                 
@@ -225,15 +229,6 @@ class AddCourseViewController: UIViewController {
             print("Failed to create the recurring " + "event with error = \(error)")
             
         }
-        
-        
-        
-        
-        
-        
-        
-        
-        
         
         
         
@@ -333,6 +328,7 @@ class AddCourseViewController: UIViewController {
         }
         
         
+        
         if !exists {
             let newCalendar = EKCalendar(for:.event, eventStore:reoccrEventStore)
             newCalendar.title="College Calendar"
@@ -354,6 +350,39 @@ class AddCourseViewController: UIViewController {
     
     
     
+    func didSetItemWith(_ state: Bool, itemType: String) {
+        
+    }
+    
+    func didGetItemFailedWithError(_ itemType: String, error: String) {
+        
+        
+    }
+    
+    func didGetItemSucceedWithItem(_ itemType: String, item: NSDictionary?) {
+        
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        
+        
+        // setup delegate
+        Appdata.sharedInstance.awsEditor?.delegate = self
+        
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // dismiss delegate
+        Appdata.sharedInstance.awsEditor?.delegate = nil
+        
+        
+    }
 
 
 

@@ -9,14 +9,16 @@
 import UIKit
 
 
-class DetailCourseViewController: UIViewController, UICollectionViewDataSource,UISearchBarDelegate, UICollectionViewDelegate {
+class DetailCourseViewController: UIViewController, UICollectionViewDataSource,UISearchBarDelegate, UICollectionViewDelegate, UserTableEditorCallBackProtocol {
     @IBOutlet weak var notePhotoCollection: UICollectionView!
-
-    var photoCoreStack = CourseListCore()
-    var takenPhotoData : [TakenPhoto] = []
-    var valid2ShownTakenPhotoData : [TakenPhoto] = []
-    var selectedIndexPath : IndexPath!
+    var list_ready = false
+    var filesInThisCourse : NSMutableArray = []
+    var thisCourseTitle : String!
     
+//    var photoCoreStack = CourseListCore()
+//    var takenPhotoData : [TakenPhoto] = []
+//    var valid2ShownTakenPhotoData : [TakenPhoto] = []
+//    var selectedIndexPath : IndexPath!
     
     func createSearchBar(){
         
@@ -57,7 +59,7 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
         if let val = getCourseNameDefault.string(forKey: "SaveCourseNameInDetailController") {
             
             self.navigationItem.title = val
-            
+            self.thisCourseTitle = val
             getCourseNameDefault.synchronize()
         }
         
@@ -65,6 +67,10 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
         
         
         
+        
+        
+        
+        /*
         
         let data_context = photoCoreStack.persistentContainer.viewContext
         
@@ -109,7 +115,7 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
             
             
         }
-        
+        */
         
         
         
@@ -121,9 +127,15 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
         
         super.viewWillAppear(animated)
         
-        
+        // setup delegate
+        Appdata.sharedInstance.awsEditor?.delegate = self
+        notePhotoCollection.reloadData()
+        Appdata.sharedInstance.awsEditor?.getUserFilesListTable(Appdata.sharedInstance.myUserID)
        
     }
+    
+
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -150,10 +162,12 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return self.valid2ShownTakenPhotoData.count
+        //return self.valid2ShownTakenPhotoData.count no use anymore
+        return filesInThisCourse.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as UICollectionViewCell
     
         // Configure the cell
@@ -161,10 +175,23 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
 //        let img  = cell.contentView.viewWithTag(1) as! UIImageView
         //get image
         
-        let imgIdentity = cell.contentView.viewWithTag(2) as! UILabel
+        //let imgIdentity = cell.contentView.viewWithTag(2) as! UILabel
         
         
-        imgIdentity.text = self.valid2ShownTakenPhotoData[indexPath.item].noteTitle
+        //imgIdentity.text = self.valid2ShownTakenPhotoData[indexPath.item].noteTitle
+        
+        let noteItem : NSDictionary = filesInThisCourse[indexPath.row] as! NSDictionary
+        
+        var img = cell.contentView.viewWithTag(1) as! UIImageView
+        
+        let imag_identity = cell.contentView.viewWithTag(2) as! UILabel
+        
+        img.image = UIImage(named: "Folder")
+    
+        
+        imag_identity.text = noteItem.object(forKey: c.TAG_FILE_NAME) as! String?
+        
+        
         
         
         
@@ -181,7 +208,7 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
         
         
         
-            
+            /* no use anymore, u can reference
             selectedIndexPath = indexPath
             self.notePhotoCollection.performBatchUpdates(nil, completion: nil)
             
@@ -195,8 +222,82 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
             //expandImage.image = UIImage(named: "Friends")
             
             expandImage.isHidden = false
+            */
+        
+        
+        
+        
+        
+        
+    }
+    
+    func didSetItemWith(_ state: Bool, itemType: String) {
+        
+        
+    }
+    
+    
+    func didGetItemFailedWithError(_ itemType: String, error: String) {
+        
+    }
+    
+    
+    func didGetItemSucceedWithItem(_ itemType: String, item: NSDictionary?) {
+        
+        if itemType == c.TYPE_USER_FILE {
+            
+            if item != nil{
+                
+                
+                list_ready = true
+                
+                Appdata.sharedInstance.myFileList = NSMutableArray(array: Array(item?.object(forKey: c.TAG_FILE_LIST) as! Set<String>))
+
+                
+                filesInThisCourse.removeAllObjects()
+                
+                for var i in 0..<Appdata.sharedInstance.myFileList.count{
+                    
+                    Appdata.sharedInstance.awsEditor?.getFileInfoByfileId(Appdata.sharedInstance.myFileList[i] as! String)
+                    
+                    
+                }
+                
+                
+                
+            }
             
             
+        }else if itemType == c.TYPE_FILE{
+            
+            //found item
+            if item != nil{
+                
+                let itemCourse = item?.object(forKey: c.TAG_FILE_COURSE) as! String
+                if itemCourse == self.thisCourseTitle {
+                
+                    
+                    
+                    filesInThisCourse.add(item)
+                    
+                }else{
+                    print("this item is not from this course")
+                }
+                
+                DispatchQueue.main.async{
+                    
+                    self.notePhotoCollection.reloadData()
+                
+                }
+                
+                
+            }
+            
+            
+            
+            
+        }
+        
         
         
     }

@@ -10,7 +10,8 @@
 import UIKit
 import EventKit
 
-class CameraViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class CameraViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UserTableEditorCallBackProtocol{
+    
     
     
     var auto_saveImageToCorresspondingFolder : Bool!
@@ -97,56 +98,55 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         //test this function when we run on run camera
         
         
-                let imageData = UIImageJPEGRepresentation(imageView.image!, 0.6)
+//                let imageData = UIImageJPEGRepresentation(imageView.image!, 0.6)
+//        
+//                let compressedJPGImage = UIImage(data: imageData!)
+//                UIImageWriteToSavedPhotosAlbum(compressedJPGImage!, nil, nil, nil)
         
-                let compressedJPGImage = UIImage(data: imageData!)
-                UIImageWriteToSavedPhotosAlbum(compressedJPGImage!, nil, nil, nil)
         
-                let context = ImageCoreDataStack.persistentContainer.viewContext
         
-                let notesImageCore = TakenPhoto(context: context)
+        //Dont use coredata, use database
         
-                //notesImageCore.noteImage = imageData as NSData?
+//                let context = ImageCoreDataStack.persistentContainer.viewContext
+//        
+//                let notesImageCore = TakenPhoto(context: context)
+//        
         
-                notesImageCore.noteImage = nil
-                notesImageCore.noteTitle = "example1"
-                //notesImageCore.courseName =
+        
+        
+        
+                //let storeToDBFile = imageData as NSData?
+        
+                let fileTitle = "test1"
+        
+        var thisFileCourse : String? = nil
         
                 if auto_saveImageToCorresspondingFolder == true {
         
         
-                    notesImageCore.courseName = self.userAttendingCourseTitle
+                    thisFileCourse = self.userAttendingCourseTitle
         
-                }
-        
-        
-                ImageCoreDataStack.saveContext()
-        
-        
-        
-        
-        
-        
-        
-        //test save data function without camera function in simulator, will discard
-//        
-//        let context = ImageCoreDataStack.persistentContainer.viewContext
-//        
-//        let notesImageCore = TakenPhoto(context: context)
-//        
-//        //notesImageCore.noteImage = imageData as NSData?
-//        notesImageCore.noteImage = nil
-//        notesImageCore.noteTitle = "3000"
-//        notesImageCore.courseName = "ee3000"
-//        
-//        ImageCoreDataStack.saveContext()
-//        
-//        
-//        
+        }else if auto_saveImageToCorresspondingFolder == false{
+            
+            let alert = UIAlertController()
+            
+            let action = UIAlertAction(title: "some wrong", style: .default, handler: nil)
+            
+            alert.addAction(action)
+            
+                    thisFileCourse = "defaultTestCourse"
+            
+        }
         
         
         
+               // ImageCoreDataStack.saveContext()
         
+        //wait to be debug on this c.getTimeestamp() function
+        //let timeStampAsFileId = String(c.getTimestamp())
+        
+        Appdata.sharedInstance.myFileList.add("1234")
+        Appdata.sharedInstance.awsEditor?.setFileInfo("1234", name: fileTitle, course: thisFileCourse , fileLink: nil)
         
         
         
@@ -210,6 +210,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         let eventStore = EKEventStore()
         let calendars = eventStore.calendars(for: .event)
+        let alertController = UIAlertController()
         
         for calendar in calendars {
             if calendar.title == "College Calendar" {
@@ -227,8 +228,12 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
                     userAttendingCourseTitle = events[0].title
                 }else{
                     
-                    print("College Calendar is not well set, two course detect at the same time")
+                    let action = UIAlertAction(title: "Detect at least two lesson on the College Calendar", style: .default, handler: nil)
                     
+                    
+                    alertController.addAction(action)
+                
+                
                 }
                 
                 
@@ -289,21 +294,53 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     
     
+    func didGetItemSucceedWithItem(_ itemType: String, item: NSDictionary?) {
+        
+        
+    }
+    
+    func didSetItemWith(_ state: Bool, itemType: String) {
+        log.d("call this funciton")
+        
+        if state && itemType == c.TYPE_FILE{
+            
+            Appdata.sharedInstance.awsEditor?.setUserFilesListTable(Appdata.sharedInstance.myFileList)
+            
+            Appdata.sharedInstance.awsEditor?.getFileInfoByfileId(Appdata.sharedInstance.myFileList.lastObject as! String)
+            
+        }
+        
+        
+        
+    }
+    
+    
+    
+    func didGetItemFailedWithError(_ itemType: String, error: String) {
+    
+        log.d("Save file error Handling")
+        
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
     
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        //setup delegate
+        Appdata.sharedInstance.awsEditor?.delegate = self
+        
+    }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        
+        super.viewWillDisappear(animated)
+        
+        Appdata.sharedInstance.awsEditor?.delegate = nil
+    }
 }
 

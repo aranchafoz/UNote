@@ -268,7 +268,7 @@ class UserTableEditor {
         if let joinYr = joinYr                  { itemToCreate?._joinYr = joinYr as NSNumber? }
         if let name = name                      { itemToCreate?._name = name }
         if let selfIntro = selfIntro            { itemToCreate?._selfIntro = selfIntro }
-        //強迫症._.
+        //強迫症._.   ?? 咩意思？
         
         let config:AWSDynamoDBObjectMapperConfiguration = AWSDynamoDBObjectMapperConfiguration()
         config.saveBehavior = AWSDynamoDBObjectMapperSaveBehavior.update
@@ -478,13 +478,13 @@ class UserTableEditor {
         if let name = name          { itemToCreate?._name = name }
         if let fileLink = fileLink  { itemToCreate?._fileLink = fileLink }
         if let course = course  { itemToCreate?._course = course }
-        
         let f :DateFormatter = DateFormatter()
         f.dateFormat = "YYYYMMddhhmmss"
         let s = f.string(from: Date())
         let numDate = Int(s)
-        itemToCreate?._timestamp = NSNumber(value: numDate! as Int)
         
+        itemToCreate?._timestamp = NSNumber(value: numDate! as Int)
+  
         let config:AWSDynamoDBObjectMapperConfiguration = AWSDynamoDBObjectMapperConfiguration()
         config.saveBehavior = AWSDynamoDBObjectMapperSaveBehavior.update
         config.consistentRead = true

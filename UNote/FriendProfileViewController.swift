@@ -51,6 +51,11 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
         let Cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: {(alert: UIAlertAction!) -> Void in
         })
         
+        
+        optionMenu.popoverPresentationController?.sourceView = self.view
+        optionMenu.popoverPresentationController?.sourceRect = CGRect(x: 0, y: 0, width: 100.0, height: 100.0)
+        
+        
         optionMenu.addAction(Action1)
         optionMenu.addAction(Action2)
         optionMenu.addAction(Cancel)
