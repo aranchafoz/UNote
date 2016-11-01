@@ -483,11 +483,13 @@ class UserTableEditor {
         let s = f.string(from: Date())
         let numDate = Int(s)
         
-        itemToCreate?._timestamp = NSNumber(value: numDate! as Int)
-  
+        //itemToCreate?._timestamp = NSNumber(value: numDate! as Int)
+        itemToCreate?._timestamp = 1111
+        
         let config:AWSDynamoDBObjectMapperConfiguration = AWSDynamoDBObjectMapperConfiguration()
         config.saveBehavior = AWSDynamoDBObjectMapperSaveBehavior.update
         config.consistentRead = true
+        
         objectMapper.save(itemToCreate!, configuration: config, completionHandler:{(error) -> Void in
             if let error = error {
                 print("Amazon DynamoDB Save Error: \(error)")

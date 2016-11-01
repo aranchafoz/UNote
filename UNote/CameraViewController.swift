@@ -117,7 +117,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         
                 //let storeToDBFile = imageData as NSData?
         
-                let fileTitle = "test1"
+                let fileTitle = "test2"
         
         var thisFileCourse : String? = nil
         
@@ -145,8 +145,8 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         //wait to be debug on this c.getTimeestamp() function
         //let timeStampAsFileId = String(c.getTimestamp())
         
-        Appdata.sharedInstance.myFileList.add("1234")
-        Appdata.sharedInstance.awsEditor?.setFileInfo("1234", name: fileTitle, course: thisFileCourse , fileLink: nil)
+        Appdata.sharedInstance.myFileList.add("1111")
+        Appdata.sharedInstance.awsEditor?.setFileInfo("1234", name: fileTitle, course: "EE4304" , fileLink: "/file/")
         
         
         

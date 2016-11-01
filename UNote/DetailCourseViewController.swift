@@ -211,7 +211,7 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
             /* no use anymore, u can reference
             selectedIndexPath = indexPath
             self.notePhotoCollection.performBatchUpdates(nil, completion: nil)
-            
+            */
             
             let selectedCell : UICollectionViewCell = notePhotoCollection.cellForItem(at: indexPath)!
             print((selectedCell.contentView.viewWithTag(2) as! UILabel).text)
@@ -219,10 +219,10 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
             let expandImage = self.view.viewWithTag(3) as! UIImageView
             
             
-            //expandImage.image = UIImage(named: "Friends")
+            expandImage.image = UIImage(named: "Friends")
             
             expandImage.isHidden = false
-            */
+        
         
         
         
