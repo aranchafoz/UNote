@@ -25,6 +25,24 @@
 				<string>us-east-1</string>
 			</dict>
 		</dict>
+        <key>UserFileManager</key>
+        <dict>
+            <key>Default</key>
+            <dict>
+                <key>S3Bucket</key>
+                <string>eetest-userfiles-mobilehub-1780236080</string>
+                <key>Region</key>
+                <string>us-east-1</string>
+            </dict>
+        </dict>
+        <key>Cognito</key>
+        <dict>
+            <key>Default</key>
+            <dict>
+                <key>Region</key>
+                <string>us-east-1</string>
+            </dict>
+        </dict>
 		<key>IdentityManager</key>
 		<dict>
 			<key>Default</key>

@@ -66,7 +66,7 @@ class c {
     
     static public func getTimestamp ()->Int {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyyMMddhhmmss"
+        formatter.dateFormat = "yyyyMMddhhmm"
         return Int(formatter.string(from: Date()))!
     }
 }

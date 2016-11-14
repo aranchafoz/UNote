@@ -206,6 +206,9 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         let Action1 = UIAlertAction(title: "-DEMO- Add PNG", style: .default, handler: {(alert: UIAlertAction!) -> Void in
             let fileid:String = String(c.getTimestamp())
+//            let image = UIImage(named: "teach.jpg")
+//            let data = UIImagePNGRepresentation(image!)
+//            Appdata.sharedInstance.awsEditor?.uploadWithData(data: data! as NSData, forKey: "abcabcabc")
             Appdata.sharedInstance.myFileList.add(fileid)
             Appdata.sharedInstance.awsEditor?.setFileInfo(fileid, name: fileid+".png", course: "EE4304", fileLink: "/file/")
         })
