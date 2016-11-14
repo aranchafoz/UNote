@@ -17,7 +17,7 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
     var searchBarAction: Bool = false
     @IBOutlet weak var searchBar: UISearchBar!
     
-    
+    var refresher : UIRefreshControl!
     var dataSource:[String]=[]
     var dataSourceForSearchResult:[String]=[]
 
@@ -26,6 +26,7 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
         self.dataSourceForSearchResult = [String]()
         
         self.searchBar.delegate = self
@@ -41,6 +42,16 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
         view.addGestureRecognizer(tap)
         
         
+        
+        refresher = UIRefreshControl()
+        self.notePhotoCollection.alwaysBounceHorizontal = true
+        refresher.backgroundColor = UIColor.red
+        refresher.backgroundColor = UIColor.yellow
+        refresher.tintColor = UIColor.brown
+        refresher.addTarget(self, action: #selector(loadData), for: .valueChanged)
+        
+        
+        self.notePhotoCollection.addSubview(refresher)
         
         let getCourseNameDefault = UserDefaults.standard
         
@@ -66,6 +77,29 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
         Appdata.sharedInstance.awsEditor?.getUserFilesListTable(Appdata.sharedInstance.myUserID)
        
     }
+    
+    
+    
+    func loadData()
+    {
+        //code to execute during refresher
+        
+        self.notePhotoCollection.reloadData()
+        
+        stopRefresher()         //Call this to stop refresher
+    }
+    
+    
+    
+    func stopRefresher()
+    {
+        //
+        
+        self.refresher.endRefreshing()
+    }
+
+    
+    
     
 
     
@@ -258,14 +292,6 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
-//        let controller = UIAlertController(title: "error", message: "EEEEE", preferredStyle: .alert)
-//        
-//        let action = UIAlertAction(title: "fff", style: .cancel, handler: nil)
-//        
-//        
-//        controller.addAction(action)
-//        
-//        self.present(controller, animated: true, completion: nil)
 
         
         if searchText.characters.count > 0{
@@ -340,6 +366,8 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
         self.dataSourceForSearchResult = self.dataSource.filter({ (text:String) -> Bool in
             return text.contains(searchText)
         })
+        
+
         
     }
     

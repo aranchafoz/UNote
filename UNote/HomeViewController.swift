@@ -8,20 +8,23 @@
 
 import UIKit
 
-class HomeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UserTableEditorCallBackProtocol {
+class HomeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource,UISearchBarDelegate, UserTableEditorCallBackProtocol {
     
     // data source
     let files:NSMutableArray = []
     var list_ready = false
+    var searchBarAction = false
     
     var subjectList : [String] = []
     
+    @IBOutlet weak var searchBar: UISearchBar!
     
     private let leftAndRightPaddings: CGFloat = 0.0
     private let numberOfItemsPerRow: CGFloat = 3.0
     //private let heightAdjustment: CGFloat = 30.0
     private var itemWidth: CGFloat = 200.0
-
+    var dataSourceForSearchResult:[String] = []
+    var refreshControl : UIRefreshControl!
     
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -34,6 +37,20 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         //layout.itemSize = CGSize(width: width,height: width + heightAdjustment)
         
         
+        searchBar.delegate = self
+        refreshControl = UIRefreshControl()
+        
+        self.collectionView!.alwaysBounceVertical = true
+        
+        refreshControl.backgroundColor = UIColor.red
+        refreshControl.tintColor = UIColor.yellow
+        refreshControl.addTarget(self, action: #selector(loadData), for: .valueChanged)
+        
+        self.dataSourceForSearchResult = [String]()
+        
+        
+        self.collectionView.addSubview(refreshControl)
+
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -43,8 +60,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //return files.count
         
-        print("shit")
-        print(subjectList.count)
         return subjectList.count
     }
     
@@ -263,6 +278,52 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
 
     
     
+    
+        func loadData()
+        {
+            //code to execute during refresher
+    
+     
+            self.collectionView.reloadData()
+    
+            stopRefresher()         //Call this to stop refresher
+        }
+    
+    
+    
+        func stopRefresher()
+        {
+            //
+    
+            self.refreshControl.endRefreshing()
+    
+        }
+    
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        if searchText.characters.count > 0{
+            self.searchBarAction = true
+      //      self.filterContentForSearchText(searchText: searchText)
+            
+            self.collectionView.reloadData()
+            
+        }
+        
+    }
+
+    /*
+    
+    func filterContentForSearchText(searchText:String){
+        self.dataSourceForSearchResult = self.dataSource.filter({ (text:String) -> Bool in
+            return text.contains(searchText)
+        })
+        
+        
+        
+    }*/
+    
+    
 }
 
 
@@ -329,7 +390,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
 //    func myRightSideBarButtonItemTapped(_ sender:UIBarButtonItem!)
 //    {
 //        print("myRightSideBarButtonItemTapped")
-//        
+//
 //        
 //    }
 //    
