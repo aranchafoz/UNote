@@ -254,7 +254,7 @@ class UserTableEditor {
     }
     
     func setUserInfo(_ _courseList:Set<String>?,
-                     joinTimestamp:Int?,
+                     joinTimestamp:Int64?,
                      joinYr:Int?,
                      name:String?,
                      selfIntro:String?) {   // fields can be null
@@ -264,7 +264,10 @@ class UserTableEditor {
         // Blank check
         itemToCreate?._userId = Appdata.sharedInstance.myUserID
         if let _courseList = _courseList          { if _courseList.count>0 { itemToCreate?._courseList = _courseList}}
-        if let joinTimestamp = joinTimestamp    { itemToCreate?._joinTimestamp = joinTimestamp as NSNumber? }
+        //if let joinTimestamp = joinTimestamp    { itemToCreate?._joinTimestamp = joinTimestamp as NSNumber? }
+        
+        if let joinTimestamp = joinTimestamp    { itemToCreate?._joinTimestamp = NSNumber(value:joinTimestamp) }
+        
         if let joinYr = joinYr                  { itemToCreate?._joinYr = joinYr as NSNumber? }
         if let name = name                      { itemToCreate?._name = name }
         if let selfIntro = selfIntro            { itemToCreate?._selfIntro = selfIntro }
@@ -481,10 +484,10 @@ class UserTableEditor {
         let f :DateFormatter = DateFormatter()
         f.dateFormat = "YYYYMMddhhmmss"
         let s = f.string(from: Date())
-        let numDate = Int(s)
+        let numDate = Int64(s)
         
-        //itemToCreate?._timestamp = NSNumber(value: numDate! as Int)
-        itemToCreate?._timestamp = 1111
+        itemToCreate?._timestamp = NSNumber(value: numDate!)
+       
         
         let config:AWSDynamoDBObjectMapperConfiguration = AWSDynamoDBObjectMapperConfiguration()
         config.saveBehavior = AWSDynamoDBObjectMapperSaveBehavior.update

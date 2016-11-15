@@ -13,6 +13,7 @@ import EventKit
 class CameraViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UserTableEditorCallBackProtocol{
     
     
+    var courseField: UITextField!
     
     var auto_saveImageToCorresspondingFolder : Bool!
     
@@ -117,11 +118,10 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         
                 //let storeToDBFile = imageData as NSData?
         
-                let fileTitle = "test3"
         
         var thisFileCourse : String? = nil
         
-                if auto_saveImageToCorresspondingFolder == true {
+        if auto_saveImageToCorresspondingFolder == true {
         
         
                     thisFileCourse = self.userAttendingCourseTitle
@@ -138,15 +138,42 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
             
         }
         
+        if (self.userAttendingCourseTitle) != nil {
+            
+            let courseName = self.userAttendingCourseTitle
+            let fileid:String = String(c.getTimestamp())
+            Appdata.sharedInstance.myFileList.add(fileid)
+            Appdata.sharedInstance.awsEditor?.setFileInfo(fileid, name: fileid+".pdf", course: courseName, fileLink: "/file/")
+            
+        }else{
+            
+            
+            var alert = UIAlertController(title: "Enter Input", message: "", preferredStyle: .alert)
+            
+            alert.addTextField(configurationHandler: configurationTextField)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:handleCancel))
+            alert.addAction(UIAlertAction(title: "Done", style: .default, handler:{ (UIAlertAction) in
+                print("Done !!")
+                
+                print("Item : \(self.courseField.text)")
+            }))
+            self.present(alert, animated: true, completion: {
+                print("completion block")
+            })
+            
+            
+            
+            
+        }
+        
+        
+        
+        
         
         
                // ImageCoreDataStack.saveContext()
         
         //wait to be debug on this c.getTimeestamp() function
-        let timeStampAsFileId = String(c.getTimestamp())
-        
-        Appdata.sharedInstance.myFileList.add(timeStampAsFileId)
-        Appdata.sharedInstance.awsEditor?.setFileInfo(timeStampAsFileId, name: fileTitle, course: thisFileCourse , fileLink: "/file/")
         
         
         
@@ -228,7 +255,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
                     userAttendingCourseTitle = events[0].title
                 }else{
                     
-                    let action = UIAlertAction(title: "Detect at least two lesson on the College Calendar", style: .default, handler: nil)
+                    let action = UIAlertAction(title: "Detect at least two lesson on the College Calendar, please delete the unattended course shedule", style: .default, handler: nil)
                     
                     
                     alertController.addAction(action)
@@ -290,6 +317,19 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         
         
+    }
+    
+    
+    func configurationTextField(textField: UITextField!)
+    {
+        print("generating the TextField")
+        textField.placeholder = "Enter an item"
+        courseField = textField
+    }
+    
+    func handleCancel(alertView: UIAlertAction!)
+    {
+        print("Cancelled !!")
     }
     
     

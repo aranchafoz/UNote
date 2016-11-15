@@ -64,9 +64,9 @@ class c {
     //      TAG_FILE_LINK:          String
     //      TAG_FILE_TIMESTAMP:     NSNumber
     
-    static public func getTimestamp ()->Int {
+    static public func getTimestamp ()->Int64 {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyyMMddhhmm"
-        return Int(formatter.string(from: Date()))!
+        return Int64(formatter.string(from: Date()))!
     }
 }
