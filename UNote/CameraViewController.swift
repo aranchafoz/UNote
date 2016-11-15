@@ -19,7 +19,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     let currentEventStore = EKEventStore()
     
     let ImageCoreDataStack = CourseListCore()
-    var ImageBinaryData = [TakenPhoto]()
+    //var ImageBinaryData = [TakenPhoto]()
     
     var userAttendingCourseTitle : String!
     
@@ -117,7 +117,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         
                 //let storeToDBFile = imageData as NSData?
         
-                let fileTitle = "test2"
+                let fileTitle = "test3"
         
         var thisFileCourse : String? = nil
         
@@ -143,10 +143,10 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
                // ImageCoreDataStack.saveContext()
         
         //wait to be debug on this c.getTimeestamp() function
-        //let timeStampAsFileId = String(c.getTimestamp())
+        let timeStampAsFileId = String(c.getTimestamp())
         
-        Appdata.sharedInstance.myFileList.add("1111")
-        Appdata.sharedInstance.awsEditor?.setFileInfo("1234", name: fileTitle, course: "EE4304" , fileLink: "/file/")
+        Appdata.sharedInstance.myFileList.add(timeStampAsFileId)
+        Appdata.sharedInstance.awsEditor?.setFileInfo(timeStampAsFileId, name: fileTitle, course: thisFileCourse , fileLink: "/file/")
         
         
         
