@@ -450,11 +450,12 @@
                         <outlet property="editBarButton" destination="cNF-Gp-qsQ" id="rwo-Ln-HAT"/>
                         <outlet property="editNoteToolbar" destination="Sqq-YS-voj" id="h1W-hA-uRU"/>
                         <outlet property="searchBar" destination="7DO-X0-vUC" id="wwe-UZ-mal"/>
+                        <segue destination="jlv-gM-fSd" kind="show" identifier="detailCourse" id="r52-VP-mCv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nKO-2l-Jh0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1286" y="449"/>
+            <point key="canvasLocation" x="1228" y="449"/>
         </scene>
         <!--Splash View Controller-->
         <scene sceneID="bI6-96-QXR">
@@ -1401,8 +1402,9 @@
     <inferredMetricsTieBreakers>
         <segue reference="EHE-dM-gYA"/>
         <segue reference="TPy-Rp-eka"/>
-        <segue reference="4Oh-n8-VoG"/>
         <segue reference="HAY-j7-JOO"/>
+        <segue reference="4Oh-n8-VoG"/>
+        <segue reference="r52-VP-mCv"/>
         <segue reference="yJ0-q8-5F2"/>
     </inferredMetricsTieBreakers>
 </document>
