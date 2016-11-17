@@ -29,6 +29,16 @@ class FriendCourseFileViewController: UIViewController, UICollectionViewDelegate
         filesSaved = UserDefaults.standard.value(forKey: "savedMaterial") as! [NSDictionary]
         
         
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.doubleTappedOnView(sender:)))
+        
+        tap.numberOfTapsRequired = 2
+        view.addGestureRecognizer(tap)
+        
+        
+        
+        
+        
         for file in filesSaved {
         
             
@@ -106,6 +116,39 @@ class FriendCourseFileViewController: UIViewController, UICollectionViewDelegate
     }
     
     
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        
+        
+        let selectedCell: UICollectionViewCell = self.collectionView.cellForItem(at:
+            indexPath)!
+        
+        print("click to choose")
+        
+        let expandImage = self.view.viewWithTag(3) as! UIImageView
+        expandImage.image = UIImage(named: "Friends")
+        expandImage.isHidden = false
+        expandImage.backgroundColor = .blue
+        
+        
+        
+    }
+    
+    
+    func doubleTappedOnView(sender:UITapGestureRecognizer){
+        
+        
+        let expandedImage = self.view.viewWithTag(3) as! UIImageView
+        
+        expandedImage.image = nil
+        expandedImage.isHidden = true
+        
+        
+        
+        
+        
+    }
     
     
     /* no use of this
