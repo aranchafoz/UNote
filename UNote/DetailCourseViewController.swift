@@ -159,7 +159,7 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
             
             let imag_identity = cell.contentView.viewWithTag(2) as! UILabel
             
-            img.image = UIImage(named: "Folder")
+            img.image = UIImage(named: "Note")
             
             imag_identity.text = note
         
@@ -175,7 +175,7 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
             
             let imag_identity = cell.contentView.viewWithTag(2) as! UILabel
             
-            img.image = UIImage(named: "Folder")
+            img.image = UIImage(named: "Note")
             
             
             imag_identity.text = noteItem
@@ -183,12 +183,7 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
             
         }
         
-        
-        
-        
-        
-        
-        cell.backgroundColor = UIColor.red
+        cell.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         
         
         return cell
