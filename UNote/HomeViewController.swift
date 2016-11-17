@@ -32,6 +32,9 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Toolbar must be hidden until you press Edit button
+        editNoteToolbar.isHidden = true
+        
         //let layout = collectionView.collectionViewLayout
         //layout.
         //let layout = collectionView as! UICollectionViewFlowLayout
@@ -72,6 +75,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let folderCell = collectionView.dequeueReusableCell(withReuseIdentifier: "FolderCell", for: indexPath) as UICollectionViewCell
+        folderCell.backgroundColor = UIColor.white
         
         /* by wai, hide for a while
         
@@ -105,7 +109,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             
             
             
-        }else if self.searchBarAction == false{
+        } else if self.searchBarAction == false{
             
             
             let one_subject = subjectList[indexPath.row]
@@ -141,12 +145,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
  */
    
         
-        
-        
-        
-        
-        
-        
         /* by wai, hide for a while
         
         // Set File image
@@ -171,7 +169,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
    
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -199,7 +196,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         if itemType == c.TYPE_USER_FILE {
             if item != nil {
                 
-                
                 list_ready = true
                 Appdata.sharedInstance.myFileList = NSMutableArray(array:Array(item?.object(forKey: c.TAG_FILE_LIST) as! Set<String>))
                 
@@ -208,10 +204,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 for var i in 0..<Appdata.sharedInstance.myFileList.count {
                     Appdata.sharedInstance.awsEditor?.getFileInfoByfileId(Appdata.sharedInstance.myFileList[i] as! String)
                 }
-                
-                
-                
-                
             }
         }
             
@@ -224,20 +216,13 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 if !subjectList.contains(item?.object(forKey: c.TAG_FILE_COURSE) as! String) {
                     subjectList.append(item?.object(forKey: c.TAG_FILE_COURSE) as! String)
                     
-                    
                 }
-                
-                
-             
                 
                 DispatchQueue.main.async {
                     
                     self.collectionView.reloadData()
                     
                 }
-                
-                
-                
             }
             
         }
@@ -274,13 +259,160 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     @IBAction func editButtonPressed(_ sender: AnyObject) {
+        if editModeEnabled {
+            editNoteToolbar.isHidden = true
+            self.tabBarController?.tabBar.isHidden = false
+            
+            editBarButton.title = "Edit"
+            editBarButton.style = .plain
+            
+            editModeEnabled = false
+        } else {
+            editNoteToolbar.isHidden = false
+            self.tabBarController?.tabBar.isHidden = true
+            
+            editBarButton.title = "Done"
+            editBarButton.style = .done
+            
+            editModeEnabled = true
+        }
+    }
+    
+    
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        if let cell : UICollectionViewCell = collectionView.cellForItem(at: indexPath){
+            if editModeEnabled {
+                
+                if cell.backgroundColor == UIColor.white {
+                    // Selected cell
+                    cell.backgroundColor = UIColor.darkGray
+                } else {
+                    // Deselected cell
+                    cell.backgroundColor = UIColor.white
+                }
+                
+            } else {
+                
+                let passValStand = UserDefaults.standard
+                
+                let valLabel = cell.contentView.viewWithTag(2) as! UILabel!
+                
+                if let setVal = valLabel {
+                    
+                    passValStand.set(setVal.text, forKey: "SaveCourseNameInDetailController")
+                    
+                    passValStand.synchronize()
+                    
+                }
+            }
+        }
+    }
+
+    
+    func loadData() {
+        //code to execute during refresher
+    
+        Appdata.sharedInstance.awsEditor?.delegate = self
+        list_ready = false
+        files.removeAllObjects()
+            
+        Appdata.sharedInstance.awsEditor?.getUserFilesListTable(Appdata.sharedInstance.myUserID)
+        
+        collectionView.reloadData()
+            
+        
+        stopRefresher()         //Call this to stop refresher
+        
+    }
+    
+    func stopRefresher() {
+    
+        self.refreshControl.endRefreshing()
+    
+    }
+    
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        if searchText.characters.count > 0 {
+            self.searchBarAction = true
+            self.filterContentForSearchText(searchText: searchText)
+            
+            self.collectionView.reloadData()
+            
+        } else {
+            
+            self.searchBarAction = false
+            self.collectionView.reloadData()
+        }
+        
+    }
+
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        
+        self.searchBarAction = false
+        self.searchBar.setShowsCancelButton(true, animated: true)
+    }
+    
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        
+        self.cancelSearching()
+        self.collectionView.reloadData()
+        
+    }
+    
+    func cancelSearching() {
+        
+        self.searchBarAction = false
+        
+        self.searchBar.resignFirstResponder()
+        self.searchBar.text = ""
+        
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        
+        self.searchBarAction = true
+        self.view.endEditing(true)
+        
+    }
+    
+    
+    
+    
+    func filterContentForSearchText(searchText:String){
+        self.dataSourceForSearchResult = self.subjectList.filter({ (text:String) -> Bool in
+            
+            return text.lowercased().range(of: searchText.lowercased()) != nil
+            //return text.contains(searchText)
+        })
+        
+        
+        
+    }
+    
+    
+    //
+    // TOOLBAR - Edit View Mode
+    //
+    
+    var editModeEnabled = false
+    
+    @IBOutlet weak var editBarButton: UIBarButtonItem!
+    
+    @IBOutlet weak var editNoteToolbar: UIToolbar!
+    
+    @IBAction func addNewNotes(_ sender: Any) {
         let optionMenu = UIAlertController()
         
         let Action1 = UIAlertAction(title: "-DEMO- Add PNG", style: .default, handler: {(alert: UIAlertAction!) -> Void in
             let fileid:String = String(c.getTimestamp())
-//            let image = UIImage(named: "teach.jpg")
-//            let data = UIImagePNGRepresentation(image!)
-//            Appdata.sharedInstance.awsEditor?.uploadWithData(data: data! as NSData, forKey: "abcabcabc")
+            //            let image = UIImage(named: "teach.jpg")
+            //            let data = UIImagePNGRepresentation(image!)
+            //            Appdata.sharedInstance.awsEditor?.uploadWithData(data: data! as NSData, forKey: "abcabcabc")
             Appdata.sharedInstance.myFileList.add(fileid)
             Appdata.sharedInstance.awsEditor?.setFileInfo(fileid, name: fileid+".png", course: "EE4304", fileLink: "/file/")
         })
@@ -314,126 +446,14 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         self.present(optionMenu, animated: true, completion: nil)
     }
     
-    
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-                if let cell : UICollectionViewCell = collectionView.cellForItem(at: indexPath){
-        
-        
-                    let passValStand = UserDefaults.standard
-        
-                    let valLabel = cell.contentView.viewWithTag(2) as! UILabel!
-        
-                    if let setVal = valLabel {
-        
-                        passValStand.set(setVal.text, forKey: "SaveCourseNameInDetailController")
-        
-                        passValStand.synchronize()
-                        
-                    }
-                }
-                
-            }
-
-    
-    
-    
-        func loadData()
-        {
-            //code to execute during refresher
-    
-    
-            
-            Appdata.sharedInstance.awsEditor?.delegate = self
-            list_ready = false
-            files.removeAllObjects()
-            
-            Appdata.sharedInstance.awsEditor?.getUserFilesListTable(Appdata.sharedInstance.myUserID)
-            
-            
-            
-            collectionView.reloadData()
-            
-        
-            stopRefresher()         //Call this to stop refresher
-        
-    
-        }
-    
-    
-    
-        func stopRefresher()
-        {
-            //
-    
-            self.refreshControl.endRefreshing()
-    
-        }
-    
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
-        if searchText.characters.count > 0{
-            self.searchBarAction = true
-            self.filterContentForSearchText(searchText: searchText)
-            
-            self.collectionView.reloadData()
-            
-        }else{
-            
-            self.searchBarAction = false
-            self.collectionView.reloadData()
-        }
-        
-    }
-
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        
-        self.searchBarAction = false
-        self.searchBar.setShowsCancelButton(true, animated: true)
+    @IBAction func addNewCourse(_ sender: Any) {
     }
     
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        
-        self.cancelSearching()
-        self.collectionView.reloadData()
-        
+    @IBAction func shareFiles(_ sender: Any) {
     }
     
-    func cancelSearching(){
-        
-        self.searchBarAction = false
-        
-        self.searchBar.resignFirstResponder()
-        self.searchBar.text = ""
-        
+    @IBAction func deleteFiles(_ sender: Any) {
     }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        
-        self.searchBarAction = true
-        self.view.endEditing(true)
-        
-    }
-    
-    
-    
-    
-    
-    
-    func filterContentForSearchText(searchText:String){
-        self.dataSourceForSearchResult = self.subjectList.filter({ (text:String) -> Bool in
-            
-            return text.lowercased().range(of: searchText.lowercased()) != nil
-            //return text.contains(searchText)
-        })
-        
-        
-        
-    }
-    
     
 }
 
