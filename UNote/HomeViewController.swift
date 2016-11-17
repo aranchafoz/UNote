@@ -46,8 +46,8 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         self.collectionView!.alwaysBounceVertical = true
         
-        refreshControl.backgroundColor = UIColor.red
-        refreshControl.tintColor = UIColor.yellow
+        refreshControl.backgroundColor = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
+        refreshControl.tintColor = UIColor.white
         refreshControl.addTarget(self, action: #selector(loadData), for: .valueChanged)
         
         self.dataSourceForSearchResult = [String]()
