@@ -75,7 +75,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let folderCell = collectionView.dequeueReusableCell(withReuseIdentifier: "FolderCell", for: indexPath) as UICollectionViewCell
-        folderCell.backgroundColor = UIColor.white
+        folderCell.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         
         /* by wai, hide for a while
         
@@ -267,6 +267,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             editBarButton.style = .plain
             
             editModeEnabled = false
+            
         } else {
             editNoteToolbar.isHidden = false
             self.tabBarController?.tabBar.isHidden = true
@@ -285,13 +286,13 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         if let cell : UICollectionViewCell = collectionView.cellForItem(at: indexPath){
             if editModeEnabled {
                 
-                if cell.backgroundColor == UIColor.white {
+                if cell.backgroundColor == #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) {
                     // Selected cell
-                    cell.backgroundColor = UIColor.lightGray
+                    cell.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
                     
                 } else {
                     // Deselected cell
-                    cell.backgroundColor = UIColor.white
+                    cell.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
                 }
                 
             } else {
@@ -305,6 +306,8 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
                     passValStand.set(setVal.text, forKey: "SaveCourseNameInDetailController")
                     
                     passValStand.synchronize()
+                    
+                    performSegue(withIdentifier: "detailCourse", sender: nil)
                     
                 }
             }

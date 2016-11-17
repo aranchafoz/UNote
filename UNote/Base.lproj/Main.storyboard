@@ -240,6 +240,8 @@
                     <connections>
                         <outlet property="btn_follow" destination="dn6-Q5-uyx" id="Qzs-M1-fm0"/>
                         <outlet property="collectionView" destination="clH-5l-FOa" id="QN1-Qw-cwF"/>
+                        <outlet property="friendRatingPoints" destination="UbD-94-mHn" id="hey-Ob-LVG"/>
+                        <outlet property="friendRatingStar" destination="Yd5-uj-Vdp" id="mFu-Pb-bFV"/>
                         <outlet property="profileBackground" destination="Jpv-qU-w6E" id="zQa-DG-Uk3"/>
                         <outlet property="profilePicture" destination="Q86-yO-oZ0" id="E4N-5x-gbg"/>
                         <outlet property="txt_major" destination="9tN-y5-MTJ" id="WtN-4q-5tG"/>
@@ -377,9 +379,6 @@
                                             <constraint firstAttribute="trailing" secondItem="CJu-Lq-BEN" secondAttribute="trailing" constant="10" id="g1g-XS-bP0"/>
                                         </constraints>
                                         <size key="customSize" width="140" height="185"/>
-                                        <connections>
-                                            <segue destination="jlv-gM-fSd" kind="show" id="f2U-1T-aOG"/>
-                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                                 <connections>
@@ -1139,7 +1138,7 @@
         <!--Your Account-->
         <scene sceneID="zZS-Us-O3V">
             <objects>
-                <viewController id="cZ8-II-A3B" sceneMemberID="viewController">
+                <viewController id="cZ8-II-A3B" customClass="ProfileViewController" customModule="UNote" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="POq-jt-b6t"/>
                         <viewControllerLayoutGuide type="bottom" id="kTG-r6-wNW"/>
@@ -1191,12 +1190,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="3.5" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4dA-py-c6O">
-                                <rect key="frame" x="16" y="404" width="343" height="31"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PXP-38-fPL" customClass="CosmosView" customModule="Cosmos">
                                 <rect key="frame" x="179" y="409" width="118" height="21"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1233,11 +1226,13 @@
                                 <state key="normal" title="Loggout">
                                     <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="loggout:" destination="cZ8-II-A3B" eventType="touchUpInside" id="Tmf-oR-Bsc"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="4dA-py-c6O" firstAttribute="trailing" secondItem="oiX-fm-grt" secondAttribute="trailingMargin" id="0Hd-ZZ-n9m"/>
                             <constraint firstAttribute="trailing" secondItem="4Y6-wi-Tz1" secondAttribute="trailing" id="0JE-Zc-XmV"/>
                             <constraint firstItem="zxL-ng-vDS" firstAttribute="leading" secondItem="oiX-fm-grt" secondAttribute="leadingMargin" id="21T-cs-o5R"/>
                             <constraint firstItem="THh-Dn-axU" firstAttribute="leading" secondItem="WAD-cI-wu0" secondAttribute="trailing" constant="25" id="60e-iC-JfJ"/>
@@ -1246,7 +1241,6 @@
                             <constraint firstAttribute="trailingMargin" secondItem="hyV-go-ewN" secondAttribute="trailing" id="ILW-lw-dje"/>
                             <constraint firstItem="gUo-A0-ijp" firstAttribute="top" secondItem="zxL-ng-vDS" secondAttribute="bottom" constant="20" id="IdV-AP-jzS"/>
                             <constraint firstItem="gUo-A0-ijp" firstAttribute="trailing" secondItem="oiX-fm-grt" secondAttribute="trailingMargin" id="KW2-Yi-hNP"/>
-                            <constraint firstItem="4dA-py-c6O" firstAttribute="top" secondItem="gUo-A0-ijp" secondAttribute="bottom" constant="20" id="OSb-J6-ejr"/>
                             <constraint firstItem="JD6-Xs-dPd" firstAttribute="leading" secondItem="oiX-fm-grt" secondAttribute="leadingMargin" id="Q00-rf-t5k"/>
                             <constraint firstItem="JD6-Xs-dPd" firstAttribute="trailing" secondItem="oiX-fm-grt" secondAttribute="trailingMargin" id="QU1-In-lQV"/>
                             <constraint firstItem="h1t-ue-qkA" firstAttribute="leading" secondItem="oiX-fm-grt" secondAttribute="leadingMargin" id="Qaa-v8-SD9"/>
@@ -1263,11 +1257,19 @@
                             <constraint firstItem="PXP-38-fPL" firstAttribute="top" secondItem="gUo-A0-ijp" secondAttribute="bottom" constant="25" id="lMg-Yu-OQt"/>
                             <constraint firstItem="zxL-ng-vDS" firstAttribute="trailing" secondItem="oiX-fm-grt" secondAttribute="trailingMargin" id="lgj-OZ-8ww"/>
                             <constraint firstItem="4Y6-wi-Tz1" firstAttribute="leading" secondItem="oiX-fm-grt" secondAttribute="leading" id="rM8-co-Zol"/>
-                            <constraint firstItem="4dA-py-c6O" firstAttribute="leading" secondItem="oiX-fm-grt" secondAttribute="leadingMargin" id="uUe-8w-XgI"/>
                             <constraint firstAttribute="trailingMargin" secondItem="THh-Dn-axU" secondAttribute="trailing" id="wXc-zh-QRy"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Your Account" id="G8X-17-WFV"/>
+                    <connections>
+                        <outlet property="backgroundUser" destination="4Y6-wi-Tz1" id="8ZH-OW-7Ic"/>
+                        <outlet property="photoUser" destination="WAD-cI-wu0" id="SEW-SF-Q1x"/>
+                        <outlet property="userCourse" destination="zxL-ng-vDS" id="tKs-8S-sdE"/>
+                        <outlet property="userEmail" destination="hyV-go-ewN" id="31c-Ck-VXy"/>
+                        <outlet property="userMajorYear" destination="gUo-A0-ijp" id="OgE-wu-RLQ"/>
+                        <outlet property="userName" destination="THh-Dn-axU" id="BAJ-rj-2Me"/>
+                        <outlet property="userRatingStars" destination="PXP-38-fPL" id="z1C-WX-snW"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jHr-kt-TLR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1276,7 +1278,7 @@
         <!--CourseDetail View Controller-->
         <scene sceneID="31K-ob-0JL">
             <objects>
-                <viewController id="jlv-gM-fSd" userLabel="CourseDetail View Controller" customClass="DetailCourseViewController" customModule="UNote" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="detailCourse" useStoryboardIdentifierAsRestorationIdentifier="YES" id="jlv-gM-fSd" userLabel="CourseDetail View Controller" customClass="DetailCourseViewController" customModule="UNote" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="9vf-KW-xSd"/>
                         <viewControllerLayoutGuide type="bottom" id="gbQ-si-rKV"/>
@@ -1397,11 +1399,10 @@
         <image name="profilePicture" width="675" height="675"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="TPy-Rp-eka"/>
         <segue reference="EHE-dM-gYA"/>
-        <segue reference="f2U-1T-aOG"/>
-        <segue reference="HAY-j7-JOO"/>
+        <segue reference="TPy-Rp-eka"/>
         <segue reference="4Oh-n8-VoG"/>
+        <segue reference="HAY-j7-JOO"/>
         <segue reference="yJ0-q8-5F2"/>
     </inferredMetricsTieBreakers>
 </document>

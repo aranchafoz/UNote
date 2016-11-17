@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Cosmos
 
 class FriendProfileViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UserTableEditorCallBackProtocol{
 
@@ -16,6 +17,9 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
     @IBOutlet weak var txt_major: UILabel!
     @IBOutlet weak var txt_yr: UILabel!
     @IBOutlet weak var btn_follow: UIButton!
+    
+    @IBOutlet weak var friendRatingPoints: UILabel!
+    @IBOutlet weak var friendRatingStar: CosmosView!
     
     
     // Options Action Sheet
@@ -190,6 +194,27 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // **** Cosmos: rating star **** 
+        // **** Should be filled with user data ****
+        
+        // Change the cosmos view rating
+        friendRatingStar.rating = 3
+        
+        // Change the text
+        friendRatingPoints.text = String(friendRatingStar.rating)
+        
+        // Called when user finishes changing the rating by lifting the finger from the view.
+        // This may be a good place to save the rating in the database or send to the server.
+        friendRatingStar.didFinishTouchingCosmos = { rating in }
+        
+        // A closure that is called when user changes the rating by touching the view.
+        // This can be used to update UI as the rating is being changed by moving a finger.
+        friendRatingStar.didTouchCosmos = { rating in
+            self.friendRatingPoints.text = String(self.friendRatingStar.rating)}
+        
+
+        
         
         if dict_info == nil {
             log.d("ERROR")

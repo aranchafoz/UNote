@@ -25,15 +25,6 @@ class SocialViewController: UIViewController, UITableViewDelegate, UITableViewDa
             // Export from contacs (via number phone)
         })
         
-        let Action3 = UIAlertAction(title: "Logout", style: .default, handler: {(alert: UIAlertAction!) -> Void in
-            Appdata.sharedInstance.mySubsList = []
-            Appdata.sharedInstance.myUserID = ""
-            UserDefaults.standard.set(nil, forKey: c.SAVED_USER_ID)
-            //            self.present(LoginViewController(), animated: true, completion: nil)
-            exit(0)
-            // why dont just close the app?? B)
-        })
-        
         let cheat = UIAlertAction(title: "-Demo- Show all users", style: .default, handler: {(alert: UIAlertAction!) -> Void in
             self.friends.removeAllObjects()
             Appdata.sharedInstance.awsEditor?.scanAllUser()
@@ -48,7 +39,6 @@ class SocialViewController: UIViewController, UITableViewDelegate, UITableViewDa
         optionMenu.popoverPresentationController?.sourceRect = CGRect(x: 0, y: 0, width: 1.0, height: 1.0)
         optionMenu.addAction(Action1)
         optionMenu.addAction(Action2)
-        optionMenu.addAction(Action3)
         optionMenu.addAction(cheat)
         optionMenu.addAction(Cancel)
         
