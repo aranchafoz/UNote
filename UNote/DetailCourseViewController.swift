@@ -73,9 +73,25 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
         
         // setup delegate
         Appdata.sharedInstance.awsEditor?.delegate = self
+        
         notePhotoCollection.reloadData()
-        Appdata.sharedInstance.awsEditor?.getUserFilesListTable(Appdata.sharedInstance.myUserID)
-       
+        
+        
+    Appdata.sharedInstance.awsEditor?.getUserFilesListTable(Appdata.sharedInstance.myUserID)
+        
+        
+        
+        
+        
+    }
+    
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        
+        super.viewWillDisappear(animated)
+        
+        Appdata.sharedInstance.awsEditor?.delegate = nil
+        
     }
     
     
@@ -154,8 +170,6 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
             
             let noteItem = dataSource[indexPath.row]
             
-            print("test hi")
-            print(noteItem)
             
             var img = cell.contentView.viewWithTag(1) as! UIImageView
             
@@ -232,7 +246,7 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
                 
                 Appdata.sharedInstance.myFileList = NSMutableArray(array: Array(item?.object(forKey: c.TAG_FILE_LIST) as! Set<String>))
 
-                
+                print("shit")
                 filesInThisCourse.removeAllObjects()
                 
                 for var i in 0..<Appdata.sharedInstance.myFileList.count{
@@ -251,11 +265,12 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
             
             //found item
             if item != nil{
+            
                 
                 let itemCourse = item?.object(forKey: c.TAG_FILE_COURSE) as! String
                 if itemCourse == self.thisCourseTitle {
                 
-                    
+                    print("shit2")
                     
                     filesInThisCourse.add(item)
                     
@@ -267,6 +282,8 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
                 
                 }else{
                     print("this item is not from this course")
+                    
+                    print(itemCourse)
                 }
                 
                 DispatchQueue.main.async{
@@ -364,7 +381,9 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
     
     func filterContentForSearchText(searchText:String){
         self.dataSourceForSearchResult = self.dataSource.filter({ (text:String) -> Bool in
-            return text.contains(searchText)
+            //return text.contains(searchText)
+        
+            return text.lowercased().range(of: searchText.lowercased()) != nil
         })
         
 

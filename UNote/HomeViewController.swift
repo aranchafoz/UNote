@@ -14,6 +14,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     let files:NSMutableArray = []
     var list_ready = false
     var searchBarAction = false
+
     
     var subjectList : [String] = []
     
@@ -60,6 +61,12 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //return files.count
         
+        if self.searchBarAction{
+            return self.dataSourceForSearchResult.count
+            
+        }
+        
+        
         return subjectList.count
     }
     
@@ -81,6 +88,42 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         //test
         
         
+        if self.searchBarAction{
+            
+            let one_subject = self.dataSourceForSearchResult[indexPath.row]
+            
+            
+            let subjectlabel = folderCell.contentView.viewWithTag(2) as! UILabel
+            subjectlabel.adjustsFontSizeToFitWidth = true
+            subjectlabel.minimumScaleFactor = 0.1
+            
+            subjectlabel.text = one_subject
+            
+            let subjectFolder = folderCell.contentView.viewWithTag(1) as! UIImageView
+            
+            subjectFolder.image = UIImage(named: "Folder")
+            
+            
+            
+        }else if self.searchBarAction == false{
+            
+            
+            let one_subject = subjectList[indexPath.row]
+            
+            let subjectlabel = folderCell.contentView.viewWithTag(2) as! UILabel
+            subjectlabel.adjustsFontSizeToFitWidth = true
+            subjectlabel.minimumScaleFactor = 0.1
+            
+            subjectlabel.text = one_subject
+            
+            let subjectFolder = folderCell.contentView.viewWithTag(1) as! UIImageView
+            
+            subjectFolder.image = UIImage(named: "Folder")
+            
+        }
+        
+        /*
+        //test..........
         let one_subject = subjectList[indexPath.row]
         
         let subjectlabel = folderCell.contentView.viewWithTag(2) as! UILabel
@@ -92,6 +135,16 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let subjectFolder = folderCell.contentView.viewWithTag(1) as! UIImageView
         
         subjectFolder.image = UIImage(named: "Folder")
+        
+        //=====================================
+        
+ */
+   
+        
+        
+        
+        
+        
         
         
         /* by wai, hide for a while
@@ -123,6 +176,9 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    
+    
     
     
     /*
@@ -165,7 +221,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             {
                 files.add(item)
                 
-                
                 if !subjectList.contains(item?.object(forKey: c.TAG_FILE_COURSE) as! String) {
                     subjectList.append(item?.object(forKey: c.TAG_FILE_COURSE) as! String)
                     
@@ -205,15 +260,17 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         Appdata.sharedInstance.awsEditor?.delegate = self
         list_ready = false
         files.removeAllObjects()
-        collectionView.reloadData()
+        
         Appdata.sharedInstance.awsEditor?.getUserFilesListTable(Appdata.sharedInstance.myUserID)
         
+        
+        collectionView.reloadData()
         
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         // dismiss delegate
-        //        Appdata.sharedInstance.awsEditor?.delegate = nil
+        Appdata.sharedInstance.awsEditor?.delegate = nil
     }
     
     @IBAction func editButtonPressed(_ sender: AnyObject) {
@@ -286,10 +343,22 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         {
             //code to execute during refresher
     
-     
-            self.collectionView.reloadData()
     
+            
+            Appdata.sharedInstance.awsEditor?.delegate = self
+            list_ready = false
+            files.removeAllObjects()
+            
+            Appdata.sharedInstance.awsEditor?.getUserFilesListTable(Appdata.sharedInstance.myUserID)
+            
+            
+            
+            collectionView.reloadData()
+            
+        
             stopRefresher()         //Call this to stop refresher
+        
+    
         }
     
     
@@ -307,24 +376,63 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         if searchText.characters.count > 0{
             self.searchBarAction = true
-      //      self.filterContentForSearchText(searchText: searchText)
+            self.filterContentForSearchText(searchText: searchText)
             
             self.collectionView.reloadData()
             
+        }else{
+            
+            self.searchBarAction = false
+            self.collectionView.reloadData()
         }
         
     }
 
-    /*
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        
+        self.searchBarAction = false
+        self.searchBar.setShowsCancelButton(true, animated: true)
+    }
+    
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        
+        self.cancelSearching()
+        self.collectionView.reloadData()
+        
+    }
+    
+    func cancelSearching(){
+        
+        self.searchBarAction = false
+        
+        self.searchBar.resignFirstResponder()
+        self.searchBar.text = ""
+        
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        
+        self.searchBarAction = true
+        self.view.endEditing(true)
+        
+    }
+    
+    
+    
+    
+    
     
     func filterContentForSearchText(searchText:String){
-        self.dataSourceForSearchResult = self.dataSource.filter({ (text:String) -> Bool in
-            return text.contains(searchText)
+        self.dataSourceForSearchResult = self.subjectList.filter({ (text:String) -> Bool in
+            
+            return text.lowercased().range(of: searchText.lowercased()) != nil
+            //return text.contains(searchText)
         })
         
         
         
-    }*/
+    }
     
     
 }

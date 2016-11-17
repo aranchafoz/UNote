@@ -83,6 +83,7 @@ class SocialViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var selected_index = -1
     var your_have_no_friend_identifier = false
     
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }

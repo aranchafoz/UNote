@@ -12,6 +12,7 @@ import EventKit
 
 class CameraViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UserTableEditorCallBackProtocol{
     
+    @IBOutlet weak var filenoteName: UITextField!
     
     var courseField: UITextField!
     
@@ -118,6 +119,31 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         
                 //let storeToDBFile = imageData as NSData?
         
+        var noteName :String!
+        
+        
+        if self.filenoteName.text == nil || self.filenoteName.text == ""{
+           
+            
+            print("wrong wrong")
+            
+            
+            let alert = UIAlertController()
+            let action = UIAlertAction(title: "Please enter file name", style: .default, handler: nil)
+       
+            
+            alert.addAction(action)
+            
+            self.present(alert, animated: false, completion: nil)
+            
+            return
+        }else{
+            
+            noteName = filenoteName.text!
+            
+        }
+
+        
         
         var thisFileCourse : String? = nil
         
@@ -130,11 +156,14 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
             
             let alert = UIAlertController()
             
-            let action = UIAlertAction(title: "some wrong", style: .default, handler: nil)
+            let action = UIAlertAction(title: "The feature is block beacuse user don't allow the app to use it", style: .default, handler: nil)
             
             alert.addAction(action)
             
                     thisFileCourse = "defaultTestCourse"
+        
+            self.present(alert, animated: false, completion: nil)
+            
             
         }
         
@@ -143,19 +172,30 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
             let courseName = self.userAttendingCourseTitle
             let fileid:String = String(c.getTimestamp())
             Appdata.sharedInstance.myFileList.add(fileid)
-            Appdata.sharedInstance.awsEditor?.setFileInfo(fileid, name: fileid+".pdf", course: courseName, fileLink: "/file/")
+            Appdata.sharedInstance.awsEditor?.setFileInfo(fileid,name: "\(noteName).jpg", course: courseName, fileLink: "/file/")
             
         }else{
             
+            var manual_courseName:String!
             
-            var alert = UIAlertController(title: "Enter Input", message: "", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Enter Input", message: "", preferredStyle: .alert)
             
             alert.addTextField(configurationHandler: configurationTextField)
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:handleCancel))
             alert.addAction(UIAlertAction(title: "Done", style: .default, handler:{ (UIAlertAction) in
                 print("Done !!")
-                
                 print("Item : \(self.courseField.text)")
+                
+                    manual_courseName = self.courseField.text
+                print(manual_courseName)
+                
+              
+                let fileid:String = String(c.getTimestamp())
+                Appdata.sharedInstance.myFileList.add(fileid)
+                Appdata.sharedInstance.awsEditor?.setFileInfo(fileid, name: "\(noteName).jpg", course: manual_courseName, fileLink: "/file/")
+                
+                
+                
             }))
             self.present(alert, animated: true, completion: {
                 print("completion block")
@@ -166,14 +206,6 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
             
         }
         
-        
-        
-        
-        
-        
-               // ImageCoreDataStack.saveContext()
-        
-        //wait to be debug on this c.getTimeestamp() function
         
         
         
@@ -192,6 +224,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         let askCurrentCourseAttendMessage = UIAlertController(title: "Asking", message: "If you want to save your picture corresponding folder, please click OK , otherwise Cancel", preferredStyle: .alert)
         
@@ -322,8 +355,8 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     func configurationTextField(textField: UITextField!)
     {
-        print("generating the TextField")
-        textField.placeholder = "Enter an item"
+     
+        textField.placeholder = "Enter the course name"
         courseField = textField
     }
     

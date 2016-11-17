@@ -17,6 +17,7 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
     @IBOutlet weak var txt_yr: UILabel!
     @IBOutlet weak var btn_follow: UIButton!
     
+    
     // Options Action Sheet
     @IBAction func optionsActionSheet(_ sender: AnyObject) {
         let optionMenu = UIAlertController()
@@ -68,23 +69,69 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
     
     // data source
     let files:NSMutableArray = []
+    var files_dict = [NSDictionary]()
     var friend_file_list:NSMutableArray = []
     var list_ready = false
     var dict_info:NSDictionary?
+    var subjectList = [String]()
     
     
     @IBOutlet weak var collectionView: UICollectionView!
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+    }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return files.count
+        //return files.count
+    
+        return subjectList.count
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let folder_course_name = subjectList[indexPath.row]
+        
+        var relatedCourseMaterial = [NSDictionary]()
+        
+        
+        for file in files_dict{
+        
+            let fileCourse = file.object(forKey: c.TAG_FILE_COURSE) as! String
+            if fileCourse == folder_course_name {
+                
+                relatedCourseMaterial.append(file)
+                
+            }
+        }
+        
+        UserDefaults.standard.setValue(relatedCourseMaterial, forKey: "savedMaterial")
+        
+        UserDefaults.standard.setValue(folder_course_name, forKey: "course")
+        
+        UserDefaults.standard.setValue(navigationItem.title, forKey: "userID")
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let folderCell = collectionView.dequeueReusableCell(withReuseIdentifier: "FolderCell", for: indexPath) as UICollectionViewCell
+        
+        
+        
+        let course_folder_name = subjectList[indexPath.row]
+        
+        let value = folderCell.contentView.viewWithTag(2) as! UILabel
+        value.adjustsFontSizeToFitWidth = true
+        value.minimumScaleFactor = 0.1
+        value.text = course_folder_name
+        
+        let img = folderCell.contentView.viewWithTag(1) as! UIImageView
+        img.image = UIImage(named: "Folder")
+        
+        
+        /*
         
         let dict_file:NSDictionary = files[indexPath.row] as! NSDictionary
         log.d("index: \(indexPath.row)")
@@ -93,6 +140,10 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
         value.adjustsFontSizeToFitWidth = true
         value.minimumScaleFactor = 0.1
         value.text = dict_file.object(forKey: c.TAG_FILE_NAME) as! String
+        */
+        
+        
+        /*
         
         // Set File image
         let img = folderCell.contentView.viewWithTag(1) as! UIImageView
@@ -108,6 +159,11 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
         else {
             img.image = UIImage(named: "file_unknown")
         }
+ 
+        */
+        
+        
+        
         return folderCell
     }
     
@@ -159,6 +215,7 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
         }
         list_ready = false
         files.removeAllObjects()
+        files_dict.removeAll()
         collectionView.reloadData()
         Appdata.sharedInstance.awsEditor?.getUserFilesListTable(dict_info?.object(forKey: c.TAG_USER_ID) as! String)
         
@@ -179,6 +236,7 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
                 list_ready = true
                 friend_file_list = NSMutableArray(array:Array(item?.object(forKey: c.TAG_FILE_LIST) as! Set<String>))
                 files.removeAllObjects()
+                files_dict.removeAll()
                 for var i in 0..<friend_file_list.count {
                     Appdata.sharedInstance.awsEditor?.getFileInfoByfileId(friend_file_list[i] as! String)
                 }
@@ -189,7 +247,17 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
             
             if item != nil // Item found
             {
+                let subjectName = item?.object(forKey: c.TAG_FILE_COURSE) as! String
                 files.add(item)
+                files_dict.append(item!)
+                
+                if subjectList.contains(subjectName) == false {
+                    
+                    print("======")
+                    print(subjectName)
+                    subjectList.append(subjectName)
+                    
+                }
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
                 }
@@ -241,7 +309,7 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
     
     override func viewWillDisappear(_ animated: Bool) {
         // dismiss delegate
-        //        Appdata.sharedInstance.awsEditor?.delegate = nil
+               Appdata.sharedInstance.awsEditor?.delegate = nil
     }
     
     /*

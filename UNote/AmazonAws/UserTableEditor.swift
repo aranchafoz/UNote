@@ -454,8 +454,18 @@ class UserTableEditor {
                 dict.setObject(result._fileId!, forKey: c.TAG_FILE_ID as NSCopying)
                 dict.setObject(result._userId!, forKey: c.TAG_USER_ID as NSCopying)
                 dict.setObject(result._name!, forKey: c.TAG_FILE_NAME as NSCopying)
-                dict.setObject(result._course!, forKey: c.TAG_FILE_COURSE as NSCopying)
-                dict.setObject(result._fileLink!, forKey: c.TAG_FILE_LINK as NSCopying)
+                if result._course != nil{
+                
+                    
+                    print(result._course)
+                    dict.setObject(result._course!, forKey: c.TAG_FILE_COURSE as NSCopying)
+                }else{
+                    
+                    print(result._course)
+                    dict.setObject("unclassified course", forKey: c.TAG_FILE_COURSE as NSCopying)
+                    
+                }
+                    dict.setObject(result._fileLink!, forKey: c.TAG_FILE_LINK as NSCopying)
                 dict.setObject(result._timestamp!, forKey: c.TAG_FILE_TIMESTAMP as NSCopying)
                 self.delegate?.didGetItemSucceedWithItem(c.TYPE_FILE, item: dict)
                 

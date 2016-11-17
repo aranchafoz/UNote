@@ -21,6 +21,7 @@
 		B638669E1DBC9BC8007FDB7D /* CourseListCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B638669D1DBC9BC8007FDB7D /* CourseListCore.swift */; };
 		B63866A01DBC9DFC007FDB7D /* AddCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B638669F1DBC9DFC007FDB7D /* AddCourseViewController.swift */; };
 		B63866A21DBC9F10007FDB7D /* DetailCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63866A11DBC9F10007FDB7D /* DetailCourseViewController.swift */; };
+		B6C6C7171DDCB1BF0084F964 /* FriendCourseFileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C6C7161DDCB1BF0084F964 /* FriendCourseFileViewController.swift */; };
 		CABB4AC6253ABE4308A96836 /* Pods_UNote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD70A473061689DD8DED4B77 /* Pods_UNote.framework */; };
 		DA16F3BB1DBBB898008D0EC7 /* c.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA16F3BA1DBBB898008D0EC7 /* c.swift */; };
 		DA16F3BD1DBBB90E008D0EC7 /* AWSMobileHubHelper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA16F3BC1DBBB90E008D0EC7 /* AWSMobileHubHelper.framework */; };
@@ -99,6 +100,7 @@
 		B638669D1DBC9BC8007FDB7D /* CourseListCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseListCore.swift; sourceTree = "<group>"; };
 		B638669F1DBC9DFC007FDB7D /* AddCourseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCourseViewController.swift; sourceTree = "<group>"; };
 		B63866A11DBC9F10007FDB7D /* DetailCourseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailCourseViewController.swift; sourceTree = "<group>"; };
+		B6C6C7161DDCB1BF0084F964 /* FriendCourseFileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendCourseFileViewController.swift; sourceTree = "<group>"; };
 		DA16F3BA1DBBB898008D0EC7 /* c.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = c.swift; sourceTree = "<group>"; };
 		DA16F3BC1DBBB90E008D0EC7 /* AWSMobileHubHelper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSMobileHubHelper.framework; path = ../AWSMobileHubHelper.framework; sourceTree = "<group>"; };
 		DA16F3BF1DBBB91F008D0EC7 /* Appdata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Appdata.swift; path = AmazonAws/Appdata.swift; sourceTree = "<group>"; };
@@ -199,6 +201,7 @@
 				64EDA8581DB480F200447189 /* HomeViewController.swift */,
 				64EDA8541DB47F8C00447189 /* CameraViewController.swift */,
 				B638669D1DBC9BC8007FDB7D /* CourseListCore.swift */,
+				B6C6C7161DDCB1BF0084F964 /* FriendCourseFileViewController.swift */,
 				DAABE5711DD876E300D32D3D /* teach.jpg */,
 				64EDA8461DB47BA600447189 /* Main.storyboard */,
 				64EDA8491DB47BA600447189 /* Assets.xcassets */,
@@ -444,6 +447,7 @@
 				64EDA8551DB47F8C00447189 /* CameraViewController.swift in Sources */,
 				DA16F3BB1DBBB898008D0EC7 /* c.swift in Sources */,
 				B63866A21DBC9F10007FDB7D /* DetailCourseViewController.swift in Sources */,
+				B6C6C7171DDCB1BF0084F964 /* FriendCourseFileViewController.swift in Sources */,
 				B638669E1DBC9BC8007FDB7D /* CourseListCore.swift in Sources */,
 				64EDA8411DB47BA600447189 /* AppDelegate.swift in Sources */,
 				64EDA8591DB480F200447189 /* HomeViewController.swift in Sources */,
