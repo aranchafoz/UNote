@@ -287,7 +287,8 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 
                 if cell.backgroundColor == UIColor.white {
                     // Selected cell
-                    cell.backgroundColor = UIColor.darkGray
+                    cell.backgroundColor = UIColor.lightGray
+                    
                 } else {
                     // Deselected cell
                     cell.backgroundColor = UIColor.white
