@@ -17,6 +17,39 @@ class FriendCourseFileViewController: UIViewController, UICollectionViewDelegate
     var userID : String!
     var courseName : String!
     var filesSaved:[NSDictionary] = []
+    var selectedImage:UIImage!
+
+    
+    
+    func longPressed(sender:UILongPressGestureRecognizer){
+        
+        print("long pressed")
+        
+        var passImageToSave = self.selectedImage
+        
+        if passImageToSave != nil {
+            
+            
+            UIImageWriteToSavedPhotosAlbum(passImageToSave!, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+            
+        }
+        
+    }
+    
+    
+    func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+        if let error = error {
+            // we got back an error!
+            let ac = UIAlertController(title: "Save error", message: error.localizedDescription, preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            present(ac, animated: true)
+        } else {
+            let ac = UIAlertController(title: "Saved!", message: "Your altered image has been saved to your photos.", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            present(ac, animated: true)
+        }
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +69,14 @@ class FriendCourseFileViewController: UIViewController, UICollectionViewDelegate
         view.addGestureRecognizer(tap)
         
         
+        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.longPressed(sender:)))
+        
+        
+        
+        view.addGestureRecognizer(longPressRecognizer)
+        
+        
+
         
         
         
@@ -131,6 +172,7 @@ class FriendCourseFileViewController: UIViewController, UICollectionViewDelegate
         expandImage.isHidden = false
         expandImage.backgroundColor = .blue
         
+        self.selectedImage = expandImage.image
         
         
     }
