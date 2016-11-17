@@ -407,9 +407,9 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     @IBOutlet weak var editNoteToolbar: UIToolbar!
     
     @IBAction func addNewNotes(_ sender: Any) {
-        let optionMenu = UIAlertController()
+        let optionMenu = UIAlertController(title: "Add file", message: "What kind of file would you like to add?", preferredStyle: .alert)
         
-        let Action1 = UIAlertAction(title: "-DEMO- Add PNG", style: .default, handler: {(alert: UIAlertAction!) -> Void in
+        let Action1 = UIAlertAction(title: "-DEMO- PNG", style: .default, handler: {(alert: UIAlertAction!) -> Void in
             let fileid:String = String(c.getTimestamp())
             //            let image = UIImage(named: "teach.jpg")
             //            let data = UIImagePNGRepresentation(image!)
@@ -418,7 +418,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             Appdata.sharedInstance.awsEditor?.setFileInfo(fileid, name: fileid+".png", course: "EE4304", fileLink: "/file/")
         })
         
-        let Action2 = UIAlertAction(title: "-DEMO- Add PDF", style: .default, handler: {(alert: UIAlertAction!) -> Void in
+        let Action2 = UIAlertAction(title: "-DEMO- PDF", style: .default, handler: {(alert: UIAlertAction!) -> Void in
             let fileid:String = String(c.getTimestamp())
             Appdata.sharedInstance.myFileList.add(fileid)
             Appdata.sharedInstance.awsEditor?.setFileInfo(fileid, name: fileid+".pdf", course: "EE4304", fileLink: "/file/")
@@ -426,7 +426,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         
         
-        let Action3 = UIAlertAction(title: "-DEMO- Add DOC", style: .default, handler: {(alert: UIAlertAction!) -> Void in
+        let Action3 = UIAlertAction(title: "-DEMO- DOC", style: .default, handler: {(alert: UIAlertAction!) -> Void in
             let fileid:String = String(c.getTimestamp())
             Appdata.sharedInstance.myFileList.add(fileid)
             Appdata.sharedInstance.awsEditor?.setFileInfo(fileid, name: fileid+".doc", course: "EE4304", fileLink: "/file/")
