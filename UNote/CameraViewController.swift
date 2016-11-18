@@ -128,8 +128,8 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
             print("wrong wrong")
             
             
-            let alert = UIAlertController()
-            let action = UIAlertAction(title: "Please enter file name", style: .default, handler: nil)
+            let alert = UIAlertController(title: "Please enter a file name", message: "", preferredStyle: .alert)
+            let action = UIAlertAction(title: "OK", style: .default, handler: nil)
        
             
             alert.addAction(action)
@@ -137,10 +137,25 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
             self.present(alert, animated: false, completion: nil)
             
             return
+            
         }else{
             
-            noteName = filenoteName.text!
-            
+            if imageView.image == UIImage(named: "notebook") {
+                let alert = UIAlertController(title: "Please, select an image before", message: "", preferredStyle: .alert)
+                let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+                
+                
+                alert.addAction(action)
+                
+                self.present(alert, animated: false, completion: nil)
+                
+                return
+                
+            } else {
+                
+                noteName = filenoteName.text!
+                
+            }
         }
 
         
@@ -154,16 +169,16 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         }else if auto_saveImageToCorresspondingFolder == false{
             
-            let alert = UIAlertController()
+            let alert = UIAlertController(title: "Error!", message: "The feature is block beacuse user don't allow the app to use it!", preferredStyle: .alert)
             
-            let action = UIAlertAction(title: "The feature is block beacuse user don't allow the app to use it", style: .default, handler: nil)
+            let action = UIAlertAction(title: "OK", style: .default, handler: nil)
             
             alert.addAction(action)
             
-                    thisFileCourse = "defaultTestCourse"
-        
             self.present(alert, animated: false, completion: nil)
             
+            
+            thisFileCourse = "defaultTestCourse"
             
         }
         
@@ -210,7 +225,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         
         // create the alert
-        let alert = UIAlertController(title: "Saved", message: "Saved image.", preferredStyle: UIAlertControllerStyle.alert)
+        let alert = UIAlertController(title: "Saved", message: "Image has been saved in your Notes!", preferredStyle: UIAlertControllerStyle.alert)
         
         // add an action (button)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
@@ -218,6 +233,8 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         // show the alert
         self.present(alert, animated: true, completion: nil)
         
+        imageView.image = UIImage(named: "notebook")
+        filenoteName.text = nil
         
         
     }
