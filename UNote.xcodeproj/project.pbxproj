@@ -61,6 +61,9 @@
 		DA16F3FD1DBBBBB8008D0EC7 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA16F3FC1DBBBBB8008D0EC7 /* SplashViewController.swift */; };
 		DA16F3FF1DBBBBF1008D0EC7 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA16F3FE1DBBBBF1008D0EC7 /* SignupViewController.swift */; };
 		DA16F4051DBBC7FE008D0EC7 /* AccountTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA16F4041DBBC7FE008D0EC7 /* AccountTable.swift */; };
+		DA563BF31DDF794A00997715 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA563BF21DDF794A00997715 /* CoreImage.framework */; };
+		DA563BF51DDF795100997715 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DA563BF41DDF795100997715 /* libstdc++.tbd */; };
+		DA563BF71DDF795800997715 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA563BF61DDF795800997715 /* CoreGraphics.framework */; };
 		DAABE5721DD876E300D32D3D /* teach.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DAABE5711DD876E300D32D3D /* teach.jpg */; };
 /* End PBXBuildFile section */
 
@@ -128,6 +131,9 @@
 		DA16F3FC1DBBBBB8008D0EC7 /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		DA16F3FE1DBBBBF1008D0EC7 /* SignupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		DA16F4041DBBC7FE008D0EC7 /* AccountTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountTable.swift; sourceTree = "<group>"; };
+		DA563BF21DDF794A00997715 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		DA563BF41DDF795100997715 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
+		DA563BF61DDF795800997715 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		DAABE5711DD876E300D32D3D /* teach.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = teach.jpg; sourceTree = "<group>"; };
 		EC3CECE8279BD19BD7B369F8 /* Pods-UNote.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UNote.debug.xcconfig"; path = "Pods/Target Support Files/Pods-UNote/Pods-UNote.debug.xcconfig"; sourceTree = "<group>"; };
 		FD70A473061689DD8DED4B77 /* Pods_UNote.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UNote.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -138,6 +144,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA563BF71DDF795800997715 /* CoreGraphics.framework in Frameworks */,
+				DA563BF51DDF795100997715 /* libstdc++.tbd in Frameworks */,
+				DA563BF31DDF794A00997715 /* CoreImage.framework in Frameworks */,
 				DA16F3FB1DBBB950008D0EC7 /* libsqlite3.tbd in Frameworks */,
 				DA16F3F91DBBB949008D0EC7 /* libz.tbd in Frameworks */,
 				DA16F3E41DBBB91F008D0EC7 /* AWSCognito.framework in Frameworks */,
@@ -163,6 +172,9 @@
 		3100F91D422984F0F23393BC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DA563BF61DDF795800997715 /* CoreGraphics.framework */,
+				DA563BF41DDF795100997715 /* libstdc++.tbd */,
+				DA563BF21DDF794A00997715 /* CoreImage.framework */,
 				DA16F3FA1DBBB950008D0EC7 /* libsqlite3.tbd */,
 				DA16F3F81DBBB949008D0EC7 /* libz.tbd */,
 				FD70A473061689DD8DED4B77 /* Pods_UNote.framework */,
