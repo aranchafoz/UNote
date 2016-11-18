@@ -1188,7 +1188,7 @@
                             <tableViewSection headerTitle="Your Photos" id="AlK-2u-H35">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="100" id="EIl-un-FsG">
-                                        <rect key="frame" x="0.0" y="56" width="375" height="100"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="375" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EIl-un-FsG" id="ZtZ-LR-0oO">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="99"/>
@@ -1220,7 +1220,7 @@
                             <tableViewSection headerTitle="Personal Data" id="ym0-sZ-Xse">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="Nge-tD-aYC">
-                                        <rect key="frame" x="0.0" y="212" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="211.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Nge-tD-aYC" id="zef-Sy-pe1">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="43"/>
@@ -1249,7 +1249,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="fVp-ed-vJD">
-                                        <rect key="frame" x="0.0" y="256" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="255.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fVp-ed-vJD" id="S56-UZ-CSd">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
@@ -1278,7 +1278,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="hKQ-2y-AhG">
-                                        <rect key="frame" x="0.0" y="300" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="299.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hKQ-2y-AhG" id="fLu-w7-C62">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="43"/>
@@ -1311,7 +1311,7 @@
                             <tableViewSection headerTitle="Academic" id="3ll-KH-iJM">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="ac7-nj-3bl">
-                                        <rect key="frame" x="0.0" y="400" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="399.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ac7-nj-3bl" id="3W4-UU-Fvx">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="43"/>
@@ -1340,7 +1340,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="VaC-MO-9SJ">
-                                        <rect key="frame" x="0.0" y="444" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="443.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VaC-MO-9SJ" id="Bys-uP-5D5">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="43"/>
@@ -1370,7 +1370,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="bgT-Ke-7uu">
-                                        <rect key="frame" x="0.0" y="488" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="487.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bgT-Ke-7uu" id="rht-Lc-omq">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
@@ -1423,7 +1423,7 @@
                             <tableViewSection id="JIb-0H-ijQ">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="44" id="ueg-SZ-SY7">
-                                        <rect key="frame" x="0.0" y="568" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="567.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ueg-SZ-SY7" id="OEf-Sr-gRj">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
@@ -1455,6 +1455,10 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Your Account" id="T62-B2-fzz"/>
                     <connections>
+                        <outlet property="cellCourse" destination="ac7-nj-3bl" id="C4l-UQ-ITp"/>
+                        <outlet property="cellName" destination="Nge-tD-aYC" id="oSa-8i-Bmt"/>
+                        <outlet property="cellPassword" destination="hKQ-2y-AhG" id="Ldl-DI-JZY"/>
+                        <outlet property="cellYearInCourse" destination="VaC-MO-9SJ" id="CLk-aE-ZOp"/>
                         <outlet property="userCourse" destination="d5V-qe-niZ" id="dVG-H6-0nK"/>
                         <outlet property="userMail" destination="sgW-E8-n9s" id="BdY-0C-bBC"/>
                         <outlet property="userName" destination="2d4-o8-TEs" id="fFR-De-5IH"/>

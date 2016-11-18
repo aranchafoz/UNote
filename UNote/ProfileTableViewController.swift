@@ -27,6 +27,13 @@ class ProfileTableViewController: UITableViewController {
         exit(0)
     }
     
+    // Cells Outlets
+    @IBOutlet weak var cellName: UITableViewCell!
+    @IBOutlet weak var cellPassword: UITableViewCell!
+    @IBOutlet weak var cellCourse: UITableViewCell!
+    @IBOutlet weak var cellYearInCourse: UITableViewCell!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -51,7 +58,83 @@ class ProfileTableViewController: UITableViewController {
         userPhoto.layer.cornerRadius = userPhoto.frame.size.height/2
         userPhoto.clipsToBounds = true
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if (indexPath.section == 1 && indexPath.row == 0)
+        {
+            //Do what you want to do.
+            let alert = UIAlertController(title: "Enter Input", message: "", preferredStyle: .alert)
+            
+            alert.addTextField(configurationHandler: configurationUserNameTextField)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Done", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            
+        } else if (indexPath.section == 1 && indexPath.row == 2)
+        {
+            //Do what you want to do.
+            let alert = UIAlertController(title: "Enter Input", message: "", preferredStyle: .alert)
+            
+            alert.addTextField(configurationHandler: configurationUserPasswordTextField)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Done", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            
+        } else if (indexPath.section == 2 && indexPath.row == 0)
+        {
+            //Do what you want to do.
+            let alert = UIAlertController(title: "Enter Input", message: "", preferredStyle: .alert)
+            
+            alert.addTextField(configurationHandler: configurationUserCourseTextField)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Done", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            
+        } else if (indexPath.section == 2 && indexPath.row == 1)
+        {
+            //Do what you want to do.
+            let alert = UIAlertController(title: "Enter Input", message: "", preferredStyle: .alert)
+            
+            alert.addTextField(configurationHandler: configurationUserYearInCourseTextField)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Done", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
 
+    func configurationUserNameTextField(textField: UITextField!)
+    {
+        
+        textField.placeholder = "Enter your name"
+        if textField.text != nil && textField.text != "" {
+            userName.text = textField.text
+        }
+    }
+    
+    func configurationUserPasswordTextField(textField: UITextField!)
+    {
+        
+        textField.placeholder = "Enter your new password"
+    }
+    
+    func configurationUserCourseTextField(textField: UITextField!)
+    {
+        
+        textField.placeholder = "Enter your course"
+        if textField.text != nil && textField.text != "" {
+            userCourse.text = textField.text
+        }
+    }
+    
+    func configurationUserYearInCourseTextField(textField: UITextField!)
+    {
+        
+        textField.placeholder = "Enter your year in course"
+        if textField.text != nil && textField.text != "" {
+            userYearInCourse.text = textField.text
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
