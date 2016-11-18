@@ -8,8 +8,21 @@
 
 import UIKit
 import Cosmos
+import MessageUI
 
-class FriendProfileViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UserTableEditorCallBackProtocol{
+
+extension UIViewController {
+    
+    func alert(message: String, title: String = "") {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let OKAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(OKAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+}
+
+class FriendProfileViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UserTableEditorCallBackProtocol, MFMailComposeViewControllerDelegate{
 
     @IBOutlet weak var profileBackground: UIImageView!
     @IBOutlet weak var profilePicture: UIImageView!
@@ -51,6 +64,10 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
         
         let Action2 = UIAlertAction(title: "Send an email", style: .default, handler: {(alert: UIAlertAction!) -> Void in
         // Send an email to this friend
+            
+            
+           self.sendEmailInvoker()
+            
         })
         
         let Cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: {(alert: UIAlertAction!) -> Void in
@@ -82,6 +99,65 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
     
     @IBOutlet weak var collectionView: UICollectionView!
     
+    
+    
+    func sendEmailInvoker(){
+        
+        let mailComposeviewController = configuredMailComposeViewController()
+        
+        if MFMailComposeViewController.canSendMail(){
+            
+         self.present(mailComposeviewController, animated: true, completion: nil)
+            
+            
+        }else{
+            
+            self.showSendMailErrorAlert()
+        }
+    }
+    
+    
+    func configuredMailComposeViewController() -> MFMailComposeViewController{
+        
+        let mailComposerVC = MFMailComposeViewController()
+        
+        mailComposerVC.mailComposeDelegate = self
+        
+        var user_profile_id = dict_info?.object(forKey: c.TAG_USER_ID) as! String
+        
+        if user_profile_id.contains("@") {
+        
+            
+            mailComposerVC.setToRecipients([user_profile_id])
+            mailComposerVC.setSubject("send test mail")
+            mailComposerVC.setMessageBody("hi", isHTML: false)
+            
+            
+        }else{
+            
+            self.alert(message: "This user have no provide e-mail")
+            
+        }
+        
+        return mailComposerVC
+        
+    }
+    
+    
+    func showSendMailErrorAlert(){
+        
+        
+        let sendMailErrorAlert = UIAlertController(title: "Could not send email", message: "Please check email configuration and try again", preferredStyle: .alert)
+        
+        self.present(sendMailErrorAlert, animated: true, completion: nil)
+    
+        
+    }
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
     }
@@ -108,6 +184,12 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
             if fileCourse == folder_course_name {
                 
                 relatedCourseMaterial.append(file)
+                
+                
+                print("========")
+                print(file.object(forKey: c.TAG_USER_ID))
+                print(file.object(forKey: c.TAG_USER_NAME))
+                
                 
             }
         }

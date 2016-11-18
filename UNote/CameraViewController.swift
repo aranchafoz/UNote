@@ -302,7 +302,10 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
                 if events.count == 1 {
                     
                     userAttendingCourseTitle = events[0].title
-                }else{
+                }else if events.count > 1 {
+                    
+                    
+                    
                     
                     let alertController = UIAlertController(title: "Warning!", message: "Detect at least two lesson on the College Calendar, please delete the unattended course shedule", preferredStyle: .alert)
                     
@@ -315,6 +318,21 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
                     // show the alert
                     self.present(alertController, animated: true, completion: nil)
                 
+                }else if events.count == 0{
+                    
+                    
+                    let alertController = UIAlertController(title: "Warning!", message: "The App could no detect user college calendar", preferredStyle: .alert)
+                    
+                    let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+                    
+                    
+                    alertController.addAction(action)
+                    
+                    
+                    // show the alert
+                    self.present(alertController, animated: true, completion: nil)
+                    
+                    
                 }
                 
                 
@@ -397,6 +415,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         log.d("call this funciton")
         
         if state && itemType == c.TYPE_FILE{
+            
             
             Appdata.sharedInstance.awsEditor?.setUserFilesListTable(Appdata.sharedInstance.myFileList)
             
