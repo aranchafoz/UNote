@@ -128,7 +128,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
             print("wrong wrong")
             
             
-            let alert = UIAlertController(title: "Please enter a file name", message: "", preferredStyle: .alert)
+            let alert = UIAlertController(title: "", message: "Please enter a file name", preferredStyle: .alert)
             let action = UIAlertAction(title: "OK", style: .default, handler: nil)
        
             
@@ -141,7 +141,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         }else{
             
             if imageView.image == UIImage(named: "notebook") {
-                let alert = UIAlertController(title: "Please, select an image before", message: "", preferredStyle: .alert)
+                let alert = UIAlertController(title: "", message: "Please, select an image before", preferredStyle: .alert)
                 let action = UIAlertAction(title: "OK", style: .default, handler: nil)
                 
                 
@@ -243,12 +243,12 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         super.viewDidLoad()
         
         
-        let askCurrentCourseAttendMessage = UIAlertController(title: "Asking", message: "If you want to save your picture corresponding folder, please click OK , otherwise Cancel", preferredStyle: .alert)
+        let askCurrentCourseAttendMessage = UIAlertController(title: "Storage", message: "Do you want to save your picture in corresponding folder?", preferredStyle: .alert)
         
         askAuthorizedAccessCalendar()
         
         
-        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {
+        let okAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default) {
             UIAlertAction in
             print("OK Pressed")
             
@@ -259,7 +259,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
             
         }
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) {
+        let cancelAction = UIAlertAction(title: "No", style: UIAlertActionStyle.destructive) {
             UIAlertAction in
             print("Cancel Pressed")
             
@@ -287,7 +287,6 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         let eventStore = EKEventStore()
         let calendars = eventStore.calendars(for: .event)
-        let alertController = UIAlertController()
         
         for calendar in calendars {
             if calendar.title == "College Calendar" {
@@ -305,11 +304,16 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
                     userAttendingCourseTitle = events[0].title
                 }else{
                     
-                    let action = UIAlertAction(title: "Detect at least two lesson on the College Calendar, please delete the unattended course shedule", style: .default, handler: nil)
+                    let alertController = UIAlertController(title: "Warning!", message: "Detect at least two lesson on the College Calendar, please delete the unattended course shedule", preferredStyle: .alert)
+                    
+                    let action = UIAlertAction(title: "OK", style: .default, handler: nil)
                     
                     
                     alertController.addAction(action)
                 
+                    
+                    // show the alert
+                    self.present(alertController, animated: true, completion: nil)
                 
                 }
                 
