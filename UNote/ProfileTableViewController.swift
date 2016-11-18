@@ -60,8 +60,7 @@ class ProfileTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if (indexPath.section == 1 && indexPath.row == 0)
-        {
+        if (indexPath.section == 1 && indexPath.row == 0) {
             //Do what you want to do.
             let alert = UIAlertController(title: "Enter Input", message: "", preferredStyle: .alert)
             
@@ -70,8 +69,7 @@ class ProfileTableViewController: UITableViewController {
             alert.addAction(UIAlertAction(title: "Done", style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
             
-        } else if (indexPath.section == 1 && indexPath.row == 2)
-        {
+        } else if (indexPath.section == 1 && indexPath.row == 2) {
             //Do what you want to do.
             let alert = UIAlertController(title: "Enter Input", message: "", preferredStyle: .alert)
             
@@ -80,8 +78,7 @@ class ProfileTableViewController: UITableViewController {
             alert.addAction(UIAlertAction(title: "Done", style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
             
-        } else if (indexPath.section == 2 && indexPath.row == 0)
-        {
+        } else if (indexPath.section == 2 && indexPath.row == 0) {
             //Do what you want to do.
             let alert = UIAlertController(title: "Enter Input", message: "", preferredStyle: .alert)
             
@@ -90,8 +87,7 @@ class ProfileTableViewController: UITableViewController {
             alert.addAction(UIAlertAction(title: "Done", style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
             
-        } else if (indexPath.section == 2 && indexPath.row == 1)
-        {
+        } else if (indexPath.section == 2 && indexPath.row == 1) {
             //Do what you want to do.
             let alert = UIAlertController(title: "Enter Input", message: "", preferredStyle: .alert)
             
@@ -99,6 +95,12 @@ class ProfileTableViewController: UITableViewController {
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             alert.addAction(UIAlertAction(title: "Done", style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
+        } else if(indexPath.section == 3 && indexPath.row == 0) {
+            // Facebook connection account
+        } else if (indexPath.section == 3 && indexPath.row == 1) {
+            // Twitter connection account
+        } else if (indexPath.section == 3 && indexPath.row == 2) {
+            // Google Plus connection account
         }
     }
 

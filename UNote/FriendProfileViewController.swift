@@ -30,6 +30,7 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
     @IBOutlet weak var txt_major: UILabel!
     @IBOutlet weak var txt_yr: UILabel!
     @IBOutlet weak var btn_follow: UIButton!
+    @IBOutlet weak var label_follow: UILabel!
     
     @IBOutlet weak var friendRatingPoints: UILabel!
     @IBOutlet weak var friendRatingStar: CosmosView!
@@ -253,8 +254,7 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
         return folderCell
     }
     
-    @IBAction func pressed_follow(_ sender: AnyObject) {
-        
+    @IBAction func follow(_ sender: Any) {
         if Appdata.sharedInstance.mySubsList.contains(dict_info?.object(forKey: c.TAG_USER_ID) as! String) {
             // Unfollow this friend
             let tempFriends:NSMutableArray = NSMutableArray(array:Array(Appdata.sharedInstance.mySubsList))
@@ -262,16 +262,19 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
                 if (tempFriends[i] as! String) == (self.dict_info?.object(forKey: c.TAG_USER_ID) as! String) {
                     tempFriends.removeObject(at: i)
                     Appdata.sharedInstance.awsEditor?.setSubscribleList(tempFriends)
+                    
+                    btn_follow.setImage(UIImage(named: "Add Friend"), for: .normal)
+                    label_follow.text = "Add to My Friends"
                     break;
                 }
             }
+            
         }
         else {
             let tempFriends:NSMutableArray = NSMutableArray(array:Array(Appdata.sharedInstance.mySubsList))
             tempFriends.add(self.dict_info?.object(forKey: c.TAG_USER_ID) as! String)
             Appdata.sharedInstance.awsEditor?.setSubscribleList(tempFriends)
         }
-        
     }
     
     override func viewDidLoad() {
@@ -315,9 +318,11 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
                 txt_yr.text = "\(yr)th"
             }
             if Appdata.sharedInstance.mySubsList.contains(dict_info?.object(forKey: c.TAG_USER_ID) as! String) {
-                btn_follow.setBackgroundImage(UIImage(named:"tick_blue"), for: .normal)
+                btn_follow.setImage(UIImage(named: "Quit Friend"), for: .normal)
+                label_follow.text = "Quit of My Friends"
             } else {
-                btn_follow.setBackgroundImage(UIImage(named:"add_green"), for: .normal)
+                btn_follow.setImage(UIImage(named:"Add Friend"), for: .normal)
+                label_follow.text = "Add to My Friends"
             }
         }
         list_ready = false
@@ -393,9 +398,11 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
             
             DispatchQueue.main.async {
                 if Appdata.sharedInstance.mySubsList.contains(self.dict_info?.object(forKey: c.TAG_USER_ID) as! String) {
-                    self.btn_follow.setBackgroundImage(UIImage(named:"tick_blue"), for: .normal)
+                    self.btn_follow.setImage(UIImage(named:"Quit Friend"), for: .normal)
+                    self.label_follow.text = "Quit of My Friends"
                 } else {
-                    self.btn_follow.setBackgroundImage(UIImage(named:"add_green"), for: .normal)
+                    self.btn_follow.setImage(UIImage(named:"Add Friend"), for: .normal)
+                    self.label_follow.text = "Add to My Friends"
                 }
             }
             
