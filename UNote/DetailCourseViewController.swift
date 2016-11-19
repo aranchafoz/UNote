@@ -179,7 +179,7 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as UICollectionViewCell
 
-        var prefix = "public/"
+        let prefix = "public/"
         
         if self.searchBarAction {
             
