@@ -13,13 +13,31 @@ class TestBlankViewController: UIViewController, UserUploadDownloadCallBackProto
     @IBOutlet weak var imageview: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        /********************************************/
+        /********************************************/
+        /*
+                Note that the fileID is different 
+                from file name!!!!
+                the ID must be unique
+                
+                for ur use, please store the file's info like id, name, type, date....
+                in FilesTable
+         
+                upload the file info with setFileInfo() function,
+                upload the actual file with uploadFile() function
+         */
+        /********************************************/
+        /********************************************/
+        
+        // upload code
 //        let testimage = UIImage(named: "testImage.jpg")
 //        let imagedata = UIImagePNGRepresentation(testimage!)!
 //        Appdata.sharedInstance.awsEditor?.uploadFile(data: imagedata as NSData, fileid: "yoooooo")
         
+        // download code
         Appdata.sharedInstance.awsEditor?.downloadFile(fileid: "public/heyheyhey")
         Appdata.sharedInstance.awsEditor?.fileManager = self
-        // Do any additional setup after loading the view.
     }
     
     func didUploadFileSucceedWith(_ fileid:String){
