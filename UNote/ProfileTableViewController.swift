@@ -9,7 +9,7 @@
 import UIKit
 import Cosmos
 
-class ProfileTableViewController: UITableViewController {
+class ProfileTableViewController: UITableViewController , UserTableEditorCallBackProtocol{
 
     @IBOutlet weak var userPhoto: UIImageView!
    
@@ -27,11 +27,205 @@ class ProfileTableViewController: UITableViewController {
         exit(0)
     }
     
+    @IBOutlet weak var emailCell: UITableViewCell!
     // Cells Outlets
     @IBOutlet weak var cellName: UITableViewCell!
     @IBOutlet weak var cellPassword: UITableViewCell!
     @IBOutlet weak var cellCourse: UITableViewCell!
     @IBOutlet weak var cellYearInCourse: UITableViewCell!
+     var userProfileDict:NSDictionary!
+    
+    
+    
+    
+    func didGetItemFailedWithError(_ itemType: String, error: String) {
+        
+    }
+    
+    func didGetItemSucceedWithItem(_ itemType: String, item: NSDictionary?) {
+        
+        
+        if itemType == c.TYPE_USER_INFO {
+            
+            
+            if item != nil {
+                
+                
+                userProfileDict = item
+                
+                print("=====")
+                
+                print(userProfileDict)
+                
+                
+                setProfileInformation()
+                
+                
+                
+            }else{
+                
+                
+            }
+            
+            
+        }else{
+            
+            
+            
+        }
+        
+    }
+    
+    
+    func setProfileInformation(){
+        
+        
+        
+        let name = userProfileDict.object(forKey:c.TAG_USER_NAME)
+        
+        
+        if name != nil {
+            
+            let nameLabel = cellName.contentView.viewWithTag(1) as! UILabel
+            
+            nameLabel.text = name as? String
+            
+        }
+        
+        
+        let userID = userProfileDict.object(forKey: c.TAG_USER_ID) as! String
+        
+        
+        if userID.contains("@") {
+            
+            
+            
+            let userIDLabel = emailCell.contentView.viewWithTag(1) as! UILabel
+            
+            userIDLabel.text = userID
+            
+            
+        }else if !userID.contains("@"){
+            
+            
+            
+            
+            
+        }
+        
+        let yearJoin = userProfileDict.object(forKey: c.TAG_JOIN_YR) as! Int
+        
+        
+        
+        
+        if yearJoin != 0 {
+            
+            
+            let yearLabel = cellYearInCourse.contentView.viewWithTag(1) as! UILabel
+            
+            
+            yearLabel.text = String(yearJoin)
+            
+            
+        }
+        
+        
+        
+        
+        
+        
+        
+        let userCourse = userProfileDict.object(forKey: c.TAG_USER_COURSE_LIST)
+        
+        print(userCourse)
+        
+        print("Type of")
+        print(type(of: userCourse))
+        
+        if userCourse != nil{
+            
+            let courseLabel = cellCourse.contentView.viewWithTag(1) as! UILabel
+            
+            
+            //courseLabel.text = userCourse as! String
+            
+            
+            let course = userCourse as AnyObject
+            
+            print("+++")
+            print(course)
+            
+            
+            
+            courseLabel.text = "China business"
+            
+            
+            /*
+             
+             if let cast = course as? String{
+             
+             courseLabel.text = cast
+             
+             }else{
+             
+             
+             var castCourse = String(describing: course)
+             
+             castCourse = castCourse.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+             
+             
+             courseLabel.text = String(describing: castCourse)
+             
+             }
+             */
+            
+            
+            
+            
+        }else{
+            
+            print("Error")
+        }
+        
+        
+        
+        
+    }
+    
+    
+    func didSetItemWith(_ state: Bool, itemType: String) {
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        
+        Appdata.sharedInstance.awsEditor?.delegate = self
+        
+        Appdata.sharedInstance.awsEditor?.getUserInfoById((Appdata.sharedInstance.awsEditor?.getUserIdentity())!)
+        
+        
+        
+        
+        
+        
+        
+    }
+    
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        Appdata.sharedInstance.awsEditor?.delegate = nil
+        
+        
+        
+    }
+    
+
+    
+    
     
     
     override func viewDidLoad() {
