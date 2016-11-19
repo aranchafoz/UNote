@@ -67,7 +67,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         //return files.count
         
         
-        var removedFileList = UserDefaults.standard.value(forKey: "UserRemoveSubjectFolderList") as! [String]
+        if let removedFileList = UserDefaults.standard.value(forKey: "UserRemoveSubjectFolderList") as? [String] {
         
         
         for folder in removedFileList {
@@ -84,6 +84,9 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 subjectList.remove(at: idx)
             }
             
+            
+        }
+        
             
         }
         
@@ -505,7 +508,8 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     @IBAction func deleteFiles(_ sender: Any) {
         
         
-        if editModeEnabled{
+        if editModeEnabled && selectedFolder != nil{
+            
             
             
             let deletedTargetFolderLabel = selectedFolder.contentView.viewWithTag(2) as! UILabel
