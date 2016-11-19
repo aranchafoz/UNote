@@ -64,6 +64,7 @@
 		DA563BF31DDF794A00997715 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA563BF21DDF794A00997715 /* CoreImage.framework */; };
 		DA563BF51DDF795100997715 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DA563BF41DDF795100997715 /* libstdc++.tbd */; };
 		DA563BF71DDF795800997715 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA563BF61DDF795800997715 /* CoreGraphics.framework */; };
+		DAA0F9D81DE049FB008B64AD /* TestBlankViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA0F9D71DE049FB008B64AD /* TestBlankViewController.swift */; };
 		DAABE5721DD876E300D32D3D /* teach.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DAABE5711DD876E300D32D3D /* teach.jpg */; };
 /* End PBXBuildFile section */
 
@@ -134,6 +135,7 @@
 		DA563BF21DDF794A00997715 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		DA563BF41DDF795100997715 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 		DA563BF61DDF795800997715 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		DAA0F9D71DE049FB008B64AD /* TestBlankViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestBlankViewController.swift; sourceTree = "<group>"; };
 		DAABE5711DD876E300D32D3D /* teach.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = teach.jpg; sourceTree = "<group>"; };
 		EC3CECE8279BD19BD7B369F8 /* Pods-UNote.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UNote.debug.xcconfig"; path = "Pods/Target Support Files/Pods-UNote/Pods-UNote.debug.xcconfig"; sourceTree = "<group>"; };
 		FD70A473061689DD8DED4B77 /* Pods_UNote.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UNote.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -218,6 +220,7 @@
 				B638669D1DBC9BC8007FDB7D /* CourseListCore.swift */,
 				B6C6C7161DDCB1BF0084F964 /* FriendCourseFileViewController.swift */,
 				DAABE5711DD876E300D32D3D /* teach.jpg */,
+				DAA0F9D71DE049FB008B64AD /* TestBlankViewController.swift */,
 				64EDA8461DB47BA600447189 /* Main.storyboard */,
 				64EDA8491DB47BA600447189 /* Assets.xcassets */,
 				64EDA8401DB47BA600447189 /* AppDelegate.swift */,
@@ -464,6 +467,7 @@
 				DA16F3BB1DBBB898008D0EC7 /* c.swift in Sources */,
 				B63866A21DBC9F10007FDB7D /* DetailCourseViewController.swift in Sources */,
 				B6C6C7171DDCB1BF0084F964 /* FriendCourseFileViewController.swift in Sources */,
+				DAA0F9D81DE049FB008B64AD /* TestBlankViewController.swift in Sources */,
 				B638669E1DBC9BC8007FDB7D /* CourseListCore.swift in Sources */,
 				64EDA8411DB47BA600447189 /* AppDelegate.swift in Sources */,
 				64EDA8591DB480F200447189 /* HomeViewController.swift in Sources */,

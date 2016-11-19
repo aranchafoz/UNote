@@ -20,7 +20,14 @@ protocol UserTableEditorCallBackProtocol {
     func didSetItemWith(_ state:Bool, itemType:String)
     func didGetItemSucceedWithItem(_ itemType:String, item:NSDictionary?)
     func didGetItemFailedWithError(_ itemType:String, error:String)
+}
+
+protocol UserUploadDownloadCallBackProtocol {
+    func didUploadFileSucceedWith(_ fileid:String)
+    func didUploadFileFailedWith(_ fileid:String, error:String)
     
+    func didDownloadFileSucceedWith(_ fileid:String, data:NSData)
+    func didDownloadFileFailedWith(_ fileid:String, error:String)
 }
 
 class UserTableEditor {
@@ -81,6 +88,7 @@ class UserTableEditor {
     
     var loginer:UserLoginProtocol?
     var delegate:UserTableEditorCallBackProtocol?
+    var fileManager:UserUploadDownloadCallBackProtocol?
     
     func getListOfUsers(){
         
@@ -455,7 +463,7 @@ class UserTableEditor {
                 dict.setObject(result._userId!, forKey: c.TAG_USER_ID as NSCopying)
                 dict.setObject(result._name!, forKey: c.TAG_FILE_NAME as NSCopying)
                 if result._course != nil{
-                
+                    
                     
                     print(result._course)
                     dict.setObject(result._course!, forKey: c.TAG_FILE_COURSE as NSCopying)
@@ -504,7 +512,7 @@ class UserTableEditor {
         let numDate = Int64(s)
         
         itemToCreate?._timestamp = NSNumber(value: numDate!)
-       
+        
         
         let config:AWSDynamoDBObjectMapperConfiguration = AWSDynamoDBObjectMapperConfiguration()
         config.saveBehavior = AWSDynamoDBObjectMapperSaveBehavior.update
@@ -576,39 +584,47 @@ class UserTableEditor {
     
     /* File upload/ download */
     
-    public func uploadWithData(data: NSData, forKey key: String) {
-        let manager = AWSUserFileManager.defaultUserFileManager()
+    let prefix = "public"
+    public func uploadFile(data: NSData, fileid:String){
+        //        let key: String = "\(self.prefix)\(specifiedKey)"
+        let key: String = "\(self.prefix)/file_id"
+        
+        let manager: AWSUserFileManager! = AWSUserFileManager.defaultUserFileManager()
         let localContent = manager.localContent(with: data as Data, key: key)
-        localContent.uploadWithPin(
-            onCompletion: false,
-            progressBlock: {[weak self](content: AWSLocalContent?, progress: Progress?) -> Void in
-                /* Show progress in UI. */
-            },
-            completionHandler: {[weak self](content: AWSLocalContent?, error: Error?) -> Void in
+        
+        localContent.uploadWithPin(onCompletion: true, progressBlock: {[weak self](content: AWSLocalContent?, progress: Progress?) -> Void in
+            if let progress = progress {
+                log.d("uploading... \(progress.completedUnitCount)/\(progress.totalUnitCount)")
+            }
+            
+            }, completionHandler: {(content: AWSContent?, error: Error?) -> Void in
                 if let error = error {
-                    print("Failed to upload an object. \(error)")
-                } else {
-                    print("Object upload complete. \(error)")
-                    self?.downloadContent(content: content! as! AWSContent, pinOnCompletion: true)
-                }
-            })
-    }
-    
-    public func downloadContent(content: AWSContent, pinOnCompletion: Bool) {
-        content.download(
-            with: .ifNewerExists,
-            pinOnCompletion: pinOnCompletion,
-            progressBlock: {[weak self](content: AWSContent?, progress: Progress?) -> Void in
-                /* Show progress in UI. */
-            },
-            completionHandler: {(content: AWSContent?, data: Data?, error: Error?) -> Void in
-                if let error = error {
-                    print("Failed to download a content from a server. \(error)")
+                    log.d("Failed to upload an object. \(error)")
+                    self.fileManager?.didUploadFileFailedWith(fileid, error: error.localizedDescription)
                     return
+                } else {
+                    log.d("Upload Succeed.")
+                    self.fileManager?.didUploadFileSucceedWith(fileid)
                 }
-                print("Object download complete.")
-                
-            })
+        })
     }
     
+    public func downloadFile(fileid:String){
+        
+        let contentManager:AWSContentManager! = AWSContentManager.defaultContentManager()
+        let content = contentManager.content(withKey: fileid)
+        content.download(with: .always, pinOnCompletion: false, progressBlock: { (content:AWSContent, progress:Progress?) in
+            if let progress = progress {
+                log.d("downloading... \(progress.completedUnitCount)/\(progress.totalUnitCount)")
+            }
+        }) { (content:AWSContent?, data:Data?, error:Error?) in
+            if let error = error {
+                log.d("Download failed, \(error)")
+                self.fileManager?.didDownloadFileFailedWith(fileid, error: error.localizedDescription)
+                return
+            }
+            log.d("Download Succeed")
+            self.fileManager?.didDownloadFileSucceedWith(fileid, data: NSData(data: data!))
+        }
+    }
 }
