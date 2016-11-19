@@ -72,12 +72,35 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         
     }
     
+    var standardImg:UIImage!
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    
+        print("====")
+        print(info.debugDescription)
+    
+        if let selectedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            
+            standardImg = selectedImage
+            
+            imageView.image = standardImg
+            
+            
+        }else if let selectedImage = info[UIImagePickerControllerEditedImage] as? UIImage{
+            standardImg = selectedImage
+            imageView.image = standardImg
+            
+        }else{
         
-        let selectedImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+            
+            
+            print("errrr")
+        
+        }
         
         
-        imageView.image = selectedImage
+        
+        
         
         
         // do stuff in this function
@@ -92,6 +115,10 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         
     }
+ 
+    
+    
+ 
     
     
     @IBAction func saveButton(_ sender: AnyObject) {

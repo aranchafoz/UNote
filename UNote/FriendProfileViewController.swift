@@ -150,6 +150,11 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
         
         let sendMailErrorAlert = UIAlertController(title: "Could not send email", message: "Please check email configuration and try again", preferredStyle: .alert)
         
+        let actionCancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        sendMailErrorAlert.addAction(actionCancel)
+        
+        
         self.present(sendMailErrorAlert, animated: true, completion: nil)
     
         

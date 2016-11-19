@@ -2,7 +2,7 @@
 //  CourseList+CoreDataProperties.swift
 //  
 //
-//  Created by SUNGKAHO on 29/10/2016.
+//  Created by SUNGKAHO on 20/11/2016.
 //
 //  This file was automatically generated and should not be edited.
 //
