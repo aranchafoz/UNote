@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HomeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource,UISearchBarDelegate, UserTableEditorCallBackProtocol {
+class HomeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource,UISearchBarDelegate, UserTableEditorCallBackProtocol ,UserUploadDownloadCallBackProtocol{
     
     // data source
     let files:NSMutableArray = []
@@ -218,6 +218,15 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
     }
     
+    
+    func didDownloadFileFailedWith(_ fileid: String, error: String) {
+        
+    }
+    
+    func didDownloadFileSucceedWith(_ fileid: String, data: NSData) {
+        
+    }
+    
     func didGetItemSucceedWithItem(_ itemType:String, item:NSDictionary?){
         log.d("Get Succeed, \(itemType)")
         
@@ -282,6 +291,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     override func viewWillAppear(_ animated: Bool) {
         // setup delegate
         Appdata.sharedInstance.awsEditor?.delegate = self
+        Appdata.sharedInstance.awsEditor?.fileManager = self
         list_ready = false
         files.removeAllObjects()
         
@@ -295,6 +305,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     override func viewWillDisappear(_ animated: Bool) {
         // dismiss delegate
         Appdata.sharedInstance.awsEditor?.delegate = nil
+        Appdata.sharedInstance.awsEditor?.fileManager = nil
     }
     
     @IBAction func editButtonPressed(_ sender: AnyObject) {
@@ -447,6 +458,14 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
     }
     
+    func didUploadFileFailedWith(_ fileid: String, error: String) {
+        print("failed")
+    }
+    
+    func didUploadFileSucceedWith(_ fileid: String) {
+        
+        print("********")
+    }
     
     //
     // TOOLBAR - Edit View Mode
@@ -468,6 +487,22 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             //            Appdata.sharedInstance.awsEditor?.uploadWithData(data: data! as NSData, forKey: "abcabcabc")
             Appdata.sharedInstance.myFileList.add(fileid)
             Appdata.sharedInstance.awsEditor?.setFileInfo(fileid, name: fileid+".png", course: "EE4304", fileLink: "/file/")
+            
+            
+            
+            
+            let testimage = UIImage(named: "profilePicture")
+            let imagedata = UIImagePNGRepresentation(testimage!)!
+            
+            
+            
+            Appdata.sharedInstance.awsEditor?.uploadFile(data: imagedata as NSData, fileid: fileid)
+            
+            
+            
+            
+            
+            
         })
         
         let Action2 = UIAlertAction(title: "-DEMO- PDF", style: .default, handler: {(alert: UIAlertAction!) -> Void in

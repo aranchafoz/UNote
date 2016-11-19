@@ -9,7 +9,7 @@
 import UIKit
 
 
-class DetailCourseViewController: UIViewController, UICollectionViewDataSource,UISearchBarDelegate, UICollectionViewDelegate, UserTableEditorCallBackProtocol {
+class DetailCourseViewController: UIViewController, UICollectionViewDataSource,UISearchBarDelegate, UICollectionViewDelegate, UserTableEditorCallBackProtocol,UserUploadDownloadCallBackProtocol {
     @IBOutlet weak var notePhotoCollection: UICollectionView!
     var list_ready = false
     var filesInThisCourse : NSMutableArray = []
@@ -18,16 +18,42 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
     @IBOutlet weak var searchBar: UISearchBar!
     
     var refresher : UIRefreshControl!
-    var dataSource:[String]=[]
-    var dataSourceForSearchResult:[String]=[]
-
+    var dataSource: [NSDictionary] = []
+    var dataSourceForSearchResult: [NSDictionary] = []
+    var imageDataSetDict:NSMutableDictionary = [:]
+    
+    func didUploadFileSucceedWith(_ fileid: String) {
+        
+    }
+    
+    func didUploadFileFailedWith(_ fileid: String, error: String) {
+        
+    }
+    func didDownloadFileSucceedWith(_ fileid: String, data: NSData) {
+        
+        imageDataSetDict[fileid] = data
+        
+        print("========")
+        print(fileid)
+        
+        
+        
+    }
+    
+    
+    func didDownloadFileFailedWith(_ fileid: String, error: String) {
+        
+        print("shshsh")
+        print(fileid)
+        print(error)
+    }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         
-        self.dataSourceForSearchResult = [String]()
+
         
         self.searchBar.delegate = self
         
@@ -73,13 +99,15 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
         
         // setup delegate
         Appdata.sharedInstance.awsEditor?.delegate = self
-        
+        Appdata.sharedInstance.awsEditor?.fileManager = self
         notePhotoCollection.reloadData()
         
         
     Appdata.sharedInstance.awsEditor?.getUserFilesListTable(Appdata.sharedInstance.myUserID)
         
         
+        
+            notePhotoCollection.reloadData()
         
         
         
@@ -91,7 +119,7 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
         super.viewWillDisappear(animated)
         
         Appdata.sharedInstance.awsEditor?.delegate = nil
-        
+        Appdata.sharedInstance.awsEditor?.fileManager = nil
     }
     
     
@@ -151,34 +179,74 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as UICollectionViewCell
 
+        var prefix = "public/"
+        
         if self.searchBarAction {
             
-            let note = self.dataSourceForSearchResult[indexPath.row]
+            let note = self.dataSourceForSearchResult[indexPath.row] as! NSMutableDictionary
             
-            var img = cell.contentView.viewWithTag(1) as! UIImageView
+            let fileId = note.object(forKey: c.TAG_FILE_ID) as! String
+            
+            
+            
+            let fileName = note.object(forKey: c.TAG_FILE_NAME) as! String
+            
+            let img = cell.contentView.viewWithTag(1) as! UIImageView
             
             let imag_identity = cell.contentView.viewWithTag(2) as! UILabel
             
-            img.image = UIImage(named: "Note")
             
-            imag_identity.text = note
-        
+            if let noteImageDownloaded :NSData = imageDataSetDict.object(forKey: prefix+fileId) as? NSData{
+            
+                
+                img.image = UIImage(data: noteImageDownloaded as Data)
+                
+                
+                
+            }else{
+                img.image = UIImage(named: "Folder")
+            }
+            
+            
+            imag_identity.text = fileName
+
+            
+            
+            
         }else if self.searchBarAction == false {
             
         
             
             
-            let noteItem = dataSource[indexPath.row]
+            let note = self.dataSource[indexPath.row] as! NSMutableDictionary
             
+            let fileId = note.object(forKey: c.TAG_FILE_ID) as! String
             
-            var img = cell.contentView.viewWithTag(1) as! UIImageView
+            let fileName = note.object(forKey: c.TAG_FILE_NAME) as! String
+            
+            let img = cell.contentView.viewWithTag(1) as! UIImageView
             
             let imag_identity = cell.contentView.viewWithTag(2) as! UILabel
             
-            img.image = UIImage(named: "Note")
+            
+            if let noteImageDownloaded :NSData = imageDataSetDict.object(forKey: prefix+fileId) as? NSData{
+                
+                
+                img.image = UIImage(data: noteImageDownloaded as Data)
+                
+                
+                
+            }else{
+                
+                print("ffffffffff")
+                img.image = UIImage(named: "Folder")
+            }
             
             
-            imag_identity.text = noteItem
+            imag_identity.text = fileName
+
+            
+            
             
             
         }
@@ -204,10 +272,18 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
             print((selectedCell.contentView.viewWithTag(2) as! UILabel).text)
             
             let expandImage = self.view.viewWithTag(3) as! UIImageView
+        
+            let selectedImageView = selectedCell.contentView.viewWithTag(1) as! UIImageView
+        
+            let selectedImage = selectedImageView.image
+        
+        
+        
             
+            expandImage.image = selectedImage
             
-            expandImage.image = UIImage(named: "Friends")
-            
+
+        
             expandImage.isHidden = false
         
         
@@ -241,7 +317,6 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
                 
                 Appdata.sharedInstance.myFileList = NSMutableArray(array: Array(item?.object(forKey: c.TAG_FILE_LIST) as! Set<String>))
 
-                print("shit")
                 filesInThisCourse.removeAllObjects()
                 
                 for var i in 0..<Appdata.sharedInstance.myFileList.count{
@@ -265,16 +340,23 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
                 let itemCourse = item?.object(forKey: c.TAG_FILE_COURSE) as! String
                 if itemCourse == self.thisCourseTitle {
                 
-                    print("shit2")
                     
                     filesInThisCourse.add(item)
                     
-                    let str = item?.object(forKey: c.TAG_FILE_NAME) as! String
                     
-                    dataSource.append(str)
+                    let fileId = item?.object(forKey: c.TAG_FILE_ID) as! String
                     
                     
-                
+                    //let str = item?.object(forKey: c.TAG_FILE_NAME) as! String
+                    
+                    //dataSource.append(str)
+                    
+                    dataSource.append(item!)
+                    
+                    Appdata.sharedInstance.awsEditor?.downloadFile(fileid: fileId)
+                    
+                    
+                    
                 }else{
                     print("this item is not from this course")
                     
@@ -375,13 +457,25 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
     
     
     func filterContentForSearchText(searchText:String){
+        /*
         self.dataSourceForSearchResult = self.dataSource.filter({ (text:String) -> Bool in
             //return text.contains(searchText)
         
             return text.lowercased().range(of: searchText.lowercased()) != nil
         })
+        */
         
+        self.dataSourceForSearchResult = self.dataSource.filter({
+            (item:NSDictionary) -> Bool in
+            
+            return (item.object(forKey: c.TAG_FILE_NAME) as! String).lowercased().range(of: searchText.lowercased()) != nil
+        })
 
+        
+        
+        
+        
+        
         
     }
     

@@ -584,10 +584,10 @@ class UserTableEditor {
     
     /* File upload/ download */
     
-    let prefix = "public"
+    var prefix = "public/"
     public func uploadFile(data: NSData, fileid:String){
         //        let key: String = "\(self.prefix)\(specifiedKey)"
-        let key: String = "\(self.prefix)/file_id"
+        let key: String = "\(self.prefix)\(fileid)"
         
         let manager: AWSUserFileManager! = AWSUserFileManager.defaultUserFileManager()
         let localContent = manager.localContent(with: data as Data, key: key)
@@ -611,8 +611,11 @@ class UserTableEditor {
     
     public func downloadFile(fileid:String){
         
+        var localfileid = "\(self.prefix)\(fileid)"
+        
+        
         let contentManager:AWSContentManager! = AWSContentManager.defaultContentManager()
-        let content = contentManager.content(withKey: fileid)
+        let content = contentManager.content(withKey: localfileid)
         content.download(with: .always, pinOnCompletion: false, progressBlock: { (content:AWSContent, progress:Progress?) in
             if let progress = progress {
                 log.d("downloading... \(progress.completedUnitCount)/\(progress.totalUnitCount)")
@@ -620,11 +623,11 @@ class UserTableEditor {
         }) { (content:AWSContent?, data:Data?, error:Error?) in
             if let error = error {
                 log.d("Download failed, \(error)")
-                self.fileManager?.didDownloadFileFailedWith(fileid, error: error.localizedDescription)
+                self.fileManager?.didDownloadFileFailedWith(localfileid, error: error.localizedDescription)
                 return
             }
             log.d("Download Succeed")
-            self.fileManager?.didDownloadFileSucceedWith(fileid, data: NSData(data: data!))
+            self.fileManager?.didDownloadFileSucceedWith(localfileid, data: NSData(data: data!))
         }
     }
 }
