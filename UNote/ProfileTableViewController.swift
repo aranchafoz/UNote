@@ -37,7 +37,6 @@ class ProfileTableViewController: UITableViewController , UserTableEditorCallBac
     
     
     
-    
     func didGetItemFailedWithError(_ itemType: String, error: String) {
         
     }
@@ -171,33 +170,18 @@ class ProfileTableViewController: UITableViewController , UserTableEditorCallBac
             //courseLabel.text = userCourse as! String
             
             
-            let course = userCourse as AnyObject
+            let course = userCourse as! Set<String>
             
             print("++++++")
             print(course)
             
-            courseLabel.text = "Not privided"
-        
-            cellCourse.reloadInputViews()
+            let courseArr = [String](course)
+            courseLabel.text = courseArr[0]
             
-            /*
-             
-             if let cast = course as? String{
-             
-             courseLabel.text = cast
-             
-             }else{
-             
-             
-             var castCourse = String(describing: course)
-             
-             castCourse = castCourse.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-             
-             
-             courseLabel.text = String(describing: castCourse)
-             
-             }
-             */
+        
+            
+            
+            cellCourse.reloadInputViews()
             
             
             
@@ -214,7 +198,10 @@ class ProfileTableViewController: UITableViewController , UserTableEditorCallBac
     
     
     func didSetItemWith(_ state: Bool, itemType: String) {
+     
         
+        print("&&&&&&&&&")
+        print(state)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -280,6 +267,7 @@ class ProfileTableViewController: UITableViewController , UserTableEditorCallBac
             alert.addAction(UIAlertAction(title: "Done", style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
             
+            
         } else if (indexPath.section == 1 && indexPath.row == 2) {
             //Do what you want to do.
             let alert = UIAlertController(title: "Enter Input", message: "", preferredStyle: .alert)
@@ -318,16 +306,35 @@ class ProfileTableViewController: UITableViewController , UserTableEditorCallBac
     func configurationUserNameTextField(textField: UITextField!)
     {
         
+        
+        print("ffffffff")
         textField.placeholder = "Enter your name"
         if textField.text != nil && textField.text != "" {
             userName.text = textField.text
+            
+        
+            
+            
+            let original_courseList = self.userProfileDict.object(forKey: c.TAG_USER_COURSE_LIST)
+            let timeStamp = c.getTimestamp()
+            let jointYr = self.userProfileDict.object(forKey: c.TAG_JOIN_YR) as! Int
+            let newName = textField.text
+            
+            Appdata.sharedInstance.awsEditor?.setUserInfo(original_courseList as! Set<String>?, joinTimestamp: timeStamp, joinYr: jointYr, name: newName, selfIntro: nil)
+            
+            print("ooooooo")
         }
+        
     }
     
     func configurationUserPasswordTextField(textField: UITextField!)
     {
         
         textField.placeholder = "Enter your new password"
+        
+        
+        
+        
     }
     
     func configurationUserCourseTextField(textField: UITextField!)
@@ -336,6 +343,19 @@ class ProfileTableViewController: UITableViewController , UserTableEditorCallBac
         textField.placeholder = "Enter your course"
         if textField.text != nil && textField.text != "" {
             userCourse.text = textField.text
+            
+            
+            let original_courseList = self.userProfileDict.object(forKey: c.TAG_USER_COURSE_LIST)
+            var courseListArr = [String](original_courseList as! Set<String>)
+            courseListArr[0] = textField.text!
+            let editCourse = Set<String>(courseListArr)
+            let timeStamp = c.getTimestamp()
+            let jointYr = self.userProfileDict.object(forKey: c.TAG_JOIN_YR) as! Int
+            let old_name = self.userProfileDict.object(forKey: c.TAG_USER_NAME)
+            
+            Appdata.sharedInstance.awsEditor?.setUserInfo(editCourse , joinTimestamp: timeStamp, joinYr: jointYr, name: old_name as! String?, selfIntro: nil)
+            
+            
         }
     }
     

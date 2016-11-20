@@ -250,6 +250,9 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         if (self.userAttendingCourseTitle) != nil {
             
+            
+            print("invoke")
+            
             let courseName = self.userAttendingCourseTitle
             let fileid:String = String(c.getTimestamp())
             
@@ -399,6 +402,9 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
                 if events.count == 1 {
                     
                     userAttendingCourseTitle = events[0].title
+                    
+                    print("user attending")
+                    print(self.userAttendingCourseTitle)
                 }else if events.count > 1 {
                     
                     

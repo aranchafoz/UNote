@@ -44,7 +44,11 @@ class FriendCourseFileViewController: UIViewController, UICollectionViewDelegate
         
         print("ssssss")
         
+        print(fileid)
         imageDataSetDict[fileid] = data
+     
+        collectionView.reloadData()
+        
         
     }
     func didUploadFileFailedWith(_ fileid: String, error: String) {
@@ -248,6 +252,8 @@ class FriendCourseFileViewController: UIViewController, UICollectionViewDelegate
                 
                 
             }else{
+                
+                
                 cell_imageView.image = UIImage(named: "Folder")
             }
             
