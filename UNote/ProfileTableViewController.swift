@@ -90,6 +90,9 @@ class ProfileTableViewController: UITableViewController , UserTableEditorCallBac
             
             nameLabel.text = name as? String
             
+            
+            cellName.reloadInputViews()
+            
         }
         
         
@@ -103,10 +106,16 @@ class ProfileTableViewController: UITableViewController , UserTableEditorCallBac
             let userIDLabel = emailCell.contentView.viewWithTag(1) as! UILabel
             
             userIDLabel.text = userID
-            
+            emailCell.reloadInputViews()
             
         }else if !userID.contains("@"){
             
+            let userIDLabel = emailCell.contentView.viewWithTag(1) as! UILabel
+            
+            userIDLabel.text = "Not provided"
+            
+            
+            emailCell.reloadInputViews()
             
             
             
@@ -127,6 +136,18 @@ class ProfileTableViewController: UITableViewController , UserTableEditorCallBac
             yearLabel.text = String(yearJoin)
             
             
+            cellYearInCourse.reloadInputViews()
+            
+        }else{
+        
+            let yearLabel = cellYearInCourse.contentView.viewWithTag(1) as! UILabel
+            
+            
+            yearLabel.text = "Not provided"
+            
+          
+            cellYearInCourse.reloadInputViews()
+        
         }
         
         
@@ -152,13 +173,12 @@ class ProfileTableViewController: UITableViewController , UserTableEditorCallBac
             
             let course = userCourse as AnyObject
             
-            print("+++")
+            print("++++++")
             print(course)
             
-            
-            
-            courseLabel.text = "China business"
-            
+            courseLabel.text = "Not privided"
+        
+            cellCourse.reloadInputViews()
             
             /*
              
@@ -204,9 +224,6 @@ class ProfileTableViewController: UITableViewController , UserTableEditorCallBac
         Appdata.sharedInstance.awsEditor?.delegate = self
         
         Appdata.sharedInstance.awsEditor?.getUserInfoById((Appdata.sharedInstance.awsEditor?.getUserIdentity())!)
-        
-        
-        
         
         
         

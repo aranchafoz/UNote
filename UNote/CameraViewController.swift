@@ -10,7 +10,36 @@
 import UIKit
 import EventKit
 
-class CameraViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UserTableEditorCallBackProtocol{
+extension UIImage{
+    enum JPEGQuality:CGFloat {
+        case lowest = 0
+        case low = 0.25
+        case medium = 0.5
+        case high = 0.75
+        case highest = 1
+        
+        
+    }
+    
+    
+    var pngData:Data?{
+        return UIImagePNGRepresentation(self)
+        
+    }
+    
+    func jpegData(_ quality:JPEGQuality) -> Data {
+        
+        return UIImageJPEGRepresentation(self, quality.rawValue)!
+    }
+    
+    
+    
+    
+}
+
+
+
+class CameraViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UserTableEditorCallBackProtocol,UserUploadDownloadCallBackProtocol{
     
     @IBOutlet weak var filenoteName: UITextField!
     
@@ -72,7 +101,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         
     }
     
-    var standardImg:UIImage!
+    var readyUploadImage:UIImage!
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
     
@@ -81,14 +110,17 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     
         if let selectedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
             
-            standardImg = selectedImage
             
-            imageView.image = standardImg
+            imageView.image = selectedImage
+            readyUploadImage = selectedImage
             
             
         }else if let selectedImage = info[UIImagePickerControllerEditedImage] as? UIImage{
-            standardImg = selectedImage
-            imageView.image = standardImg
+         
+            
+            
+            imageView.image = selectedImage
+            readyUploadImage = selectedImage
             
         }else{
         
@@ -118,7 +150,23 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
  
     
     
+    func didUploadFileFailedWith(_ fileid: String, error: String) {
+        print("ffff")
+    }
+    
+    func didUploadFileSucceedWith(_ fileid: String) {
+    
+        
+        print("ssss")
+        
+    }
+    func didDownloadFileFailedWith(_ fileid: String, error: String) {
+        
+    }
  
+    func didDownloadFileSucceedWith(_ fileid: String, data: NSData) {
+        
+    }
     
     
     @IBAction func saveButton(_ sender: AnyObject) {
@@ -134,14 +182,6 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         
         
-        //Dont use coredata, use database
-        
-//                let context = ImageCoreDataStack.persistentContainer.viewContext
-//        
-//                let notesImageCore = TakenPhoto(context: context)
-//        
-        
-        
         
         
                 //let storeToDBFile = imageData as NSData?
@@ -152,7 +192,6 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         if self.filenoteName.text == nil || self.filenoteName.text == ""{
            
             
-            print("wrong wrong")
             
             
             let alert = UIAlertController(title: "", message: "Please enter a file name", preferredStyle: .alert)
@@ -192,7 +231,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         if auto_saveImageToCorresspondingFolder == true {
         
         
-                    thisFileCourse = self.userAttendingCourseTitle
+            thisFileCourse = self.userAttendingCourseTitle
         
         }else if auto_saveImageToCorresspondingFolder == false{
             
@@ -213,8 +252,20 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
             
             let courseName = self.userAttendingCourseTitle
             let fileid:String = String(c.getTimestamp())
+            
+            //let imageData = UIImagePNGRepresentation(self.readyUploadImage)
+            
+            //let imageNSData = NSData(data: imageData!)
+            
+            let imageData = readyUploadImage.jpegData(.lowest)
+            
+            
             Appdata.sharedInstance.myFileList.add(fileid)
-            Appdata.sharedInstance.awsEditor?.setFileInfo(fileid,name: "\(noteName).jpg", course: courseName, fileLink: "/file/")
+            Appdata.sharedInstance.awsEditor?.setFileInfo(fileid,name: noteName, course: courseName, fileLink: "/file/")
+            
+            
+            Appdata.sharedInstance.awsEditor?.uploadFile(data: imageData as NSData, fileid: fileid)
+            
             
         }else{
             
@@ -225,16 +276,23 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
             alert.addTextField(configurationHandler: configurationTextField)
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:handleCancel))
             alert.addAction(UIAlertAction(title: "Done", style: .default, handler:{ (UIAlertAction) in
-                print("Done !!")
-                print("Item : \(self.courseField.text)")
                 
-                    manual_courseName = self.courseField.text
-                print(manual_courseName)
+                manual_courseName = self.courseField.text
                 
-              
+                
+            //    let imageData = UIImagePNGRepresentation(self.readyUploadImage)
+                
+              //  let imageNSData = NSData(data: imageData!)
+                
+                let imageData = self.readyUploadImage.jpegData(.lowest)
+                
+                
                 let fileid:String = String(c.getTimestamp())
                 Appdata.sharedInstance.myFileList.add(fileid)
-                Appdata.sharedInstance.awsEditor?.setFileInfo(fileid, name: "\(noteName).jpg", course: manual_courseName, fileLink: "/file/")
+                Appdata.sharedInstance.awsEditor?.setFileInfo(fileid, name: noteName, course: manual_courseName, fileLink: "/file/")
+                Appdata.sharedInstance.awsEditor?.uploadFile(data: imageData as NSData, fileid: fileid)
+                
+                
                 
                 
                 
@@ -246,13 +304,18 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
             
             
             
+            
+            
+            
+            
+            
         }
         
         
         
         
         // create the alert
-        let alert = UIAlertController(title: "Saved", message: "Image has been saved in your Notes!", preferredStyle: UIAlertControllerStyle.alert)
+        let alert = UIAlertController(title: "Saved", message: "Image has been saved in your Notes and upload to the server!", preferredStyle: UIAlertControllerStyle.alert)
         
         // add an action (button)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
@@ -260,11 +323,18 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         // show the alert
         self.present(alert, animated: true, completion: nil)
         
-        imageView.image = UIImage(named: "notebook")
-        filenoteName.text = nil
+        
+        self.imageView.image = UIImage(named: "notebook")
+        self.filenoteName.text = nil
         
         
+
     }
+    
+    
+    
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -415,7 +485,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         
         
-        
+    
     }
     
     
@@ -473,6 +543,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         //setup delegate
         Appdata.sharedInstance.awsEditor?.delegate = self
+        Appdata.sharedInstance.awsEditor?.fileManager = self
         
     }
     
@@ -481,6 +552,8 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         super.viewWillDisappear(animated)
         
         Appdata.sharedInstance.awsEditor?.delegate = nil
+        
+        Appdata.sharedInstance.awsEditor?.fileManager = nil
     }
 }
 

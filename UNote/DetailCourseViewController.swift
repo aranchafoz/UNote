@@ -36,8 +36,7 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
         print("========")
         print(fileid)
         
-        
-        
+        notePhotoCollection.reloadData()
     }
     
     
@@ -100,11 +99,10 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
         // setup delegate
         Appdata.sharedInstance.awsEditor?.delegate = self
         Appdata.sharedInstance.awsEditor?.fileManager = self
-        notePhotoCollection.reloadData()
+        //notePhotoCollection.reloadData()
         
         
     Appdata.sharedInstance.awsEditor?.getUserFilesListTable(Appdata.sharedInstance.myUserID)
-        
         
         
             notePhotoCollection.reloadData()
@@ -229,12 +227,13 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
             let imag_identity = cell.contentView.viewWithTag(2) as! UILabel
             
             
-            if let noteImageDownloaded :NSData = imageDataSetDict.object(forKey: prefix+fileId) as? NSData{
+            if let noteImageDownloaded :NSData = imageDataSetDict.object(forKey:prefix+fileId) as? NSData{
                 
                 
                 img.image = UIImage(data: noteImageDownloaded as Data)
                 
                 
+                print("sssssssss")
                 
             }else{
                 
