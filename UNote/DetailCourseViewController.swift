@@ -10,6 +10,7 @@ import UIKit
 
 
 class DetailCourseViewController: UIViewController, UICollectionViewDataSource,UISearchBarDelegate, UICollectionViewDelegate, UserTableEditorCallBackProtocol,UserUploadDownloadCallBackProtocol {
+    
     @IBOutlet weak var notePhotoCollection: UICollectionView!
     var list_ready = false
     var filesInThisCourse : NSMutableArray = []
@@ -21,6 +22,9 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
     var dataSource: [NSDictionary] = []
     var dataSourceForSearchResult: [NSDictionary] = []
     var imageDataSetDict:NSMutableDictionary = [:]
+    
+    var selectedImage: UIImage!
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
@@ -73,9 +77,8 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
         
         refresher = UIRefreshControl()
         self.notePhotoCollection.alwaysBounceHorizontal = true
-        refresher.backgroundColor = UIColor.red
-        refresher.backgroundColor = UIColor.yellow
-        refresher.tintColor = UIColor.brown
+        refresher.backgroundColor = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
+        refresher.tintColor = UIColor.white
         refresher.addTarget(self, action: #selector(loadData), for: .valueChanged)
         
         
@@ -261,37 +264,36 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        
-        
-        
-        
-            /* no use anymore, u can reference
-            selectedIndexPath = indexPath
-            self.notePhotoCollection.performBatchUpdates(nil, completion: nil)
-            */
+        /* no use anymore, u can reference
+        selectedIndexPath = indexPath
+        self.notePhotoCollection.performBatchUpdates(nil, completion: nil)
+        */
             
-            let selectedCell : UICollectionViewCell = notePhotoCollection.cellForItem(at: indexPath)!
-            print((selectedCell.contentView.viewWithTag(2) as! UILabel).text)
+        let selectedCell : UICollectionViewCell = notePhotoCollection.cellForItem(at: indexPath)!
+        
+        
+        let selectedImageView = selectedCell.contentView.viewWithTag(1) as! UIImageView
+        
+        
+        self.selectedImage = selectedImageView.image
+        
+        
+        //print((selectedCell.contentView.viewWithTag(2) as! UILabel).text)
             
-            let expandImage = self.view.viewWithTag(3) as! UIImageView
+        /*let expandImage = self.view.viewWithTag(3) as! UIImageView
         
-            let selectedImageView = selectedCell.contentView.viewWithTag(1) as! UIImageView
+        let selectedImageView = selectedCell.contentView.viewWithTag(1) as! UIImageView
         
-            let selectedImage = selectedImageView.image
-        
-        
-        
-            
-            expandImage.image = selectedImage
-            
-
-        
-            expandImage.isHidden = false
+        let selectedImage = selectedImageView.image
         
         
+        expandImage.image = selectedImage
         
         
+        expandImage.isHidden = false
+        */
         
+        performSegue(withIdentifier: "expandImageSegueFromHome", sender: nil)
         
         
     }
@@ -511,4 +513,15 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
         
     }
     
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "expandImageSegueFromHome") {
+            let svc = segue.destination as! ExpandNoteViewController
+        
+            svc.toPass = selectedImage
+        
+        }
+    }
+
+
 }

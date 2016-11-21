@@ -17,6 +17,7 @@
 		64EDA84D1DB47BA600447189 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 64EDA84B1DB47BA600447189 /* LaunchScreen.storyboard */; };
 		64EDA8551DB47F8C00447189 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EDA8541DB47F8C00447189 /* CameraViewController.swift */; };
 		64EDA8591DB480F200447189 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EDA8581DB480F200447189 /* HomeViewController.swift */; };
+		8FDC12A61DE3248F008303D4 /* ExpandNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FDC12A51DE3248F008303D4 /* ExpandNoteViewController.swift */; };
 		8FFFA0C91DDF7CE000C7A44B /* ProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFFA0C81DDF7CE000C7A44B /* ProfileTableViewController.swift */; };
 		B638669C1DBC9ADD007FDB7D /* Core.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B638669A1DBC9ADD007FDB7D /* Core.xcdatamodeld */; };
 		B638669E1DBC9BC8007FDB7D /* CourseListCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B638669D1DBC9BC8007FDB7D /* CourseListCore.swift */; };
@@ -101,6 +102,7 @@
 		64EDA8541DB47F8C00447189 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		64EDA8581DB480F200447189 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		74C26FF8882D9BAD02E6543F /* Pods-UNote.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UNote.release.xcconfig"; path = "Pods/Target Support Files/Pods-UNote/Pods-UNote.release.xcconfig"; sourceTree = "<group>"; };
+		8FDC12A51DE3248F008303D4 /* ExpandNoteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpandNoteViewController.swift; sourceTree = "<group>"; };
 		8FFFA0C81DDF7CE000C7A44B /* ProfileTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTableViewController.swift; sourceTree = "<group>"; };
 		B638669B1DBC9ADD007FDB7D /* Core.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Core.xcdatamodel; sourceTree = "<group>"; };
 		B638669D1DBC9BC8007FDB7D /* CourseListCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseListCore.swift; sourceTree = "<group>"; };
@@ -207,6 +209,7 @@
 			children = (
 				8FFFA0C81DDF7CE000C7A44B /* ProfileTableViewController.swift */,
 				B63866A11DBC9F10007FDB7D /* DetailCourseViewController.swift */,
+				8FDC12A51DE3248F008303D4 /* ExpandNoteViewController.swift */,
 				B638669F1DBC9DFC007FDB7D /* AddCourseViewController.swift */,
 				B638669A1DBC9ADD007FDB7D /* Core.xcdatamodeld */,
 				DA16F3FC1DBBBBB8008D0EC7 /* SplashViewController.swift */,
@@ -455,6 +458,7 @@
 				DA16F4051DBBC7FE008D0EC7 /* AccountTable.swift in Sources */,
 				DA16F3DB1DBBB91F008D0EC7 /* FilesTable.swift in Sources */,
 				8FFFA0C91DDF7CE000C7A44B /* ProfileTableViewController.swift in Sources */,
+				8FDC12A61DE3248F008303D4 /* ExpandNoteViewController.swift in Sources */,
 				DA16F3D81DBBB91F008D0EC7 /* AWSMobileClient.swift in Sources */,
 				B638669C1DBC9ADD007FDB7D /* Core.xcdatamodeld in Sources */,
 				DA16F3FF1DBBBBF1008D0EC7 /* SignupViewController.swift in Sources */,

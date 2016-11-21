@@ -392,12 +392,6 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <imageView userInteractionEnabled="NO" tag="3" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rRr-3p-4l5">
-                                <rect key="frame" x="0.0" y="300" width="375" height="310"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="310" id="K7y-Oh-UHn"/>
-                                </constraints>
-                            </imageView>
                             <searchBar contentMode="redraw" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="2WV-0R-kIP">
                                 <rect key="frame" x="0.0" y="64" width="375" height="44"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -405,12 +399,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="rRr-3p-4l5" firstAttribute="top" secondItem="2WV-0R-kIP" secondAttribute="bottom" constant="192" id="INx-mK-p01"/>
                             <constraint firstItem="2WV-0R-kIP" firstAttribute="leading" secondItem="fRY-aW-LV3" secondAttribute="leading" id="SSA-IO-zZb"/>
                             <constraint firstItem="2WV-0R-kIP" firstAttribute="top" secondItem="Sr0-4e-k2B" secondAttribute="bottom" id="VoF-kB-RIe"/>
-                            <constraint firstAttribute="trailing" secondItem="rRr-3p-4l5" secondAttribute="trailing" id="ahd-ZZ-hpc"/>
                             <constraint firstAttribute="trailing" secondItem="2WV-0R-kIP" secondAttribute="trailing" id="g5n-7w-CCE"/>
-                            <constraint firstItem="rRr-3p-4l5" firstAttribute="leading" secondItem="fRY-aW-LV3" secondAttribute="leading" id="zWh-nP-ahm"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Friend Notes" id="1h7-sv-cat">
@@ -419,11 +410,44 @@
                     <connections>
                         <outlet property="collectionView" destination="Rri-bl-D6M" id="OBb-gF-0kO"/>
                         <outlet property="searchBar" destination="2WV-0R-kIP" id="fu7-GG-tCA"/>
+                        <segue destination="ByT-e1-ON1" kind="show" identifier="expandImageSegue" id="9r0-aB-vHg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bhG-qk-PyN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2916" y="-763.26836581709154"/>
+        </scene>
+        <!--Expand Note View Controller-->
+        <scene sceneID="oS7-MI-xeD">
+            <objects>
+                <viewController id="ByT-e1-ON1" customClass="ExpandNoteViewController" customModule="UNote" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ure-pb-87B"/>
+                        <viewControllerLayoutGuide type="bottom" id="tBy-Lo-CIp"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="9CC-FG-2ov">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" tag="3" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rRr-3p-4l5">
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="rRr-3p-4l5" secondAttribute="trailing" id="8Yx-CB-SAh"/>
+                            <constraint firstItem="rRr-3p-4l5" firstAttribute="top" secondItem="ure-pb-87B" secondAttribute="bottom" id="HmI-ki-bsR"/>
+                            <constraint firstItem="tBy-Lo-CIp" firstAttribute="top" secondItem="rRr-3p-4l5" secondAttribute="bottom" id="eqV-tO-8Df"/>
+                            <constraint firstItem="rRr-3p-4l5" firstAttribute="leading" secondItem="9CC-FG-2ov" secondAttribute="leading" id="vM3-rH-JcS"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="expandImage" destination="rRr-3p-4l5" id="oFM-ld-MmR"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xCn-oT-KTW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4068" y="-4"/>
         </scene>
         <!--Notes-->
         <scene sceneID="1CV-4E-QXj">
@@ -1756,10 +1780,6 @@
                                     <outlet property="delegate" destination="jlv-gM-fSd" id="ZFh-To-a45"/>
                                 </connections>
                             </collectionView>
-                            <imageView userInteractionEnabled="NO" tag="3" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="c5R-59-w5R" userLabel="expandImage">
-                                <rect key="frame" x="0.0" y="224" width="375" height="355"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                            </imageView>
                             <searchBar contentMode="redraw" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="g6Y-fu-cq4">
                                 <rect key="frame" x="0.0" y="64" width="375" height="44"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -1780,6 +1800,7 @@
                     <connections>
                         <outlet property="notePhotoCollection" destination="nK0-wM-KGH" id="M2l-CU-Mmb"/>
                         <outlet property="searchBar" destination="g6Y-fu-cq4" id="WZM-4F-1I3"/>
+                        <segue destination="ByT-e1-ON1" kind="show" identifier="expandImageSegueFromHome" id="qpm-2V-BkM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mvX-Pm-FN8" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1897,6 +1918,7 @@
         <segue reference="y8s-IX-vid"/>
         <segue reference="HAY-j7-JOO"/>
         <segue reference="r52-VP-mCv"/>
+        <segue reference="qpm-2V-BkM"/>
         <segue reference="wXM-oy-YZE"/>
         <segue reference="6ZL-gC-Uzc"/>
     </inferredMetricsTieBreakers>

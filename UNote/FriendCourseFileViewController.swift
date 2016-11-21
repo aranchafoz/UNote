@@ -27,6 +27,7 @@ class FriendCourseFileViewController: UIViewController, UICollectionViewDelegate
     var selectedImage:UIImage!
     var dataSourceForSearchResult:[NSDictionary] = []
     var imageDataSetDict:NSMutableDictionary = [:]
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
@@ -340,17 +341,17 @@ class FriendCourseFileViewController: UIViewController, UICollectionViewDelegate
         let selectedImageView = selectedCell.contentView.viewWithTag(2) as! UIImageView
         
         
-        let selectedImage_ = selectedImageView.image
+        self.selectedImage = selectedImageView.image
         
         
         print("click to choose")
         
-        let expandImage = self.view.viewWithTag(3) as! UIImageView
+        /*let expandImage = self.view.viewWithTag(3) as! UIImageView
         expandImage.image = selectedImage_
         expandImage.isHidden = false
         expandImage.backgroundColor = .blue
-        
-        self.selectedImage = expandImage.image
+        */
+        performSegue(withIdentifier: "expandImageSegue", sender: nil)
         
         
     }
@@ -435,7 +436,7 @@ class FriendCourseFileViewController: UIViewController, UICollectionViewDelegate
     
     
     
-    
+    /*
     func doubleTappedOnView(sender:UITapGestureRecognizer){
         
         
@@ -443,12 +444,19 @@ class FriendCourseFileViewController: UIViewController, UICollectionViewDelegate
         
         expandedImage.image = nil
         expandedImage.isHidden = true
+     performSegue(withIdentifier: "expandImageSegue", sender: nil)
+     
 
-        
-        
-        
-        
-}
+    }*/
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "expandImageSegue") {
+            let svc = segue.destination as! ExpandNoteViewController
+            
+            svc.toPass = selectedImage
+            
+        }
+    }
 
 }
 
