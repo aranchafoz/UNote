@@ -352,7 +352,7 @@
 				TargetAttributes = {
 					64EDA83C1DB47BA500447189 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = 5AXH4H6W5J;
+						DevelopmentTeam = 8QXE6U5V58;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -595,7 +595,7 @@
 			baseConfigurationReference = EC3CECE8279BD19BD7B369F8 /* Pods-UNote.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 5AXH4H6W5J;
+				DEVELOPMENT_TEAM = 8QXE6U5V58;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/UNote",
@@ -605,7 +605,7 @@
 				);
 				INFOPLIST_FILE = UNote/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = hk.ee4304.UNoteTest;
+				PRODUCT_BUNDLE_IDENTIFIER = hk.ee4304.UNoteTe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -616,7 +616,7 @@
 			baseConfigurationReference = 74C26FF8882D9BAD02E6543F /* Pods-UNote.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 5AXH4H6W5J;
+				DEVELOPMENT_TEAM = 8QXE6U5V58;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/UNote",
@@ -626,7 +626,7 @@
 				);
 				INFOPLIST_FILE = UNote/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = hk.ee4304.UNoteTest;
+				PRODUCT_BUNDLE_IDENTIFIER = hk.ee4304.UNoteTe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

@@ -61,15 +61,18 @@ class FriendCourseFileViewController: UIViewController, UICollectionViewDelegate
     func longPressed(sender:UILongPressGestureRecognizer){
         
         
-        var passImageToSave = self.selectedImage
-        
+        let passImageToSave = self.selectedImage
+
+        if sender.state == UIGestureRecognizerState.ended{
+        print("okok")
         if passImageToSave != nil {
             
             
-            UIImageWriteToSavedPhotosAlbum(passImageToSave!, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+            UIImageWriteToSavedPhotosAlbum(self.selectedImage!, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
             
-        }
+            }
         
+        }
     }
     
     
@@ -83,6 +86,7 @@ class FriendCourseFileViewController: UIViewController, UICollectionViewDelegate
             let ac = UIAlertController(title: "Saved!", message: "Your altered image has been saved to your photos.", preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "OK", style: .default))
             present(ac, animated: true)
+            print("okooooo")
         }
     }
     
@@ -101,14 +105,13 @@ class FriendCourseFileViewController: UIViewController, UICollectionViewDelegate
         
         
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(self.doubleTappedOnView(sender:)))
+        //let tap = UITapGestureRecognizer(target: self, action: #selector(self.doubleTappedOnView(sender:)))
         
-        tap.numberOfTapsRequired = 2
-        view.addGestureRecognizer(tap)
+        //tap.numberOfTapsRequired = 2
+        //view.addGestureRecognizer(tap)
         
         
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.longPressed(sender:)))
-        
         
         
         view.addGestureRecognizer(longPressRecognizer)
@@ -437,7 +440,7 @@ class FriendCourseFileViewController: UIViewController, UICollectionViewDelegate
         
         expandedImage.image = nil
         expandedImage.isHidden = true
-        
+
         
         
         
