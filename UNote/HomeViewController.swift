@@ -304,7 +304,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     override func viewWillDisappear(_ animated: Bool) {
         // dismiss delegate
-        Appdata.sharedInstance.awsEditor?.delegate = nil
+        //Appdata.sharedInstance.awsEditor?.delegate = nil
         Appdata.sharedInstance.awsEditor?.fileManager = nil
     }
     
