@@ -39,30 +39,7 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
     // Options Action Sheet
     @IBAction func optionsActionSheet(_ sender: AnyObject) {
         let optionMenu = UIAlertController()
-        
-        var Action1:UIAlertAction
-        if Appdata.sharedInstance.mySubsList.contains(dict_info?.object(forKey: c.TAG_USER_ID) as! String) {
-            Action1 = UIAlertAction(title: "Unfollow", style: .default, handler: {(alert: UIAlertAction!) -> Void in
-                // Unfollow this friend
-                let tempFriends:NSMutableArray = NSMutableArray(array:Array(Appdata.sharedInstance.mySubsList))
-                for var i in 0..<Appdata.sharedInstance.mySubsList.count {
-                    if (tempFriends[i] as! String) == (self.dict_info?.object(forKey: c.TAG_USER_ID) as! String) {
-                        tempFriends.removeObject(at: i)
-                        Appdata.sharedInstance.awsEditor?.setSubscribleList(tempFriends)
-                        break;
-                    }
-                }
-            })
-        } else {
-            Action1 = UIAlertAction(title: "follow", style: .default, handler: {(alert: UIAlertAction!) -> Void in
-                let tempFriends:NSMutableArray = NSMutableArray(array:Array(Appdata.sharedInstance.mySubsList))
-                tempFriends.add(self.dict_info?.object(forKey: c.TAG_USER_ID) as! String)
-                Appdata.sharedInstance.awsEditor?.setSubscribleList(tempFriends)
-            })
-        }
-        
-        
-        
+ 
         let Action2 = UIAlertAction(title: "Send an email", style: .default, handler: {(alert: UIAlertAction!) -> Void in
         // Send an email to this friend
             
@@ -78,8 +55,6 @@ class FriendProfileViewController: UIViewController, UICollectionViewDataSource,
         optionMenu.popoverPresentationController?.sourceView = self.view
         optionMenu.popoverPresentationController?.sourceRect = CGRect(x: 0, y: 0, width: 100.0, height: 100.0)
         
-        
-        optionMenu.addAction(Action1)
         optionMenu.addAction(Action2)
         optionMenu.addAction(Cancel)
         

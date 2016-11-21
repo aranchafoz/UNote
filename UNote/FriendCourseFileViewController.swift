@@ -260,7 +260,7 @@ class FriendCourseFileViewController: UIViewController, UICollectionViewDelegate
             }else{
                 
                 
-                cell_imageView.image = UIImage(named: "Folder")
+                cell_imageView.image = UIImage(named: "Camera")
             }
             
             
@@ -300,7 +300,7 @@ class FriendCourseFileViewController: UIViewController, UICollectionViewDelegate
             }else{
                 
                 print("fff")
-                cell_imageView.image = UIImage(named: "Folder")
+                cell_imageView.image = UIImage(named: "Camera")
             }
             
             

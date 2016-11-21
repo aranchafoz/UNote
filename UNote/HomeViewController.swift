@@ -534,9 +534,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         self.present(optionMenu, animated: true, completion: nil)
     }
     
-    @IBAction func addNewCourse(_ sender: Any) {
-    }
-    
     @IBAction func shareFiles(_ sender: Any) {
     }
     
