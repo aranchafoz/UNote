@@ -12,6 +12,9 @@ class SocialViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     var txtDialog:UITextField!
     let v_refresh:UIRefreshControl = UIRefreshControl()
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
     
     @IBAction func addFriendActionSheet(_ sender: AnyObject) {
         

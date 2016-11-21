@@ -28,6 +28,7 @@ class SignupViewController: UIViewController, UserTableEditorCallBackProtocol, U
     
     var idFinished = false
     var profileFinished = false
+
     
     override func viewDidLoad() {
         super.viewDidLoad()

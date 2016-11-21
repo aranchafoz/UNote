@@ -27,6 +27,9 @@ class FriendCourseFileViewController: UIViewController, UICollectionViewDelegate
     var selectedImage:UIImage!
     var dataSourceForSearchResult:[NSDictionary] = []
     var imageDataSetDict:NSMutableDictionary = [:]
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
     
     
     func didUploadFileSucceedWith(_ fileid: String) {

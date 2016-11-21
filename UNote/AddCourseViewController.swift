@@ -47,7 +47,9 @@ class AddCourseViewController: UIViewController, UserTableEditorCallBackProtocol
     }
     
     
-    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -61,7 +63,7 @@ class AddCourseViewController: UIViewController, UserTableEditorCallBackProtocol
         courseDuration.placeholder = "course duration in minutes"
         
         //let eventStore = EKEventStore()
-        
+        endDatePicker.resignFirstResponder()
         
         switch EKEventStore.authorizationStatus(for: .event) {
         case .authorized:
@@ -383,6 +385,7 @@ class AddCourseViewController: UIViewController, UserTableEditorCallBackProtocol
         
         
     }
+    
 
 
 

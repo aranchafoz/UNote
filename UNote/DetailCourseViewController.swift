@@ -21,6 +21,9 @@ class DetailCourseViewController: UIViewController, UICollectionViewDataSource,U
     var dataSource: [NSDictionary] = []
     var dataSourceForSearchResult: [NSDictionary] = []
     var imageDataSetDict:NSMutableDictionary = [:]
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
     
     func didUploadFileSucceedWith(_ fileid: String) {
         

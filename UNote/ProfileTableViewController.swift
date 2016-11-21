@@ -216,6 +216,9 @@ class ProfileTableViewController: UITableViewController , UserTableEditorCallBac
         
         
     }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
     
     
     override func viewWillDisappear(_ animated: Bool) {

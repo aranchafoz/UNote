@@ -75,7 +75,9 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         
     }
-    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
     
     @IBAction func openCamera(_ sender: AnyObject) {
         
