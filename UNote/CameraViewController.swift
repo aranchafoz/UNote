@@ -47,6 +47,12 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     var auto_saveImageToCorresspondingFolder : Bool!
     
+    
+    @IBOutlet weak var alternativeCourse: UITextField!
+    
+    
+    
+    
     let currentEventStore = EKEventStore()
     
     let ImageCoreDataStack = CourseListCore()
@@ -255,8 +261,18 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
             
             print("invoke")
             
-            let courseName = self.userAttendingCourseTitle
+            var courseName = self.userAttendingCourseTitle
             let fileid:String = String(c.getTimestamp())
+            
+            
+            if self.alternativeCourse.text != nil && self.alternativeCourse.text != "" {
+                
+                
+                courseName = self.alternativeCourse.text
+                
+            }
+            
+            
             
             //let imageData = UIImagePNGRepresentation(self.readyUploadImage)
             
@@ -276,6 +292,11 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
             
             var manual_courseName:String!
             
+            
+            
+            
+            
+            
             let alert = UIAlertController(title: "Enter Input", message: "", preferredStyle: .alert)
             
             alert.addTextField(configurationHandler: configurationTextField)
@@ -292,6 +313,17 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
                 let imageData = self.readyUploadImage.jpegData(.lowest)
                 
                 
+                
+                
+                if self.alternativeCourse.text != nil && self.alternativeCourse.text != "" {
+                    
+                    
+                    manual_courseName = self.alternativeCourse.text
+                    
+                }
+                
+                
+                
                 let fileid:String = String(c.getTimestamp())
                 Appdata.sharedInstance.myFileList.add(fileid)
                 Appdata.sharedInstance.awsEditor?.setFileInfo(fileid, name: noteName, course: manual_courseName, fileLink: "/file/")
@@ -305,6 +337,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
             self.present(alert, animated: true, completion: {
                 print("completion block")
             })
+            
             
             
             
@@ -345,6 +378,9 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         super.viewDidLoad()
         
         
+        self.alternativeCourse.placeholder = "Optional, If your note belong to other course"
+    
+        
         let askCurrentCourseAttendMessage = UIAlertController(title: "Storage", message: "Do you want to save your picture in corresponding folder?", preferredStyle: .alert)
         
         askAuthorizedAccessCalendar()
@@ -376,6 +412,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         
         self.present(askCurrentCourseAttendMessage, animated: true, completion: nil)
+        
         
         
         
@@ -552,6 +589,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         //setup delegate
         Appdata.sharedInstance.awsEditor?.delegate = self
         Appdata.sharedInstance.awsEditor?.fileManager = self
+        
         
     }
     

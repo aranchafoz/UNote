@@ -2,7 +2,7 @@
 //  Core+CoreDataModel.swift
 //  
 //
-//  Created by SUNGKAHO on 20/11/2016.
+//  Created by SUNGKAHO on 21/11/2016.
 //
 //  This file was automatically generated and should not be edited.
 //

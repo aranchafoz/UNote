@@ -298,6 +298,20 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         Appdata.sharedInstance.awsEditor?.getUserFilesListTable(Appdata.sharedInstance.myUserID)
         
         
+        
+        
+        
+        if let newCourse : String = UserDefaults.standard.value(forKey: "createdNewCourse") as! String? {
+            
+            
+            if subjectList.contains(newCourse) == false{
+            self.subjectList.append(newCourse)
+            
+            }
+        
+        }
+
+        
         collectionView.reloadData()
         
     }

@@ -40,6 +40,7 @@ class AddCourseViewController: UIViewController, UserTableEditorCallBackProtocol
             
             createCourse(store: reoccrEventStore)
             
+           
         }
         
         
@@ -209,6 +210,11 @@ class AddCourseViewController: UIViewController, UserTableEditorCallBackProtocol
             
             let context = coreDataStack.persistentContainer.viewContext
             
+            
+            
+            
+            
+            UserDefaults.standard.set(courseName.text, forKey: "createdNewCourse")
             
             
             let addCourseToCore = CourseList(context: context)
